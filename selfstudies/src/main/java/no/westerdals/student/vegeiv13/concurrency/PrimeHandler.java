@@ -12,7 +12,6 @@ public class PrimeHandler {
     public static final int THREADS = 20;
 
     private long lastChecked;
-    private long startValue;
     private ExecutorService service;
 
     public List<Future<Long>> getFutures() {
@@ -29,7 +28,6 @@ public class PrimeHandler {
         if (startValue < 0) {
             throw new UnsupportedOperationException("Start value must be positive");
         } else {
-            this.startValue = startValue;
             lastChecked = startValue - 1;
         }
     }
@@ -50,7 +48,7 @@ public class PrimeHandler {
         return lastChecked;
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         PrimeHandler handler;
         FileHandler fileHandler = new FileHandler("generated/primes.txt");
         long value;
@@ -64,7 +62,7 @@ public class PrimeHandler {
             handler = new PrimeHandler(i);
             handler.run();
             while (handler.isRunning()) {
-                Thread.yield();
+                Thread.sleep(1);
             }
             fileHandler.appendLinesConcurrently(flush(handler.getFutures()));
         }
