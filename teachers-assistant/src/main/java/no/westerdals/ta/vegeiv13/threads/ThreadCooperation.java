@@ -2,8 +2,8 @@ package no.westerdals.ta.vegeiv13.threads;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -11,39 +11,57 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class ThreadCooperation {
     private static Account account = new Account();
-    private static ExecutorService executor;
+
+    public static ThreadPoolExecutor getExecutor() {
+        return executor;
+    }
+
+    private static ThreadPoolExecutor executor;
 
     public static void main(String[] args) {
         // Create a thread pool with 5 threads
-        executor = Executors.newFixedThreadPool(5);
+        executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(5);
         DepositTask depositTask = new DepositTask();
         System.out.println("Thread 1\t\tThread 2\t\tBalance");
         executor.execute(depositTask);
         List<WithdrawTask> withdrawTasks = buildWithdrawTasks(4);
 
         executor.shutdown();
-        try {
-            executor.awaitTermination(10, TimeUnit.SECONDS);
-        } catch (InterruptedException ignored) {
+        long stamp = System.currentTimeMillis();
+        long waitFor = stamp + 10000;
+        while(System.currentTimeMillis() < waitFor) {
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                break;
+            }
         }
         executor.shutdownNow();
+        /*try {
+            executor.awaitTermination(10, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException ignored) {
+
+        }
+        */
 
 
         final int[] withdrawnSum = {0};
         System.out.println("Deposits: " + depositTask.getTotalDeposits());
         withdrawTasks.forEach(e -> {
             int withdrawn = e.getWithdrawn();
-            withdrawnSum[0] +=  withdrawn;
+            withdrawnSum[0] += withdrawn;
         });
         System.out.println("Withdrawals: " + withdrawnSum[0]);
         System.out.println("Balance: " + account.getBalance());
-
+        while (!executor.isTerminated()) {
+            System.out.println(executor.getActiveCount());
+        }
 
     }
 
     private static List<WithdrawTask> buildWithdrawTasks(int tasks) {
         List<WithdrawTask> taskList = new ArrayList<>();
-        for(int i = 0; i < tasks; i++) {
+        for (int i = 0; i < tasks; i++) {
             WithdrawTask task = new WithdrawTask();
             executor.execute(task);
             taskList.add(task);
@@ -53,11 +71,11 @@ public class ThreadCooperation {
 
     public static class DepositTask implements Runnable {
 
+        private int totalDeposits;
+
         public int getTotalDeposits() {
             return totalDeposits;
         }
-
-        private int totalDeposits;
 
         @Override // Keep adding an amount to the account
         public void run() {
@@ -69,8 +87,7 @@ public class ThreadCooperation {
                     Thread.sleep(1000);
 
 
-                    // Dummy code. Keeps compiler warnings quiet
-                    if (Thread.interrupted()) {
+                    if (Thread.currentThread().isInterrupted()) {
                         return;
                     }
                 }
@@ -86,17 +103,15 @@ public class ThreadCooperation {
         @Override // Keep subtracting an amount from the account
         public void run() {
             try {
-                while (true) {
+                while (!Thread.currentThread().isInterrupted()) {
                     Thread.sleep(1000);
                     int amount = (int) (Math.random() * 10) + 1;
-                    account.withdraw(amount);
-                    totalWithdrawn += amount;
-
-                    if (Thread.interrupted()) {
-                        break;
+                    if (!account.withdraw(amount)) {
+                        return;
                     }
+                    totalWithdrawn += amount;
                 }
-            } catch(InterruptedException ignored) {
+            } catch (InterruptedException ignored) {
             }
         }
 
@@ -119,16 +134,25 @@ public class ThreadCooperation {
             return balance;
         }
 
-        public void withdraw(int amount) throws InterruptedException {
-            lock.lock(); // Acquire the lock
-            while (balance < amount) {
-                System.out.println("\t\t\tWait for a deposit");
-                newDeposit.await();
-            }
+        public boolean withdraw(int amount) {
+            try {
+                lock.lock(); // Acquire the lock
+                while (balance < amount && !Thread.interrupted()) {
+                    System.out.println("\t\t\tWait for a deposit");
+                    newDeposit.await(200, TimeUnit.MILLISECONDS);
+                }
 
-            balance -= amount;
-            System.out.println("\t\t\tWithdraw " + amount +
-                    "\t\t" + getBalance());
+                balance -= amount;
+                System.out.println("\t\t\tWithdraw " + amount +
+                        "\t\t" + getBalance());
+                System.out.println(Thread.currentThread().getState());
+
+                return true;
+            } catch (InterruptedException e) {
+                return false;
+            } finally {
+                lock.unlock();
+            }
         }
 
         public void deposit(int amount) {

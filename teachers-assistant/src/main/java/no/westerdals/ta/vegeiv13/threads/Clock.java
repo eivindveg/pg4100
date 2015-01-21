@@ -20,14 +20,6 @@ class Clock extends JFrame {
         add(seconds);
         setSize(200, 100);
         setVisible(true);
-        /* Kommentert ut for � slippe unna kompileringsfeil.
-         * Fjern kommentar og implementer Felles, MinuttTraad og SekundTraad
-		
-		Felles felles = new Felles();
-		MinuttTraad minutt = new MinuttTraad(felles, minutter);
-		SekundTraad sekund = new SekundTraad(felles, sekunder);
-		*/
-        // Start tr�dene dine (hvis de ikke er startet).
         CommonObject common = new CommonObject();
         new Thread(new MinuteRunnable(common, minutes)).start();
         new Thread(new SecondRunnable(common, seconds)).start();

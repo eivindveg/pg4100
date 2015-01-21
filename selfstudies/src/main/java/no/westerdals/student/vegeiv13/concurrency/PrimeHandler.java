@@ -34,7 +34,7 @@ public class PrimeHandler {
 
     public void run() {
         service = Executors.newFixedThreadPool(THREADS);
-        for(int i = 0; i < THREADS * THREADS; i++) {
+        for(int i = 0; i < 1000; i++) {
             futures.add(service.submit(new PrimeSeeker(++lastChecked)));
         }
         service.shutdown();
