@@ -47,7 +47,7 @@ class Worker implements Runnable {
 				System.out.printf("thread %s is working%n", name);
 				try {
 					Thread.sleep((int) (Math.random() * 300));
-				} catch (InterruptedException ie) {
+				} catch (InterruptedException ignored) {
 				}
 			}
 			System.out.printf("thread %s finishing%n", name);

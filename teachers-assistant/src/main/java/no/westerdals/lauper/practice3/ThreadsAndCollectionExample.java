@@ -13,7 +13,7 @@ public class ThreadsAndCollectionExample {
 	
 	public ThreadsAndCollectionExample(){
 		for (int i = 0; i < 1000; i++) {
-			integers.add(new Integer(i));
+			integers.add(i);
 		}
 		ExecutorService executor = Executors.newFixedThreadPool(2);
 	    executor.execute(new DevisibleByHundredRemover());
@@ -30,11 +30,7 @@ public class ThreadsAndCollectionExample {
 	static class DevisibleByHundredRemover implements Runnable {
 		@Override
 		public void run() {
-			for (Integer integer : integers) {
-				if(integer.intValue() % 100 == 0){
-					integers.remove(integer);
-				}
-			}
+			integers.stream().filter(integer -> integer % 100 == 0).forEach(integers::remove);
 			
 		}
 		

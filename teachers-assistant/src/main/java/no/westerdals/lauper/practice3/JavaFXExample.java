@@ -4,8 +4,6 @@ import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -54,35 +52,30 @@ public class JavaFXExample extends Application {
         hb2.getChildren().addAll(startButton, cancelButton);
         mainPane.setBottom(hb2);
 
-        startButton.setOnAction(new EventHandler<ActionEvent>() {
+        startButton.setOnAction(event -> {
+            startButton.setDisable(true);
+            progressBar.setProgress(0);
+            cancelButton.setDisable(false);
+            copyWorker = createWorker();
 
-            public void handle(ActionEvent event) {
-                startButton.setDisable(true);
-                progressBar.setProgress(0);
-                cancelButton.setDisable(false);
-                copyWorker = createWorker();
+            progressBar.progressProperty().unbind();
+            progressBar.progressProperty().bind(copyWorker.progressProperty());
 
-                progressBar.progressProperty().unbind();
-                progressBar.progressProperty().bind(copyWorker.progressProperty());
-               
-                copyWorker.messageProperty().addListener(new ChangeListener<String>() {
-                    public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                        System.out.println(newValue);
-                    }
-                });
+            copyWorker.messageProperty().addListener(new ChangeListener<String>() {
+                public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                    System.out.println(newValue);
+                }
+            });
 
-                new Thread(copyWorker).start();
-            }
+            new Thread(copyWorker).start();
         });
-        cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                startButton.setDisable(false);
-                cancelButton.setDisable(true);
-                copyWorker.cancel(true);
-                progressBar.progressProperty().unbind();
-                progressBar.setProgress(0);
-                System.out.println("cancelled.");
-            }
+        cancelButton.setOnAction(event -> {
+            startButton.setDisable(false);
+            cancelButton.setDisable(true);
+            copyWorker.cancel(true);
+            progressBar.progressProperty().unbind();
+            progressBar.setProgress(0);
+            System.out.println("cancelled.");
         });
         primaryStage.setScene(scene);
         primaryStage.show();

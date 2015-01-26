@@ -18,9 +18,11 @@ public class ParallelMax {
       + " milliseconds");
     startTime = System.currentTimeMillis();
     int max = list[0];
-    for (int i = 0; i < list.length; i++)
-      if (list[i] > max)
-        max = list[i];
+    for (final int aList : list) {
+      if (aList > max) {
+        max = aList;
+      }
+    }
     System.out.println("\nThe maximal number is " + max);
     endTime = System.currentTimeMillis();
     System.out.println("Sequencial time with " + (endTime - startTime) 
@@ -52,7 +54,7 @@ public class ParallelMax {
         for (int i = low; i < high; i++)
           if (list[i] > max)
             max = list[i];
-        return new Integer(max);
+        return max;
       } 
       else {
         int mid = (low + high) / 2;
@@ -61,8 +63,8 @@ public class ParallelMax {
 
         right.fork();
         left.fork(); 
-        return new Integer(Math.max(left.join().intValue(), 
-          right.join().intValue()));
+        return Math.max(left.join().intValue(),
+                right.join().intValue());
       }
     }
   }

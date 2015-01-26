@@ -1,5 +1,6 @@
 package no.westerdals.lauper.practice3.solutions;
 
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
@@ -153,7 +154,7 @@ class Pool {
 
 	private boolean markAsUnused(String item) {
 		for (int i = 0; i < NUMER_OF_ITEMS; ++i) {
-			if (item == items[i]) {
+			if (Objects.equals(item, items[i])) {
 				if (used[i]) {
 					used[i] = false;
 					return true;

@@ -14,7 +14,7 @@ import java.util.concurrent.Exchanger;
  */
 public class ExchangerDemo
 {
-   static Exchanger<DataBuffer> exchanger = new Exchanger<DataBuffer>();
+   static Exchanger<DataBuffer> exchanger = new Exchanger<>();
    static DataBuffer initialEmptyBuffer = new DataBuffer();
    static DataBuffer initialFullBuffer = new DataBuffer("ITEM");
 
@@ -30,7 +30,7 @@ public class ExchangerDemo
             DataBuffer currentBuffer = initialEmptyBuffer;
             try 
             {
-               while (true) 
+               while (!Thread.currentThread().isInterrupted())
                {
                   addToBuffer(currentBuffer);
                   if (currentBuffer.isFull())
@@ -63,7 +63,7 @@ public class ExchangerDemo
             DataBuffer currentBuffer = initialFullBuffer;
             try 
             {
-               while (true) 
+               while (!Thread.currentThread().isInterrupted())
                {
                   takeFromBuffer(currentBuffer);
                   if (currentBuffer.isEmpty())

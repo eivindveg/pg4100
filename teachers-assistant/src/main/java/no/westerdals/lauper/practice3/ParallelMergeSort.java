@@ -1,7 +1,5 @@
 package no.westerdals.lauper.practice3;
 
-import no.westerdals.lauper.practice3.MergeSort;
-
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveAction;
 

@@ -44,7 +44,7 @@ public class ParallelMax {
         for (int i = low; i < high; i++)
           if (list[i] > max)
             max = list[i];
-        return new Integer(max);
+        return max;
       } 
       else {
         int mid = (low + high) / 2;
@@ -53,8 +53,8 @@ public class ParallelMax {
 
         right.fork();
         left.fork(); 
-        return new Integer(Math.max(left.join().intValue(), 
-          right.join().intValue()));
+        return Math.max(left.join().intValue(),
+                right.join().intValue());
       }
     }
   }
