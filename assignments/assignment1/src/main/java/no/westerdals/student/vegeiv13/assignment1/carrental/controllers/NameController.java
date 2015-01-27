@@ -67,10 +67,10 @@ public class NameController extends BorderPane {
     private List<String> getNames() {
         return listView.getChildren()
                 .stream()
-                .filter(e -> ((TextField) e)
+                .filter(e -> !((TextField) e)
                         .getText()
                         .equals(""))
-                .map(e -> ((TextField)e).getText())
+                .map(e -> ((TextField) e).getText())
                 .collect(Collectors.toList());
     }
 
