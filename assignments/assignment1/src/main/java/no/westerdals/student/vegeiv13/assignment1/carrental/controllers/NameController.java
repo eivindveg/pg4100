@@ -3,7 +3,9 @@ package no.westerdals.student.vegeiv13.assignment1.carrental.controllers;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -21,11 +23,13 @@ import org.datafx.controller.util.VetoException;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @FXMLController(value = "/names.fxml", title = "CarRental - Input client names")
 public class NameController extends BorderPane {
 
+    public static final int MINIMUM_NAMES = 5;
     @FXML
     @ActionTrigger("doneAction")
     private Button done;
@@ -54,12 +58,24 @@ public class NameController extends BorderPane {
 
     @ActionMethod("quitAction")
     public void onQuit() {
-        System.exit(0);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you really want to quit?", ButtonType.CANCEL, ButtonType.CLOSE);
+        Optional<ButtonType> buttonType = alert.showAndWait();
+        if(buttonType.isPresent()) {
+            if(buttonType.get() == ButtonType.CLOSE) {
+                System.exit(0);
+            }
+        }
     }
 
     @ActionMethod("doneAction")
     public void onDone() throws VetoException, FlowException {
-        context.register("names", getNames());
+        List<String> names = getNames();
+        if(names.size() < MINIMUM_NAMES) {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Please input at least " + MINIMUM_NAMES + " names", ButtonType.CLOSE);
+            alert.showAndWait();
+            return;
+        }
+        context.register("names", names);
         actionHandler.navigate(MainController.class);
     }
 
