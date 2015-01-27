@@ -46,7 +46,6 @@ public class NameController extends BorderPane {
     private EventHandler<KeyEvent> handler;
 
     private void addNewItem() {
-        this.centerProperty().setValue(listView);
         TextField e = new TextField();
         e.setOnKeyPressed(handler);
         listView.getChildren().add(e);
@@ -81,7 +80,6 @@ public class NameController extends BorderPane {
                 addNewItem();
             }
         };
-        // TODO RIG DONE BUTTON
         addNewItem();
     }
 }
