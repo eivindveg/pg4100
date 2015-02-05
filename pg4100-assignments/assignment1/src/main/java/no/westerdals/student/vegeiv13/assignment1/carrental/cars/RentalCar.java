@@ -1,9 +1,42 @@
 package no.westerdals.student.vegeiv13.assignment1.carrental.cars;
 
-import no.westerdals.student.vegeiv13.assignment1.carrental.cars.Car;
+import com.sun.istack.internal.Nullable;
+import no.westerdals.student.vegeiv13.assignment1.carrental.Client;
 
-public class RentalCar extends Car {
+public class RentalCar {
+
+    private Client rentedBy;
+
+    public String getRegistrationNumber() {
+        return registrationNumber;
+    }
+
+    private final String registrationNumber;
+
     protected RentalCar(final String registrationNumber) {
-        super(registrationNumber);
+        this.registrationNumber = registrationNumber;
+    }
+
+    public @Nullable Client getRentedBy() {
+        return rentedBy;
+    }
+
+    @Override
+    public String toString() {
+        return "RentalCar{" +
+                "rentedBy=" + rentedBy +
+                ", registrationNumber='" + registrationNumber + '\'' +
+                '}';
+    }
+
+    public void setRentedBy(final @Nullable Client rentedBy) {
+        if(this.rentedBy != null) {
+            throw new IllegalAccessError("CAR THEFT!");
+        }
+        this.rentedBy = rentedBy;
+    }
+
+    public boolean isRented() {
+        return rentedBy != null;
     }
 }
