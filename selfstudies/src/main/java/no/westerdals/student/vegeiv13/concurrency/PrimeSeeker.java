@@ -20,13 +20,13 @@ public class PrimeSeeker implements Callable<Long> {
     }
 
     private boolean checkPrime() {
-        if(value <= 3) {
-            return value > 1;
-        } else if(value % 2 == 0 || value % 3 == 0) {
+        if(value <= 3L) {
+            return value > 1L;
+        } else if(value % 2L == 0L || value % 3L == 0L) {
             return false;
         } else {
-            for(int i = 5; i * i <= value; i += 6) {
-                if(value % i == 0 || value % (i + 2) == 0) {
+            for(long i = 5L; i * i <= value; i += 6L) {
+                if(value % i == 0L || value % (i + 2L) == 0L) {
                     return false;
                 }
             }

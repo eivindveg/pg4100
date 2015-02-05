@@ -10,6 +10,7 @@ import java.util.concurrent.*;
 public class PrimeHandler {
 
     public static final int THREADS = 20;
+    public static final String DEFAULT_FILE = "generated/primes.txt";
 
     private long lastChecked;
     private ExecutorService service;
@@ -50,7 +51,8 @@ public class PrimeHandler {
 
     public static void main(String[] args) throws IOException, InterruptedException {
         PrimeHandler handler;
-        FileHandler fileHandler = new FileHandler("generated/primes.txt");
+        FileHandler fileHandler;
+        fileHandler = new FileHandler(DEFAULT_FILE);
         long value;
         String lastLine = fileHandler.getLastLine();
         try {
