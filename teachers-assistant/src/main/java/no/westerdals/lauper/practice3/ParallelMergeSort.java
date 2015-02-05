@@ -5,7 +5,7 @@ import java.util.concurrent.RecursiveAction;
 
 public class ParallelMergeSort {
   public static void main(String[] args) {
-    final int SIZE = 7000000;
+    final int SIZE = 900000;
     int[] list1 = new int[SIZE];
     int[] list2 = new int[SIZE];
 

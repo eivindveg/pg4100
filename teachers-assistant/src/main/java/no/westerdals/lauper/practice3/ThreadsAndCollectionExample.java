@@ -6,7 +6,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class ThreadsAndCollectionExample {
-	static HashSet<Integer> integers = new HashSet<Integer>();
+	static HashSet<Integer> integers = new HashSet<>();
 	public static void main(String[] args) {
 		new ThreadsAndCollectionExample();
 	}
@@ -31,7 +31,6 @@ public class ThreadsAndCollectionExample {
 		@Override
 		public void run() {
 			integers.stream().filter(integer -> integer % 100 == 0).forEach(integers::remove);
-			
 		}
 		
 	}
@@ -39,11 +38,7 @@ public class ThreadsAndCollectionExample {
 	static class DevisibleBy99Printer implements Runnable {
 		@Override
 		public void run() {
-			for (Integer integer : integers) {
-				if(integer.intValue() % 99 == 0){
-					System.out.println(integer);
-				}
-			}
+			integers.stream().filter(integer -> integer % 99 == 0).forEach(System.out::println);
 			
 		}
 		
