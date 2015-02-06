@@ -6,7 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
-import no.westerdals.student.vegeiv13.assignment1.carrental.CarRental;
+import no.westerdals.student.vegeiv13.assignment1.carrental.cars.CarRental;
 import no.westerdals.student.vegeiv13.assignment1.carrental.clients.ClientState;
 import org.datafx.controller.FXMLController;
 import org.datafx.controller.FxmlLoadException;

@@ -5,7 +5,7 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import no.westerdals.student.vegeiv13.assignment1.carrental.CarRental;
+import no.westerdals.student.vegeiv13.assignment1.carrental.cars.CarRental;
 import no.westerdals.student.vegeiv13.assignment1.carrental.clients.Client;
 import no.westerdals.student.vegeiv13.assignment1.carrental.clients.ClientState;
 import no.westerdals.student.vegeiv13.assignment1.carrental.clients.concurrent.ReadyTask;

@@ -1,6 +1,6 @@
 package no.westerdals.student.vegeiv13.assignment1.carrental.clients.concurrent;
 
-import no.westerdals.student.vegeiv13.assignment1.carrental.CarRental;
+import no.westerdals.student.vegeiv13.assignment1.carrental.cars.CarRental;
 import no.westerdals.student.vegeiv13.assignment1.carrental.clients.Client;
 import no.westerdals.student.vegeiv13.assignment1.carrental.clients.ClientState;
 
