@@ -40,7 +40,6 @@ public class ClientService extends Service<ClientState> {
 
     @Override
     protected Task<ClientState> createTask() {
-        System.out.println("Restarting controller with state: " + state);
         Task<ClientState> task;
         switch(state) {
             case READY: task = createReadyTask();

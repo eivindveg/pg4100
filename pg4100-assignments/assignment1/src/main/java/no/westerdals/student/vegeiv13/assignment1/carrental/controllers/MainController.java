@@ -33,17 +33,12 @@ public class MainController {
     @SuppressWarnings("unchecked")
     public void init() {
         List<String> names = (List<String>) context.getRegisteredObject("names");
-        System.out.println(names);
         names.forEach(name -> {
             try {
                 ViewContext<ClientService> context = ViewFactory.getInstance().createByController(ClientService.class);
                 ClientService controller = context.getController();
-                System.out.println(controller);
                 controller.bind(name);
-                controller.setOnSucceeded(e -> {
-                    System.out.println("Restarting controller with state: " + controller.getValue());
-                    transition(controller.getValue(), context);
-                });
+                controller.setOnSucceeded(e -> transition(controller.getValue(), context));
                 controller.start();
                 readyBox.getChildren().addAll(context.getRootNode());
             } catch (FxmlLoadException e) {

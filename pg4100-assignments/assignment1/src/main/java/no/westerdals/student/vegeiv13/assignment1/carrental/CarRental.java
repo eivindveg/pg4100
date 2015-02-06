@@ -42,13 +42,10 @@ public class CarRental {
                     .filter(e -> !e.isRented())
                     .findFirst()
             ).isPresent()) {
-                System.out.println("Awaiting");
                 carReady.await();
             }
-            System.out.println("Done waiting");
             RentalCar rentalCar = rentalCarOptional.get();
             rentalCar.setRentedBy(client);
-            System.out.println(rentalCar);
             return rentalCar;
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -63,17 +60,11 @@ public class CarRental {
             lock.lock();
         }
         try {
-            System.out.println("Returning car for client " + client);
             rentalCars.stream().filter(rentalCar -> rentalCar.isRented() && rentalCar.getRentedBy().equals(client)).forEach(rentalCar -> rentalCar.setRentedBy(null));
-            System.out.println("Retrieved for client " + client);
             carReady.signal();
-            System.out.println("Signalled for client " + client);
         } finally {
             if(lock.isHeldByCurrentThread()) {
-                System.out.println("Unlocking for client " + client);
                 lock.unlock();
-                System.out.println("Unlocked for client " + client);
-                System.out.println(rentalCars);
             }
         }
     }
