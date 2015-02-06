@@ -48,7 +48,7 @@ public class MainController {
         });
     }
 
-    public void transition(ClientState state, ViewContext context) {
+    private void transition(ClientState state, ViewContext context) {
         VBox moveFrom = null;
         VBox moveTo = null;
 
