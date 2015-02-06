@@ -26,4 +26,10 @@ public class CarRentalTest {
         carRental.returnCarByClient(client);
     }
 
+    @Test(expected = UnsupportedOperationException.class)
+    public void testCarRentalExposesUnmodifiableListOnly() {
+        carRental.getRentalCarsUnmodifiable().remove(0);
+    }
+
+
 }
