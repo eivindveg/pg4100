@@ -1,11 +1,12 @@
 package no.westerdals.student.vegeiv13.assignment1.carrental.clients;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
 
 public class Client {
 
-    private final ObservableValue<String> name;
+    private final StringProperty name;
     private ClientState state = ClientState.READY;
 
     public Client(String name) {
@@ -27,8 +28,8 @@ public class Client {
                 '}';
     }
 
-    public String getName() {
-        return name.getValue();
+    public StringProperty getName() {
+        return name;
     }
 
     public ObservableValue<String> nameProperty() {

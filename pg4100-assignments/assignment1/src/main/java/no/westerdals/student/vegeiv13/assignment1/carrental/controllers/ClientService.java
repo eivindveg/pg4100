@@ -12,12 +12,13 @@ import no.westerdals.student.vegeiv13.assignment1.carrental.clients.concurrent.R
 import no.westerdals.student.vegeiv13.assignment1.carrental.clients.concurrent.RentingTask;
 import no.westerdals.student.vegeiv13.assignment1.carrental.clients.concurrent.WaitingTask;
 import org.datafx.controller.FXMLController;
+import org.datafx.controller.context.FXMLViewContext;
+import org.datafx.controller.context.ViewContext;
+
+import javax.annotation.PostConstruct;
 
 @FXMLController("/actor.fxml")
 public class ClientService extends Service<ClientState> {
-
-
-    private final CarRental carRental = CarRental.getInstance();
 
     @FXML
     private ProgressBar progress;
@@ -25,6 +26,15 @@ public class ClientService extends Service<ClientState> {
     private Label label;
     private Client client;
 
+    @FXMLViewContext
+    private ViewContext context;
+
+    private CarRental carRental;
+
+    @PostConstruct
+    public void init() {
+        carRental = context.getRegisteredObject(CarRental.class);
+    }
 
     public void bind(final String name) {
         client = new Client(name);

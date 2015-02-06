@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
+import no.westerdals.student.vegeiv13.assignment1.carrental.CarRental;
 import no.westerdals.student.vegeiv13.assignment1.carrental.clients.ClientState;
 import org.datafx.controller.FXMLController;
 import org.datafx.controller.FxmlLoadException;
@@ -40,8 +41,11 @@ public class MainController {
     @FXMLViewFlowContext
     private ViewFlowContext context;
 
+    private CarRental carRental;
+
     @PostConstruct
     public void init() {
+        carRental = new CarRental("UF");
         nameInput.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 onAddClient();
@@ -82,6 +86,7 @@ public class MainController {
             ViewContext<ClientService> context = ViewFactory.getInstance().createByController(ClientService.class);
             ClientService controller = context.getController();
             controller.bind(name);
+            context.register(carRental);
             controller.setOnSucceeded(e -> transition(controller.getValue(), context));
             readyBox.getChildren().addAll(context.getRootNode());
             controller.start();
