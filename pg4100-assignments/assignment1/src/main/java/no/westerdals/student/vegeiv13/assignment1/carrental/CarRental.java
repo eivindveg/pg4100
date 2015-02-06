@@ -58,14 +58,23 @@ public class CarRental {
         }
     }
 
-    public void returnCarByClient(final Client client) {
-        lock.lock();
+    public synchronized void returnCarByClient(final Client client) {
+        if(!lock.isHeldByCurrentThread()) {
+            lock.lock();
+        }
         try {
             System.out.println("Returning car for client " + client);
-            rentalCars.stream().filter(c -> c.getRentedBy().equals(client)).forEach(c -> c.setRentedBy(null));
-            carReady.signalAll();
+            rentalCars.stream().filter(rentalCar -> rentalCar.isRented() && rentalCar.getRentedBy().equals(client)).forEach(rentalCar -> rentalCar.setRentedBy(null));
+            System.out.println("Retrieved for client " + client);
+            carReady.signal();
+            System.out.println("Signalled for client " + client);
         } finally {
-            lock.unlock();
+            if(lock.isHeldByCurrentThread()) {
+                System.out.println("Unlocking for client " + client);
+                lock.unlock();
+                System.out.println("Unlocked for client " + client);
+                System.out.println(rentalCars);
+            }
         }
     }
 

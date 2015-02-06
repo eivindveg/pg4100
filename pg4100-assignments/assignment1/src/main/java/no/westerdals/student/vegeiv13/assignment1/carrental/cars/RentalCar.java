@@ -17,7 +17,7 @@ public class RentalCar {
         this.registrationNumber = registrationNumber;
     }
 
-    public @Nullable Client getRentedBy() {
+    public synchronized @Nullable Client getRentedBy() {
         return rentedBy;
     }
 
@@ -29,11 +29,11 @@ public class RentalCar {
                 '}';
     }
 
-    public void setRentedBy(final @Nullable Client rentedBy) {
+    public synchronized void setRentedBy(final @Nullable Client rentedBy) {
         this.rentedBy = rentedBy;
     }
 
-    public boolean isRented() {
+    public synchronized boolean isRented() {
         return rentedBy != null;
     }
 }
