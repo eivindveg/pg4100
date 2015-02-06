@@ -1,4 +1,4 @@
-package no.westerdals.student.vegeiv13.assignment1.carrental.concurrent;
+package no.westerdals.student.vegeiv13.assignment1.carrental.clients.concurrent;
 
 import javafx.scene.control.ProgressBar;
 import no.westerdals.student.vegeiv13.assignment1.carrental.CarRental;

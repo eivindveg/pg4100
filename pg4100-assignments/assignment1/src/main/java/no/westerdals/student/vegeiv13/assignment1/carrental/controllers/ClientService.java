@@ -8,9 +8,9 @@ import javafx.scene.control.ProgressBar;
 import no.westerdals.student.vegeiv13.assignment1.carrental.CarRental;
 import no.westerdals.student.vegeiv13.assignment1.carrental.clients.Client;
 import no.westerdals.student.vegeiv13.assignment1.carrental.clients.ClientState;
-import no.westerdals.student.vegeiv13.assignment1.carrental.concurrent.ReadyTask;
-import no.westerdals.student.vegeiv13.assignment1.carrental.concurrent.RentingTask;
-import no.westerdals.student.vegeiv13.assignment1.carrental.concurrent.WaitingTask;
+import no.westerdals.student.vegeiv13.assignment1.carrental.clients.concurrent.ReadyTask;
+import no.westerdals.student.vegeiv13.assignment1.carrental.clients.concurrent.RentingTask;
+import no.westerdals.student.vegeiv13.assignment1.carrental.clients.concurrent.WaitingTask;
 import org.datafx.controller.FXMLController;
 
 @FXMLController("/actor.fxml")
