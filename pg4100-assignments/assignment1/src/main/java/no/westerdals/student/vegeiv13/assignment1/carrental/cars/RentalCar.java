@@ -1,6 +1,5 @@
 package no.westerdals.student.vegeiv13.assignment1.carrental.cars;
 
-import com.sun.istack.internal.Nullable;
 import no.westerdals.student.vegeiv13.assignment1.carrental.clients.Client;
 
 public class RentalCar {
@@ -16,13 +15,11 @@ public class RentalCar {
         return registrationNumber;
     }
 
-    public synchronized
-    @Nullable
-    Client getRentedBy() {
+    public synchronized Client getRentedBy() {
         return rentedBy;
     }
 
-    public synchronized void setRentedBy(final @Nullable Client rentedBy) {
+    public synchronized void setRentedBy(final Client rentedBy) {
         this.rentedBy = rentedBy;
     }
 

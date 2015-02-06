@@ -12,7 +12,7 @@
     <artifactId>pg4100-assignments</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>../assignment1</module>
+        <module>assignment1</module>
     </modules>
 
 
