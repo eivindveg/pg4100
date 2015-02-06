@@ -19,7 +19,11 @@ public class CarRental {
     private final Condition carReady = lock.newCondition();
 
     private CarRental() {
-        CarFactory carFactory = new CarFactory("UF", 5);
+        this("UF");
+    }
+
+    public CarRental(String prefix) {
+        CarFactory carFactory = new CarFactory(prefix, 5);
         rentalCars = Collections.synchronizedList(new ArrayList<>());
         rentalCars.addAll(carFactory.createRentalCars(3));
     }
