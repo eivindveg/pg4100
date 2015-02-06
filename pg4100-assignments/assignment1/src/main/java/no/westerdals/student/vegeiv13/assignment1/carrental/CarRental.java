@@ -14,6 +14,11 @@ import java.util.concurrent.locks.ReentrantLock;
 public class CarRental {
 
     private static CarRental instance;
+
+    public List<RentalCar> getRentalCarsUnmodifiable() {
+        return Collections.unmodifiableList(rentalCars);
+    }
+
     private final List<RentalCar> rentalCars;
     private final ReentrantLock lock = new ReentrantLock(true);
     private final Condition carReady = lock.newCondition();
