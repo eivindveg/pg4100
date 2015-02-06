@@ -34,7 +34,7 @@ public class ClientService extends Service<ClientState> {
 
     @Override
     protected Task<ClientState> createTask() {
-        Task<ClientState> task;
+        final Task<ClientState> task;
         switch (client.getClientState()) {
             case READY:
                 task = createReadyTask();
