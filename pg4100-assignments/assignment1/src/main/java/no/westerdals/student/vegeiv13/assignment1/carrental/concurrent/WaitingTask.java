@@ -15,6 +15,7 @@ public class WaitingTask extends ClientTask {
         updateProgress(ProgressBar.INDETERMINATE_PROGRESS, ProgressBar.INDETERMINATE_PROGRESS);
         System.out.println(getClient());
         getCarRental().rentCar(getClient());
+        System.out.println("Waiting succeeded");
         return ClientState.RENTING;
     }
 }

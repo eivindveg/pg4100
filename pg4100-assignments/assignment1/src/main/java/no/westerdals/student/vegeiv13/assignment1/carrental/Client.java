@@ -25,4 +25,20 @@ public class Client {
     public ObservableValue<String> nameProperty() {
         return name;
     }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        final Client client = (Client) o;
+
+        return name.equals(client.name);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
 }

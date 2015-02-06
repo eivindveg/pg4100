@@ -41,8 +41,8 @@ public class MainController {
                 System.out.println(controller);
                 controller.bind(name);
                 controller.setOnSucceeded(e -> {
+                    System.out.println("Restarting controller with state: " + controller.getValue());
                     transition(controller.getValue(), context);
-                    controller.restart();
                 });
                 controller.start();
                 readyBox.getChildren().addAll(context.getRootNode());
@@ -76,8 +76,7 @@ public class MainController {
 
     private void moveAdapter(Node node, VBox moveFrom, VBox moveTo) {
         moveFrom.getChildren().remove(node);
-        if(!moveTo.getChildren().contains(node)) {
-            moveTo.getChildren().add(node);
-        }
+        moveTo.getChildren().add(node);
+
     }
 }

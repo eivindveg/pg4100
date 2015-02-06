@@ -5,13 +5,13 @@ import no.westerdals.student.vegeiv13.assignment1.carrental.CarRental;
 import no.westerdals.student.vegeiv13.assignment1.carrental.Client;
 import no.westerdals.student.vegeiv13.assignment1.carrental.ClientState;
 
-import java.util.concurrent.Phaser;
+import java.util.concurrent.CountDownLatch;
 
 public abstract class ClientTask extends Task<ClientState> {
 
     protected static final int SLEEP_DURATION_MILLIS = 9000;
     protected static final int RENT_DURATION_MILLIS = 2000;
-    private static final Phaser phaser = new Phaser(5);
+    private static final CountDownLatch latch = new CountDownLatch(5);
     private final Client client;
     private final CarRental carRental;
     private final ClientState clientState;
@@ -32,5 +32,16 @@ public abstract class ClientTask extends Task<ClientState> {
 
     protected ClientState getClientState() {
         return clientState;
+    }
+
+    @Override
+    public void run() {
+        latch.countDown();
+        try {
+            latch.await();
+            super.run();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

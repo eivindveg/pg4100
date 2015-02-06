@@ -40,31 +40,35 @@ public class ClientService extends Service<ClientState> {
 
     @Override
     protected Task<ClientState> createTask() {
+        System.out.println("Restarting controller with state: " + state);
+        Task<ClientState> task;
         switch(state) {
-            case READY: return createReadyTask();
-            case WAITING: return createWaitingTask();
-            case RENTING: return createRentingTask();
+            case READY: task = createReadyTask();
+                break;
+            case WAITING: task = createWaitingTask();
+                break;
+            case RENTING: task = createRentingTask();
+                break;
             default:
                 return null;
         }
+        task.setOnSucceeded(event -> {
+            state = task.getValue();
+            restart();
+        });
+        return task;
     }
 
     private RentingTask createRentingTask() {
-        RentingTask rentingTask = new RentingTask(getClient(), carRental);
-        rentingTask.setOnSucceeded(event -> state = rentingTask.getValue());
-        return rentingTask;
+        return new RentingTask(getClient(), carRental);
     }
 
     private ReadyTask createReadyTask() {
-        ReadyTask readyTask = new ReadyTask(getClient(), carRental);
-        readyTask.setOnSucceeded(event -> state = readyTask.getValue());
-        return readyTask;
+        return new ReadyTask(getClient(), carRental);
     }
 
     private WaitingTask createWaitingTask() {
-        WaitingTask waitingTask = new WaitingTask(getClient(), carRental);
-        waitingTask.setOnSucceeded(event -> state = createReadyTask().getValue());
-        return waitingTask;
+        return new WaitingTask(getClient(), carRental);
     }
 
     public void setClientState(final ClientState clientState) {

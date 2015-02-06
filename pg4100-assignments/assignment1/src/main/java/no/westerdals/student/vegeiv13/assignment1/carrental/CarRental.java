@@ -4,6 +4,7 @@ import no.westerdals.student.vegeiv13.assignment1.carrental.cars.CarFactory;
 import no.westerdals.student.vegeiv13.assignment1.carrental.cars.RentalCar;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.locks.Condition;
@@ -12,12 +13,13 @@ import java.util.concurrent.locks.ReentrantLock;
 public class CarRental {
 
     private static CarRental instance;
-    private final List<RentalCar> rentalCars = new ArrayList<>();
-    private final ReentrantLock lock = new ReentrantLock();
+    private final List<RentalCar> rentalCars;
+    private final ReentrantLock lock = new ReentrantLock(true);
     private final Condition carReady = lock.newCondition();
 
     private CarRental() {
         CarFactory carFactory = new CarFactory("UF", 5);
+        rentalCars = Collections.synchronizedList(new ArrayList<>());
         rentalCars.addAll(carFactory.createRentalCars(3));
     }
 
@@ -32,7 +34,7 @@ public class CarRental {
         return carReady;
     }
 
-    public synchronized RentalCar rentCar(Client client) {
+    public RentalCar rentCar(Client client) {
         lock.lock();
         try {
             Optional<RentalCar> rentalCarOptional;
@@ -56,9 +58,10 @@ public class CarRental {
         }
     }
 
-    public synchronized void returnCarByClient(final Client client) {
+    public void returnCarByClient(final Client client) {
         lock.lock();
         try {
+            System.out.println("Returning car for client " + client);
             rentalCars.stream().filter(c -> c.getRentedBy().equals(client)).forEach(c -> c.setRentedBy(null));
             carReady.signalAll();
         } finally {

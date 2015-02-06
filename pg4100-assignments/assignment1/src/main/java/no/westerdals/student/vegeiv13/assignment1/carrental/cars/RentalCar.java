@@ -30,9 +30,6 @@ public class RentalCar {
     }
 
     public void setRentedBy(final @Nullable Client rentedBy) {
-        if(this.rentedBy != null) {
-            throw new IllegalAccessError("CAR THEFT!");
-        }
         this.rentedBy = rentedBy;
     }
 
