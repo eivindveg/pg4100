@@ -1,5 +1,6 @@
 package no.westerdals.student.vegeiv13.assignment1.carrental.controllers;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -11,8 +12,6 @@ import org.datafx.controller.FXMLController;
 @FXMLController("/car.fxml")
 public class CarController {
 
-    private RentalCar car;
-
     @FXML
     private Label clientLabel;
 
@@ -23,7 +22,14 @@ public class CarController {
         car.clientProperty().addListener(new ChangeListener<Client>() {
             @Override
             public void changed(final ObservableValue<? extends Client> observable, final Client oldValue, final Client newValue) {
-                clientLabel.textProperty().bind(newValue.nameProperty());
+                if(newValue != null) {
+                    Platform.runLater(() -> clientLabel.textProperty().bind(newValue.nameProperty()));
+                } else {
+                    Platform.runLater(() -> {
+                        clientLabel.textProperty().unbind();
+                        clientLabel.setText("Available");
+                    });
+                }
             }
         });
         carLabel.textProperty().bind(car.registrationNumberProperty());
