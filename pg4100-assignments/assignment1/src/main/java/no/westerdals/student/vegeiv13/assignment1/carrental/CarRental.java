@@ -26,10 +26,6 @@ public class CarRental {
         rentalCars.addAll(carFactory.createRentalCars(3));
     }
 
-    public Condition getCarReadyCondition() {
-        return carReady;
-    }
-
     public RentalCar rentCar(Client client) {
         lock.lock();
         try {
