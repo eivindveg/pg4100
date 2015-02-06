@@ -9,8 +9,6 @@ import java.util.concurrent.CountDownLatch;
 
 public abstract class ClientTask extends Task<ClientState> {
 
-    protected static final int SLEEP_DURATION_MILLIS = 9000;
-    protected static final int RENT_DURATION_MILLIS = 2000;
     private static final CountDownLatch latch = new CountDownLatch(5);
     private final Client client;
     private final CarRental carRental;
