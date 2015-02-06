@@ -99,9 +99,9 @@ public class MainController {
         nameInput.clear();
         try {
             ViewContext<ClientService> context = ViewFactory.getInstance().createByController(ClientService.class);
+            context.register(carRental);
             ClientService controller = context.getController();
             controller.bind(name);
-            context.register(carRental);
             controller.setOnSucceeded(e -> transition(controller.getValue(), context));
             readyBox.getChildren().addAll(context.getRootNode());
             controller.start();

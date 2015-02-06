@@ -15,8 +15,6 @@ import org.datafx.controller.FXMLController;
 import org.datafx.controller.context.FXMLViewContext;
 import org.datafx.controller.context.ViewContext;
 
-import javax.annotation.PostConstruct;
-
 @FXMLController("/actor.fxml")
 public class ClientService extends Service<ClientState> {
 
@@ -31,13 +29,9 @@ public class ClientService extends Service<ClientState> {
 
     private CarRental carRental;
 
-    @PostConstruct
-    public void init() {
-        carRental = context.getRegisteredObject(CarRental.class);
-    }
-
     public void bind(final String name) {
         client = new Client(name);
+        carRental = context.getRegisteredObject(CarRental.class);
         label.textProperty().bind(client.nameProperty());
         progress.progressProperty().bind(this.progressProperty());
     }
