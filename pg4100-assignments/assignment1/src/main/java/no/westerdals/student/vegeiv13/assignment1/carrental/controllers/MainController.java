@@ -32,6 +32,9 @@ public class MainController {
     private VBox rentingBox;
 
     @FXML
+    private VBox carBox;
+
+    @FXML
     private TextField nameInput;
 
     @FXML
@@ -46,6 +49,18 @@ public class MainController {
     @PostConstruct
     public void init() {
         carRental = new CarRental("UF");
+        carRental.getRentalCarsUnmodifiable().forEach( car -> {
+                    try {
+                        ViewContext<CarController> viewContext = ViewFactory.getInstance().createByController(CarController.class);
+                        CarController controller = viewContext.getController();
+                        controller.bind(car);
+                        Node root = viewContext.getRootNode();
+                        carBox.getChildren().add(root);
+                    } catch (FxmlLoadException e) {
+                        e.printStackTrace();
+                    }
+                }
+        );
         nameInput.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 onAddClient();
