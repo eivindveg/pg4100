@@ -20,7 +20,6 @@ public class ClientService extends Service<ClientState> {
 
     private final CarRental carRental = CarRental.getInstance();
 
-    ClientState state = ClientState.READY;
     @FXML
     private ProgressBar progress;
     @FXML
@@ -28,9 +27,6 @@ public class ClientService extends Service<ClientState> {
     private RentalCar rentalCar;
     private Client client;
 
-    public ClientState getClientState() {
-        return state;
-    }
 
     public void bind(final String name) {
         client = new Client(name);
@@ -41,18 +37,21 @@ public class ClientService extends Service<ClientState> {
     @Override
     protected Task<ClientState> createTask() {
         Task<ClientState> task;
-        switch(state) {
-            case READY: task = createReadyTask();
+        switch (client.getClientState()) {
+            case READY:
+                task = createReadyTask();
                 break;
-            case WAITING: task = createWaitingTask();
+            case WAITING:
+                task = createWaitingTask();
                 break;
-            case RENTING: task = createRentingTask();
+            case RENTING:
+                task = createRentingTask();
                 break;
             default:
                 return null;
         }
         task.setOnSucceeded(event -> {
-            state = task.getValue();
+            client.setClientState(task.getValue());
             restart();
         });
         return task;
@@ -68,10 +67,6 @@ public class ClientService extends Service<ClientState> {
 
     private WaitingTask createWaitingTask() {
         return new WaitingTask(getClient(), carRental);
-    }
-
-    public void setClientState(final ClientState clientState) {
-        this.state = clientState;
     }
 
     public RentalCar getRentalCar() {
