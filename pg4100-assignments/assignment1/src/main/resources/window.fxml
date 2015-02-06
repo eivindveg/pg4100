@@ -54,7 +54,7 @@
         </HBox>
     </bottom>
     <right>
-        <VBox>
+        <VBox fx:id="carBox">
             <children>
                 <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="20.0" maxWidth="1.7976931348623157E308"
                        prefHeight="20.0" styleClass="bluebg" text="Cars"/>
