@@ -9,10 +9,13 @@ public class CarFactory {
     private final String prefix;
     private final int numbers;
 
-    public CarFactory(String prefix, int numbers) {
-        this.numbers = numbers;
+    public CarFactory(String prefix, int numbersLength) {
+        this.numbers = numbersLength;
         if (prefix == null || prefix.length() != 2) {
             throw new CarFactoryException("Prefix length must be two letters");
+        }
+        if(numbersLength < 2) {
+            throw new CarFactoryException("Plate number length must be at least 2");
         }
         this.prefix = prefix.toUpperCase();
     }
