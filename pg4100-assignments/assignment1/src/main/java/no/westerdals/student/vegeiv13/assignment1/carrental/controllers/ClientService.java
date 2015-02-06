@@ -9,18 +9,16 @@ import no.westerdals.student.vegeiv13.assignment1.carrental.CarRental;
 import no.westerdals.student.vegeiv13.assignment1.carrental.Client;
 import no.westerdals.student.vegeiv13.assignment1.carrental.ClientState;
 import no.westerdals.student.vegeiv13.assignment1.carrental.cars.RentalCar;
+import no.westerdals.student.vegeiv13.assignment1.carrental.concurrent.ReadyTask;
+import no.westerdals.student.vegeiv13.assignment1.carrental.concurrent.RentingTask;
+import no.westerdals.student.vegeiv13.assignment1.carrental.concurrent.WaitingTask;
 import org.datafx.controller.FXMLController;
 
-import java.util.concurrent.Phaser;
-
 @FXMLController("/actor.fxml")
-public class ClientService extends Service<Void> {
+public class ClientService extends Service<ClientState> {
 
-    private static final Phaser phaser = new Phaser(5);
-    private static final int SLEEP_DURATION_MILLIS = 9000;
-    private static final int RENT_DURATION_MILLIS = 2000;
+
     private final CarRental carRental = CarRental.getInstance();
-
 
     ClientState state = ClientState.READY;
     @FXML
@@ -41,7 +39,7 @@ public class ClientService extends Service<Void> {
     }
 
     @Override
-    protected Task<Void> createTask() {
+    protected Task<ClientState> createTask() {
         switch(state) {
             case READY: return createReadyTask();
             case WAITING: return createWaitingTask();
@@ -51,57 +49,22 @@ public class ClientService extends Service<Void> {
         }
     }
 
-    private Task<Void> createReadyTask() {
-        return new Task<Void>() {
-
-            @Override
-            protected Void call() throws Exception {
-                long startStamp = System.currentTimeMillis();
-                long diff = 0;
-                while (diff < SLEEP_DURATION_MILLIS) {
-                    diff = System.currentTimeMillis() - startStamp;
-                    updateProgress(diff, SLEEP_DURATION_MILLIS);
-                    Thread.yield();
-                }
-                state = ClientState.WAITING;
-                return null;
-            }
-
-
-        };
+    private RentingTask createRentingTask() {
+        RentingTask rentingTask = new RentingTask(getClient(), carRental);
+        rentingTask.setOnSucceeded(event -> state = rentingTask.getValue());
+        return rentingTask;
     }
 
-    private Task<Void> createWaitingTask() {
-        return new Task<Void>() {
-
-            @Override
-            protected Void call() throws Exception {
-                // TODO LOCK AND WAIT FOR AVAILABLE CAR
-                updateProgress(ProgressBar.INDETERMINATE_PROGRESS, ProgressBar.INDETERMINATE_PROGRESS);
-                System.out.println(getClient());
-                rentalCar = carRental.rentCar(getClient());
-                state = ClientState.RENTING;
-                return null;
-            }
-        };
+    private ReadyTask createReadyTask() {
+        ReadyTask readyTask = new ReadyTask(getClient(), carRental);
+        readyTask.setOnSucceeded(event -> state = readyTask.getValue());
+        return readyTask;
     }
 
-    private Task<Void> createRentingTask() {
-        return new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                long startStamp = System.currentTimeMillis();
-                long diff = 0;
-                while (diff < RENT_DURATION_MILLIS) {
-                    diff = System.currentTimeMillis() - startStamp;
-                    updateProgress(diff, RENT_DURATION_MILLIS);
-                    Thread.yield();
-                }
-                carRental.returnCar(rentalCar);
-                state = ClientState.READY;
-                return null;
-            }
-        };
+    private WaitingTask createWaitingTask() {
+        WaitingTask waitingTask = new WaitingTask(getClient(), carRental);
+        waitingTask.setOnSucceeded(event -> state = createReadyTask().getValue());
+        return waitingTask;
     }
 
     public void setClientState(final ClientState clientState) {
