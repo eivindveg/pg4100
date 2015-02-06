@@ -12,9 +12,6 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class CarRental {
-
-    private static CarRental instance;
-
     public List<RentalCar> getRentalCarsUnmodifiable() {
         return Collections.unmodifiableList(rentalCars);
     }
@@ -23,21 +20,10 @@ public class CarRental {
     private final ReentrantLock lock = new ReentrantLock(true);
     private final Condition carReady = lock.newCondition();
 
-    private CarRental() {
-        this("UF");
-    }
-
     public CarRental(String prefix) {
         CarFactory carFactory = new CarFactory(prefix, 5);
         rentalCars = Collections.synchronizedList(new ArrayList<>());
         rentalCars.addAll(carFactory.createRentalCars(3));
-    }
-
-    public synchronized static CarRental getInstance() {
-        if (instance == null) {
-            instance = new CarRental();
-        }
-        return instance;
     }
 
     public Condition getCarReadyCondition() {
