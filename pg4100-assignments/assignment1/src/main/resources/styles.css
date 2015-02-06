@@ -9,3 +9,7 @@
 .greenbg {
     -fx-background-color: forestgreen;
 }
+
+.yellowbg {
+    -fx-background-color: yellow;
+}
