@@ -32,13 +32,14 @@ public class CarRental {
         return carReady;
     }
 
-    public RentalCar rentCar(Client client) {
+    public synchronized RentalCar rentCar(Client client) {
+        lock.lock();
         try {
             Optional<RentalCar> rentalCarOptional;
             while (!(rentalCarOptional = rentalCars.stream()
                     .filter(e -> !e.isRented())
-                    .findFirst())
-                    .isPresent()) {
+                    .findFirst()
+            ).isPresent()) {
                 System.out.println("Awaiting");
                 carReady.await();
             }
@@ -55,7 +56,7 @@ public class CarRental {
         }
     }
 
-    public void returnCarByClient(final Client client) {
+    public synchronized void returnCarByClient(final Client client) {
         lock.lock();
         try {
             rentalCars.stream().filter(c -> c.getRentedBy().equals(client)).forEach(c -> c.setRentedBy(null));
