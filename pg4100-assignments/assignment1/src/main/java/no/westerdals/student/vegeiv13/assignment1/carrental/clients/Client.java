@@ -1,4 +1,4 @@
-package no.westerdals.student.vegeiv13.assignment1.carrental;
+package no.westerdals.student.vegeiv13.assignment1.carrental.clients;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;

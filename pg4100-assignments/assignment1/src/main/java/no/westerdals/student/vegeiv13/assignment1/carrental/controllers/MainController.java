@@ -3,7 +3,7 @@ package no.westerdals.student.vegeiv13.assignment1.carrental.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
-import no.westerdals.student.vegeiv13.assignment1.carrental.ClientState;
+import no.westerdals.student.vegeiv13.assignment1.carrental.clients.ClientState;
 import org.datafx.controller.FXMLController;
 import org.datafx.controller.FxmlLoadException;
 import org.datafx.controller.ViewFactory;

@@ -2,8 +2,8 @@ package no.westerdals.student.vegeiv13.assignment1.carrental.concurrent;
 
 import javafx.concurrent.Task;
 import no.westerdals.student.vegeiv13.assignment1.carrental.CarRental;
-import no.westerdals.student.vegeiv13.assignment1.carrental.Client;
-import no.westerdals.student.vegeiv13.assignment1.carrental.ClientState;
+import no.westerdals.student.vegeiv13.assignment1.carrental.clients.Client;
+import no.westerdals.student.vegeiv13.assignment1.carrental.clients.ClientState;
 
 import java.util.concurrent.CountDownLatch;
 

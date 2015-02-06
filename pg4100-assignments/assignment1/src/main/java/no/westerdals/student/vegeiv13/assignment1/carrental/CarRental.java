@@ -2,6 +2,7 @@ package no.westerdals.student.vegeiv13.assignment1.carrental;
 
 import no.westerdals.student.vegeiv13.assignment1.carrental.cars.CarFactory;
 import no.westerdals.student.vegeiv13.assignment1.carrental.cars.RentalCar;
+import no.westerdals.student.vegeiv13.assignment1.carrental.clients.Client;
 
 import java.util.ArrayList;
 import java.util.Collections;

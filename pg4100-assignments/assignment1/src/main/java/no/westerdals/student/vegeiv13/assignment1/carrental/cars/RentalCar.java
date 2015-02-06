@@ -1,7 +1,7 @@
 package no.westerdals.student.vegeiv13.assignment1.carrental.cars;
 
 import com.sun.istack.internal.Nullable;
-import no.westerdals.student.vegeiv13.assignment1.carrental.Client;
+import no.westerdals.student.vegeiv13.assignment1.carrental.clients.Client;
 
 public class RentalCar {
 
