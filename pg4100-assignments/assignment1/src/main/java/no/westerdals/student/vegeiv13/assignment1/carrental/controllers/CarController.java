@@ -22,7 +22,7 @@ public class CarController {
         car.clientProperty().addListener(new ChangeListener<Client>() {
             @Override
             public void changed(final ObservableValue<? extends Client> observable, final Client oldValue, final Client newValue) {
-                if(newValue != null) {
+                if (newValue != null) {
                     Platform.runLater(() -> clientLabel.textProperty().bind(newValue.nameProperty()));
                 } else {
                     Platform.runLater(() -> {

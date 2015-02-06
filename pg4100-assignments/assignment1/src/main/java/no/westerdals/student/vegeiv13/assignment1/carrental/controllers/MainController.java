@@ -49,7 +49,7 @@ public class MainController {
     @PostConstruct
     public void init() {
         carRental = new CarRental("UF");
-        carRental.getRentalCarsUnmodifiable().forEach( car -> {
+        carRental.getRentalCarsUnmodifiable().forEach(car -> {
                     try {
                         ViewContext<CarController> viewContext = ViewFactory.getInstance().createByController(CarController.class);
                         CarController controller = viewContext.getController();
