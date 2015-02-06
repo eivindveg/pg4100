@@ -13,8 +13,6 @@ import org.datafx.controller.flow.context.ViewFlowContext;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 @FXMLController("/window.fxml")
 public class MainController implements ClientAdapterNotifier {
@@ -28,8 +26,6 @@ public class MainController implements ClientAdapterNotifier {
     @FXML
     private VBox rentingBox;
 
-    private Executor executor;
-
     @FXMLViewFlowContext
     private ViewFlowContext context;
 
@@ -37,7 +33,6 @@ public class MainController implements ClientAdapterNotifier {
     @SuppressWarnings("unchecked")
     public void init() {
         List<String> names = (List<String>) context.getRegisteredObject("names");
-        executor = Executors.newFixedThreadPool(names.size());
         System.out.println(names);
         names.forEach(name -> {
             try {
@@ -81,7 +76,6 @@ public class MainController implements ClientAdapterNotifier {
 
     private void startThread(final ClientService adapter) {
         adapter.restart();
-        executor.execute(adapter.createTask());
     }
 
     private void moveAdapter(Node node, VBox moveFrom, VBox moveTo) {
