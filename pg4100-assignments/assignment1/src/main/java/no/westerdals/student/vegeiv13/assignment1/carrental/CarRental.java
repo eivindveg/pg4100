@@ -55,10 +55,10 @@ public class CarRental {
         }
     }
 
-    public void returnCar(RentalCar carToReturn) {
+    public void returnCarByClient(final Client client) {
         lock.lock();
         try {
-            carToReturn.setRentedBy(null);
+            rentalCars.stream().filter(c -> c.getRentedBy().equals(client)).forEach(c -> c.setRentedBy(null));
             carReady.signalAll();
         } finally {
             lock.unlock();

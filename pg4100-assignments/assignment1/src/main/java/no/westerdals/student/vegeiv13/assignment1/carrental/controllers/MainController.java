@@ -15,7 +15,7 @@ import javax.annotation.PostConstruct;
 import java.util.List;
 
 @FXMLController("/window.fxml")
-public class MainController implements ClientAdapterNotifier {
+public class MainController {
 
     @FXML
     private VBox readyBox;
@@ -40,8 +40,11 @@ public class MainController implements ClientAdapterNotifier {
                 ClientService controller = context.getController();
                 System.out.println(controller);
                 controller.bind(name);
-                startThread(controller);
-                controller.setOnSucceeded(e -> transition(controller, context));
+                controller.setOnSucceeded(e -> {
+                    transition(controller.getValue(), context);
+                    controller.restart();
+                });
+                controller.start();
                 readyBox.getChildren().addAll(context.getRootNode());
             } catch (FxmlLoadException e) {
                 e.printStackTrace();
@@ -50,9 +53,7 @@ public class MainController implements ClientAdapterNotifier {
         });
     }
 
-    @Override
-    public void transition(ClientService adapter, ViewContext context) {
-        ClientState state = adapter.getClientState();
+    public void transition(ClientState state, ViewContext context) {
         VBox moveFrom = null;
         VBox moveTo = null;
 
@@ -71,11 +72,6 @@ public class MainController implements ClientAdapterNotifier {
         }
 
         moveAdapter(context.getRootNode(), moveFrom, moveTo);
-        startThread(adapter);
-    }
-
-    private void startThread(final ClientService adapter) {
-        adapter.restart();
     }
 
     private void moveAdapter(Node node, VBox moveFrom, VBox moveTo) {
