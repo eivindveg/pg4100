@@ -12,12 +12,10 @@ public abstract class ClientTask extends Task<ClientState> {
     private static final CountDownLatch latch = new CountDownLatch(5);
     private final Client client;
     private final CarRental carRental;
-    private final ClientState clientState;
 
-    public ClientTask(final Client client, final CarRental carRental, ClientState clientState) {
+    public ClientTask(final Client client, final CarRental carRental) {
         this.client = client;
         this.carRental = carRental;
-        this.clientState = clientState;
     }
 
     protected Client getClient() {
@@ -26,10 +24,6 @@ public abstract class ClientTask extends Task<ClientState> {
 
     protected CarRental getCarRental() {
         return carRental;
-    }
-
-    protected ClientState getClientState() {
-        return clientState;
     }
 
     @Override

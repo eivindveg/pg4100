@@ -13,7 +13,7 @@ public class ReadyTask extends ClientTask {
     private Integer sleepDuration;
 
     public ReadyTask(final Client client, final CarRental carRental) {
-        super(client, carRental, ClientState.READY);
+        super(client, carRental);
     }
 
     private Integer getSleepDuration() {

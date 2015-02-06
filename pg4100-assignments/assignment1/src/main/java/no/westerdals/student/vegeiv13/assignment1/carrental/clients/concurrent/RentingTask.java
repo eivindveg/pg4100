@@ -13,7 +13,7 @@ public class RentingTask extends ClientTask {
     private Integer sleepDuration;
 
     public RentingTask(final Client client, final CarRental carRental) {
-        super(client, carRental, ClientState.RENTING);
+        super(client, carRental);
     }
 
     @Override
