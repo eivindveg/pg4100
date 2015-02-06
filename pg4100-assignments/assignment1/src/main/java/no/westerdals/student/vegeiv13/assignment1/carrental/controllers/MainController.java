@@ -2,17 +2,21 @@ package no.westerdals.student.vegeiv13.assignment1.carrental.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import no.westerdals.student.vegeiv13.assignment1.carrental.clients.ClientState;
 import org.datafx.controller.FXMLController;
 import org.datafx.controller.FxmlLoadException;
 import org.datafx.controller.ViewFactory;
 import org.datafx.controller.context.ViewContext;
+import org.datafx.controller.flow.action.ActionMethod;
+import org.datafx.controller.flow.action.ActionTrigger;
 import org.datafx.controller.flow.context.FXMLViewFlowContext;
 import org.datafx.controller.flow.context.ViewFlowContext;
 
 import javax.annotation.PostConstruct;
-import java.util.List;
 
 @FXMLController("/window.fxml")
 public class MainController {
@@ -26,26 +30,24 @@ public class MainController {
     @FXML
     private VBox rentingBox;
 
+    @FXML
+    private TextField nameInput;
+
+    @FXML
+    @ActionTrigger("addClient")
+    private Button addClient;
+
     @FXMLViewFlowContext
     private ViewFlowContext context;
 
     @PostConstruct
-    @SuppressWarnings("unchecked")
     public void init() {
-        List<String> names = (List<String>) context.getRegisteredObject("names");
-        names.forEach(name -> {
-            try {
-                ViewContext<ClientService> context = ViewFactory.getInstance().createByController(ClientService.class);
-                ClientService controller = context.getController();
-                controller.bind(name);
-                controller.setOnSucceeded(e -> transition(controller.getValue(), context));
-                controller.start();
-                readyBox.getChildren().addAll(context.getRootNode());
-            } catch (FxmlLoadException e) {
-                e.printStackTrace();
+        nameInput.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                onAddClient();
             }
-
         });
+
     }
 
     private void transition(ClientState state, ViewContext context) {
@@ -67,6 +69,25 @@ public class MainController {
         }
 
         moveAdapter(context.getRootNode(), moveFrom, moveTo);
+    }
+
+    @ActionMethod("addClient")
+    public void onAddClient() {
+        String name = nameInput.getText();
+        if(name == null || name.replace(" ", "").equals("")) {
+            return;
+        }
+        nameInput.clear();
+        try {
+            ViewContext<ClientService> context = ViewFactory.getInstance().createByController(ClientService.class);
+            ClientService controller = context.getController();
+            controller.bind(name);
+            controller.setOnSucceeded(e -> transition(controller.getValue(), context));
+            readyBox.getChildren().addAll(context.getRootNode());
+            controller.start();
+        } catch (FxmlLoadException e) {
+            e.printStackTrace();
+        }
     }
 
     private void moveAdapter(Node node, VBox moveFrom, VBox moveTo) {
