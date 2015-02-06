@@ -10,7 +10,7 @@ public class CarRentalTest {
 
     @Before
     public void setup() throws Exception {
-        carRental = CarRental.getInstance();
+        carRental = new CarRental("UF");
     }
 
     @Test
