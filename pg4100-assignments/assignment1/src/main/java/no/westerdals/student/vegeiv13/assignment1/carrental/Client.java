@@ -6,9 +6,18 @@ import javafx.beans.value.ObservableValue;
 public class Client {
 
     private final ObservableValue<String> name;
+    ClientState state = ClientState.READY;
 
     public Client(String name) {
         this.name = new SimpleStringProperty(name);
+    }
+
+    public ClientState getClientState() {
+        return state;
+    }
+
+    public void setClientState(final ClientState clientState) {
+        this.state = clientState;
     }
 
     @Override
