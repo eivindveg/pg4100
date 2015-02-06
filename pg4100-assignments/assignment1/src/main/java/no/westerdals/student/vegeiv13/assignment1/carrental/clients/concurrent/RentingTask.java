@@ -30,7 +30,7 @@ public class RentingTask extends ClientTask {
     }
 
     private Integer getSleepDuration() {
-        if(sleepDuration == null) {
+        if (sleepDuration == null) {
             Random r = new Random();
             int i = r.nextInt(MAX_SLEEP_DURATION - MIN_SLEEP_DURATION);
             sleepDuration = i + MIN_SLEEP_DURATION;

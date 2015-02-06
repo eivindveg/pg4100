@@ -5,20 +5,25 @@ import no.westerdals.student.vegeiv13.assignment1.carrental.clients.Client;
 
 public class RentalCar {
 
-    private Client rentedBy;
-
-    public String getRegistrationNumber() {
-        return registrationNumber;
-    }
-
     private final String registrationNumber;
+    private Client rentedBy;
 
     protected RentalCar(final String registrationNumber) {
         this.registrationNumber = registrationNumber;
     }
 
-    public synchronized @Nullable Client getRentedBy() {
+    public String getRegistrationNumber() {
+        return registrationNumber;
+    }
+
+    public synchronized
+    @Nullable
+    Client getRentedBy() {
         return rentedBy;
+    }
+
+    public synchronized void setRentedBy(final @Nullable Client rentedBy) {
+        this.rentedBy = rentedBy;
     }
 
     @Override
@@ -27,10 +32,6 @@ public class RentalCar {
                 "rentedBy=" + rentedBy +
                 ", registrationNumber='" + registrationNumber + '\'' +
                 '}';
-    }
-
-    public synchronized void setRentedBy(final @Nullable Client rentedBy) {
-        this.rentedBy = rentedBy;
     }
 
     public synchronized boolean isRented() {

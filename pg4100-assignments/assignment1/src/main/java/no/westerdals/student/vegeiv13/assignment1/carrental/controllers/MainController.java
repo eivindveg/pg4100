@@ -74,7 +74,7 @@ public class MainController {
     @ActionMethod("addClient")
     public void onAddClient() {
         String name = nameInput.getText();
-        if(name == null || name.replace(" ", "").equals("")) {
+        if (name == null || name.replace(" ", "").equals("")) {
             return;
         }
         nameInput.clear();
@@ -93,6 +93,5 @@ public class MainController {
     private void moveAdapter(Node node, VBox moveFrom, VBox moveTo) {
         moveFrom.getChildren().remove(node);
         moveTo.getChildren().add(node);
-
     }
 }

@@ -61,14 +61,14 @@ public class CarRental {
     }
 
     public synchronized void returnCarByClient(final Client client) {
-        if(!lock.isHeldByCurrentThread()) {
+        if (!lock.isHeldByCurrentThread()) {
             lock.lock();
         }
         try {
             rentalCars.stream().filter(rentalCar -> rentalCar.isRented() && rentalCar.getRentedBy().equals(client)).forEach(rentalCar -> rentalCar.setRentedBy(null));
             carReady.signal();
         } finally {
-            if(lock.isHeldByCurrentThread()) {
+            if (lock.isHeldByCurrentThread()) {
                 lock.unlock();
             }
         }
