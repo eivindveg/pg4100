@@ -5,28 +5,23 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+      <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
          <children>
-            <Label text="Registration: ">
-               <font>
-                  <Font size="8.0" />
-               </font>
-            </Label>
-            <Label fx:id="carLabel">
-               <font>
-                  <Font size="8.0" />
-               </font>
-            </Label>
+            <Label text="Registration: " />
+            <Label fx:id="carLabel" />
          </children>
       </HBox>
-      <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+      <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
          <children>
-            <Label maxWidth="1.7976931348623157E308" text="Client: " />
-            <Label fx:id="clientLabel" maxWidth="1.7976931348623157E308" />
+            <Label maxWidth="1.7976931348623157E308" text="Rented by: " />
+            <Label fx:id="clientLabel" maxWidth="1.7976931348623157E308" text="Available" />
          </children>
       </HBox>
    </children>
+   <styleClass>
+      <String fx:value="bluebg" />
+      <String fx:value="border" />
+   </styleClass>
 </VBox>

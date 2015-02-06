@@ -13,3 +13,12 @@
 .yellowbg {
     -fx-background-color: yellow;
 }
+
+.border {
+    -fx-border-style: dashed;
+    -fx-border-radius: 1px;
+}
+
+.aligntop {
+    -fx-alignment: top-center;
+}

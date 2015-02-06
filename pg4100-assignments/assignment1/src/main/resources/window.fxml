@@ -1,65 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<BorderPane prefHeight="200.0" prefWidth="200.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/8"
-            xmlns:fx="http://javafx.com/fxml/1">
+
+<BorderPane prefHeight="700.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <center>
-        <GridPane maxHeight="1.7976931348623157E308" maxWidth="600.0" minHeight="300.0" minWidth="600.0"
-                  prefHeight="600.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+        <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="300.0" minWidth="600.0" BorderPane.alignment="CENTER">
             <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints maxHeight="76.0" minHeight="8.0" percentHeight="0.0" prefHeight="20.0"
-                                vgrow="SOMETIMES"/>
-                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="336.0"
-                                vgrow="SOMETIMES"/>
-                <RowConstraints maxHeight="20.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES"/>
+                <RowConstraints maxHeight="76.0" minHeight="8.0" percentHeight="0.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="336.0" vgrow="SOMETIMES" />
             </rowConstraints>
-            <Label alignment="CENTER" maxHeight="20.0" maxWidth="1.7976931348623157E308" prefHeight="20.0"
-                   styleClass="redbg" text="Not currently renting"/>
-            <Label alignment="CENTER" maxHeight="20.0" maxWidth="1.7976931348623157E308" prefHeight="20.0"
-                   styleClass="yellowbg" text="Waiting to rent" GridPane.columnIndex="1"/>
-            <Label alignment="CENTER" maxHeight="20.0" maxWidth="1.7976931348623157E308" prefHeight="20.0"
-                   styleClass="greenbg" text="Currently Renting" GridPane.columnIndex="2"/>
-            <VBox fx:id="readyBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                  prefHeight="200.0" prefWidth="100.0" spacing="5.0" styleClass="redbg" GridPane.rowIndex="1"/>
-            <VBox fx:id="waitingBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                  prefHeight="200.0" prefWidth="100.0" styleClass="yellowbg" GridPane.columnIndex="1"
-                  GridPane.rowIndex="1"/>
-            <VBox fx:id="rentingBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                  prefHeight="200.0" prefWidth="100.0" styleClass="greenbg" GridPane.columnIndex="2"
-                  GridPane.rowIndex="1"/>
+           <children>
+               <Label alignment="CENTER" maxHeight="20.0" maxWidth="1.7976931348623157E308" prefHeight="20.0" styleClass="redbg" text="Not currently renting" />
+               <Label alignment="CENTER" maxHeight="20.0" maxWidth="1.7976931348623157E308" prefHeight="20.0" styleClass="yellowbg" text="Waiting to rent" GridPane.columnIndex="1" />
+               <Label alignment="CENTER" maxHeight="20.0" maxWidth="1.7976931348623157E308" prefHeight="20.0" styleClass="greenbg" text="Currently Renting" GridPane.columnIndex="2" />
+               <VBox fx:id="readyBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" spacing="5.0" styleClass="redbg" GridPane.rowIndex="1" />
+               <VBox fx:id="waitingBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" styleClass="yellowbg" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               <VBox fx:id="rentingBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" styleClass="greenbg" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+           </children>
         </GridPane>
     </center>
     <bottom>
         <HBox alignment="TOP_CENTER" prefHeight="30.0" BorderPane.alignment="CENTER">
-            <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" maxWidth="1.7976931348623157E308"
-                   text="Client name:">
-                <padding>
-                    <Insets bottom="2.0" left="5.0" right="5.0" top="2.0"/>
-                </padding>
-            </Label>
-            <TextField fx:id="nameInput" maxWidth="1.7976931348623157E308"/>
-            <Button fx:id="addClient" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Add Client">
-                <padding>
-                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-                </padding>
-            </Button>
+           <children>
+               <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="Client name:">
+                   <padding>
+                       <Insets bottom="2.0" left="5.0" right="5.0" top="2.0" />
+                   </padding>
+               </Label>
+               <TextField fx:id="nameInput" maxWidth="1.7976931348623157E308" />
+               <Button fx:id="addClient" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Add Client">
+                   <padding>
+                       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                   </padding>
+               </Button>
+           </children>
         </HBox>
     </bottom>
     <right>
-        <VBox fx:id="carBox">
+        <VBox fx:id="carBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="200.0" minWidth="100.0" prefHeight="600.0" styleClass="bluebg">
             <children>
-                <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="20.0" maxWidth="1.7976931348623157E308"
-                       prefHeight="20.0" styleClass="bluebg" text="Cars"/>
-                <ListView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="200.0"
-                          styleClass="bluebg" BorderPane.alignment="CENTER"/>
+                <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="20.0" maxWidth="1.7976931348623157E308" prefHeight="20.0" styleClass="bluebg" text="Cars" />
             </children>
         </VBox>
     </right>
