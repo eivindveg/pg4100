@@ -15,7 +15,11 @@ public class RentalCar {
         this.registrationNumber = new SimpleStringProperty(registrationNumber);
     }
 
-    public StringProperty getRegistrationNumber() {
+    public String getRegistrationNumber() {
+        return registrationNumber.get();
+    }
+
+    public StringProperty registrationNumberProperty() {
         return registrationNumber;
     }
 
@@ -25,6 +29,10 @@ public class RentalCar {
 
     public synchronized void setRentedBy(final Client rentedBy) {
         this.rentedBy.setValue(rentedBy);
+    }
+
+    public Property<Client> clientProperty() {
+        return rentedBy;
     }
 
     @Override
