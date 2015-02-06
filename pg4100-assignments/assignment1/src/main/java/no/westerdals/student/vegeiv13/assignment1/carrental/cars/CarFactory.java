@@ -18,8 +18,8 @@ public class CarFactory {
     }
 
     public RentalCar createRentalCar() {
-        Random random = new Random();
-        StringBuilder plateBuilder = new StringBuilder(getPrefix());
+        final Random random = new Random();
+        final StringBuilder plateBuilder = new StringBuilder(getPrefix());
         for (int i = 0; i < numbers; i++) {
             plateBuilder.append(random.nextInt(9));
         }
@@ -27,7 +27,7 @@ public class CarFactory {
     }
 
     public List<RentalCar> createRentalCars(int n) {
-        List<RentalCar> cars = new ArrayList<>();
+        final List<RentalCar> cars = new ArrayList<>();
         for (int i = 0; i < n; i++) {
             cars.add(createRentalCar());
         }
