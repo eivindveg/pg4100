@@ -62,7 +62,7 @@ public class CarRental {
 
     public RentalCar addNewCar() {
         RentalCar rentalCar = carFactory.createRentalCar();
-        if(rentalCars.add(rentalCar)) {
+        if (rentalCars.add(rentalCar)) {
             return rentalCar;
         }
         return null;

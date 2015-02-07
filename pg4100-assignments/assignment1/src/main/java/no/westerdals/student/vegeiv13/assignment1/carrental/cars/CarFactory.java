@@ -14,7 +14,8 @@ public class CarFactory {
 
     /**
      * Creates a CarFactory
-     * @param prefix the prefix for the number plates
+     *
+     * @param prefix        the prefix for the number plates
      * @param numbersLength the numeric length of number plates
      */
     public CarFactory(String prefix, int numbersLength) {
@@ -22,7 +23,7 @@ public class CarFactory {
         if (prefix == null || prefix.length() != 2) {
             throw new CarFactoryException("Prefix length must be two letters");
         }
-        if(numbersLength < 2) {
+        if (numbersLength < 2) {
             throw new CarFactoryException("Plate number length must be at least 2");
         }
         this.prefix = prefix.toUpperCase();
@@ -30,6 +31,7 @@ public class CarFactory {
 
     /**
      * Creates a single rental car with a random number plate
+     *
      * @return the newly created Rental Car
      */
     public RentalCar createRentalCar() {
@@ -39,6 +41,7 @@ public class CarFactory {
 
     /**
      * Builds a number plate with this factory's prefix and the assigned number plate length
+     *
      * @return the generated number plate
      */
     private String createNumberPlate() {
@@ -52,6 +55,7 @@ public class CarFactory {
 
     /**
      * Creates n rental cars with random number plates
+     *
      * @param n the amount of cars to create
      * @return a list containing the created cars
      */
@@ -65,6 +69,7 @@ public class CarFactory {
 
     /**
      * Gets this factory's prefix
+     *
      * @return this factory's prefix
      */
     public String getPrefix() {

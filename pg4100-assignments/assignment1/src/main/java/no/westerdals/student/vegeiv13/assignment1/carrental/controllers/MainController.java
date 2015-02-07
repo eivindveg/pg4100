@@ -61,7 +61,7 @@ public class MainController {
                     try {
                         setupCar(car);
                     } catch (FxmlLoadException e) {
-                        e.printStackTrace();
+                        triggerFatalError();
                     }
                 }
         );
@@ -118,7 +118,7 @@ public class MainController {
             readyBox.getChildren().addAll(context.getRootNode());
             controller.start();
         } catch (FxmlLoadException e) {
-            e.printStackTrace();
+            triggerFatalError();
         }
     }
 
@@ -132,10 +132,14 @@ public class MainController {
         try {
             setupCar(carRental.addNewCar());
         } catch (FxmlLoadException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "We could not set up the car. This is a problem, and we will" +
-                    "now exit", ButtonType.CLOSE);
-            alert.show();
-            alert.setOnCloseRequest(event -> Platform.exit());
+            triggerFatalError();
         }
+    }
+
+    private void triggerFatalError() {
+        Alert alert = new Alert(Alert.AlertType.ERROR, "We have encountered a fatal error accessing local resources" +
+                "and will now exit", ButtonType.CLOSE);
+        alert.show();
+        alert.setOnCloseRequest(event -> Platform.exit());
     }
 }

@@ -22,6 +22,7 @@ public class ClientService extends Service<ClientState> {
     private ProgressBar progress;
     @FXML
     private Label label;
+
     private Client client;
 
     @FXMLViewContext
@@ -53,7 +54,7 @@ public class ClientService extends Service<ClientState> {
                 return null;
         }
         task.setOnSucceeded(event -> {
-            client.setClientState(task.getValue());
+            getClient().setClientState(task.getValue());
             restart();
         });
         return task;
