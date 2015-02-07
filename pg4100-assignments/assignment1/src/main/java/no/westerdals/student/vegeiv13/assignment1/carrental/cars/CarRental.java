@@ -13,8 +13,10 @@ public class CarRental {
     private final List<RentalCar> rentalCars;
     private final ReentrantLock lock = new ReentrantLock(true);
     private final Condition carReady = lock.newCondition();
+    private final CarFactory carFactory;
+
     public CarRental(String prefix) {
-        CarFactory carFactory = new CarFactory(prefix, 5);
+        carFactory = new CarFactory(prefix, 5);
         rentalCars = Collections.synchronizedList(new ArrayList<>());
         rentalCars.addAll(carFactory.createRentalCars(3));
     }
@@ -58,4 +60,11 @@ public class CarRental {
         }
     }
 
+    public RentalCar addNewCar() {
+        RentalCar rentalCar = carFactory.createRentalCar();
+        if(rentalCars.add(rentalCar)) {
+            return rentalCar;
+        }
+        return null;
+    }
 }
