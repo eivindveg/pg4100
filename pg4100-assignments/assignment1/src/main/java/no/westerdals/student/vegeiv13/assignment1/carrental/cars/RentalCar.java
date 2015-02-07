@@ -42,8 +42,7 @@ public class RentalCar {
 
         final RentalCar rentalCar = (RentalCar) o;
 
-        return registrationNumber.equals(rentalCar.registrationNumber)
-                && !(rentedBy != null ? !rentedBy.equals(rentalCar.rentedBy) : rentalCar.rentedBy != null);
+        return registrationNumber.equals(rentalCar.registrationNumber) && !(rentedBy != null ? !rentedBy.equals(rentalCar.rentedBy) : rentalCar.rentedBy != null);
 
     }
 
