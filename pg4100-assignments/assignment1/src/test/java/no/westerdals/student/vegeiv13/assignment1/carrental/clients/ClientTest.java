@@ -22,4 +22,19 @@ public class ClientTest {
 
         assertSame("Names match", expected, actual);
     }
+
+    @Test
+    public void testToString() {
+        String expected = "Client{name=TestClient}";
+        String actual = client.toString();
+
+        assert expected.equals(actual);
+    }
+
+    @Test
+    public void testEquals() {
+        assert !client.equals(new Object());
+        assert client.equals(new Client("TestClient"));
+        assert !client.equals(new Client("AnotherClient"));
+    }
 }

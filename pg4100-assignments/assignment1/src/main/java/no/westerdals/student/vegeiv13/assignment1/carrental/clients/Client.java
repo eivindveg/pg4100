@@ -38,12 +38,14 @@ public class Client {
 
         final Client client = (Client) o;
 
-        return name.equals(client.name);
+        return name.get().equals(client.name.get()) && state == client.state;
 
     }
 
     @Override
     public int hashCode() {
-        return name.hashCode();
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (state != null ? state.hashCode() : 0);
+        return result;
     }
 }
