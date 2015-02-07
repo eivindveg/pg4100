@@ -36,8 +36,28 @@ public class RentalCar {
     }
 
     @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        final RentalCar rentalCar = (RentalCar) o;
+
+        return registrationNumber.equals(rentalCar.registrationNumber)
+                && !(rentedBy != null ? !rentedBy.equals(rentalCar.rentedBy) : rentalCar.rentedBy != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = registrationNumber.hashCode();
+        result = 31 * result + (rentedBy != null ? rentedBy.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "RentalCar{" +
+
                 "rentedBy=" + rentedBy +
                 ", registrationNumber='" + registrationNumber + '\'' +
                 '}';
