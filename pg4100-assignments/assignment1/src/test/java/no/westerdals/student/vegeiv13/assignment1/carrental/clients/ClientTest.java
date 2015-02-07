@@ -3,7 +3,9 @@ package no.westerdals.student.vegeiv13.assignment1.carrental.clients;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 public class ClientTest {
 
@@ -33,8 +35,8 @@ public class ClientTest {
 
     @Test
     public void testEquals() {
-        assert !client.equals(new Object());
-        assert client.equals(new Client("TestClient"));
-        assert !client.equals(new Client("AnotherClient"));
+        assertFalse("Client does not equal dummy object", client.equals(new Object()));
+        assertTrue("Client equals a client with the same name", client.equals(new Client("TestClient")));
+        assertFalse("Client does not equal a client with another name", client.equals(new Client("AnotherClient")));
     }
 }
