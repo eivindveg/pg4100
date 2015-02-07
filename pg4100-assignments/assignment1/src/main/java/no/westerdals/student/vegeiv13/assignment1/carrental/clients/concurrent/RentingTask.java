@@ -23,7 +23,7 @@ public class RentingTask extends ClientTask {
         while (diff < getSleepDuration()) {
             diff = System.currentTimeMillis() - startStamp;
             updateProgress(diff, getSleepDuration());
-            Thread.yield();
+            Thread.sleep(1L);
         }
         getCarRental().returnCarByClient(getClient());
         return ClientState.READY;

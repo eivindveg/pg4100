@@ -32,7 +32,7 @@ public class ReadyTask extends ClientTask {
         while (diff < getSleepDuration()) {
             diff = System.currentTimeMillis() - startStamp;
             updateProgress(diff, getSleepDuration());
-            Thread.yield();
+            Thread.sleep(1L);
         }
         return ClientState.WAITING;
     }
