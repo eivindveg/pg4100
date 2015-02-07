@@ -44,7 +44,7 @@ public class Client {
 
     @Override
     public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
+        int result = name.hashCode();
         result = 31 * result + (state != null ? state.hashCode() : 0);
         return result;
     }
