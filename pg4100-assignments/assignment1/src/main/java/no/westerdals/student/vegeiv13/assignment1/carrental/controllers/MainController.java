@@ -1,12 +1,16 @@
 package no.westerdals.student.vegeiv13.assignment1.carrental.controllers;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import no.westerdals.student.vegeiv13.assignment1.carrental.cars.CarRental;
+import no.westerdals.student.vegeiv13.assignment1.carrental.cars.RentalCar;
 import no.westerdals.student.vegeiv13.assignment1.carrental.clients.ClientState;
 import org.datafx.controller.FXMLController;
 import org.datafx.controller.FxmlLoadException;
@@ -41,6 +45,10 @@ public class MainController {
     @ActionTrigger("addClient")
     private Button addClient;
 
+    @FXML
+    @ActionTrigger("addCar")
+    private Button addCar;
+
     @FXMLViewFlowContext
     private ViewFlowContext context;
 
@@ -51,11 +59,7 @@ public class MainController {
         carRental = new CarRental("UF");
         carRental.getRentalCarsUnmodifiable().forEach(car -> {
                     try {
-                        ViewContext<CarController> viewContext = ViewFactory.getInstance().createByController(CarController.class);
-                        CarController controller = viewContext.getController();
-                        controller.bind(car);
-                        Node root = viewContext.getRootNode();
-                        carBox.getChildren().add(root);
+                        setupCar(car);
                     } catch (FxmlLoadException e) {
                         e.printStackTrace();
                     }
@@ -63,10 +67,18 @@ public class MainController {
         );
         nameInput.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                onAddClient();
+                addClient();
             }
         });
 
+    }
+
+    private void setupCar(final RentalCar car) throws FxmlLoadException {
+        ViewContext<CarController> viewContext = ViewFactory.getInstance().createByController(CarController.class);
+        CarController controller = viewContext.getController();
+        controller.bind(car);
+        Node root = viewContext.getRootNode();
+        carBox.getChildren().add(root);
     }
 
     private void transition(ClientState state, ViewContext context) {
@@ -91,7 +103,7 @@ public class MainController {
     }
 
     @ActionMethod("addClient")
-    public void onAddClient() {
+    public void addClient() {
         String name = nameInput.getText();
         if (name == null || name.replace(" ", "").equals("")) {
             return;
@@ -113,5 +125,17 @@ public class MainController {
     private void moveAdapter(Node node, VBox moveFrom, VBox moveTo) {
         moveFrom.getChildren().remove(node);
         moveTo.getChildren().add(node);
+    }
+
+    @ActionMethod("addCar")
+    public void addCar() {
+        try {
+            setupCar(carRental.addNewCar());
+        } catch (FxmlLoadException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "We could not set up the car. This is a problem, and we will" +
+                    "now exit", ButtonType.CLOSE);
+            alert.show();
+            alert.setOnCloseRequest(event -> Platform.exit());
+        }
     }
 }
