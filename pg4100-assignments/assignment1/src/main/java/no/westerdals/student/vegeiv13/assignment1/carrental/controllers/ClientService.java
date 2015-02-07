@@ -32,7 +32,7 @@ public class ClientService extends Service<ClientState> {
     public void bind(final String name) {
         client = new Client(name);
         carRental = context.getRegisteredObject(CarRental.class);
-        label.textProperty().bind(client.nameProperty());
+        label.textProperty().bind(getClient().nameProperty());
         progress.progressProperty().bind(this.progressProperty());
     }
 
