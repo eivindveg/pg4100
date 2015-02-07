@@ -1,8 +1,5 @@
-package no.westerdals.student.vegeiv13.assignment1.cars;
+package no.westerdals.student.vegeiv13.assignment1.carrental.cars;
 
-import no.westerdals.student.vegeiv13.assignment1.carrental.cars.CarFactory;
-import no.westerdals.student.vegeiv13.assignment1.carrental.cars.CarFactoryException;
-import no.westerdals.student.vegeiv13.assignment1.carrental.cars.RentalCar;
 import org.junit.Before;
 import org.junit.Test;
 

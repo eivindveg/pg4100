@@ -1,7 +1,5 @@
-package no.westerdals.student.vegeiv13.assignment1.cars;
+package no.westerdals.student.vegeiv13.assignment1.carrental.cars;
 
-import no.westerdals.student.vegeiv13.assignment1.carrental.cars.CarRental;
-import no.westerdals.student.vegeiv13.assignment1.carrental.cars.RentalCar;
 import no.westerdals.student.vegeiv13.assignment1.carrental.clients.Client;
 import org.junit.Before;
 import org.junit.Test;
