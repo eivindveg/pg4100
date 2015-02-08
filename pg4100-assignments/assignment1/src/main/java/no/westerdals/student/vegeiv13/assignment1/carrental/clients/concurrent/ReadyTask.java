@@ -12,6 +12,7 @@ public class ReadyTask extends ClientTask {
 
     /**
      * Sets up a ready task that eventually transitions to waiting
+     *
      * @param sleepDuration How long this task should sleep before transitioning
      */
     public ReadyTask(final Client client, final CarRental carRental, final Phaser phaser, final Integer sleepDuration) {
@@ -22,6 +23,7 @@ public class ReadyTask extends ClientTask {
 
     /**
      * Starts this task and makes it wait for the specified duration, whilst updating its progress
+     *
      * @return ClientState.WAITING upon completion
      * @throws Exception
      */
@@ -39,6 +41,7 @@ public class ReadyTask extends ClientTask {
 
     /**
      * Gets this task's sleep duration
+     *
      * @return this task's sleep duration
      */
     public Integer getSleepDuration() {

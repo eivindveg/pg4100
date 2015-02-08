@@ -44,6 +44,7 @@ public class Client {
 
     /**
      * Gets this client's nameProperty object
+     *
      * @return this client's nameProperty object
      */
     public StringProperty nameProperty() {

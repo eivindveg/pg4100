@@ -13,16 +13,14 @@ import java.util.concurrent.CountDownLatch;
 /**
  * A JUnit {@link Rule} for running tests on the JavaFX thread and performing
  * JavaFX initialisation.  To include in your test case, add the following code:
- *
+ * <p>
  * <pre>
  * {@literal @}Rule
  * public JavaFXThreadingRule jfxRule = new JavaFXThreadingRule();
  * </pre>
  *
  * @author Andy Till
- *
  * @author Eivind Vegsundvåg(small changes to use Java8)
- *
  */
 public class JavaFXThreadingRule implements TestRule {
 
@@ -40,17 +38,16 @@ public class JavaFXThreadingRule implements TestRule {
     private static class OnJFXThreadStatement extends Statement {
 
         private final Statement statement;
+        private Throwable rethrownException = null;
 
         public OnJFXThreadStatement(Statement aStatement) {
             statement = aStatement;
         }
 
-        private Throwable rethrownException = null;
-
         @Override
         public void evaluate() throws Throwable {
 
-            if(!jfxIsSetup) {
+            if (!jfxIsSetup) {
                 setupJavaFX();
 
                 jfxIsSetup = true;
@@ -71,7 +68,7 @@ public class JavaFXThreadingRule implements TestRule {
 
             // if an exception was thrown by the statement during evaluation,
             // then re-throw it to fail the test
-            if(rethrownException != null) {
+            if (rethrownException != null) {
                 throw rethrownException;
             }
         }

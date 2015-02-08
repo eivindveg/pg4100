@@ -19,6 +19,7 @@ public class CarController {
 
     /**
      * Gets this car controller's client label
+     *
      * @return a label representing the current client's name, TEXT WILL CHANGE UPON RENTING
      */
     public Label getClientLabel() {
@@ -27,6 +28,7 @@ public class CarController {
 
     /**
      * Gets this car controller's car label
+     *
      * @return a label bound to the numberplate property of this controller's car
      */
     public Label getCarLabel() {
@@ -35,10 +37,11 @@ public class CarController {
 
     /**
      * Binds this controller to the given car, making sure the label properties match at any given time
+     *
      * @param car The car to bind to
      */
     public void bind(RentalCar car) {
-        if(car.isRented()) {
+        if (car.isRented()) {
             bindToClient(car.getRentedBy());
         }
 
@@ -60,6 +63,7 @@ public class CarController {
 
     /**
      * Binds the clientlabel to the name of the new client
+     *
      * @param client the new client
      */
     private void bindToClient(final Client client) {

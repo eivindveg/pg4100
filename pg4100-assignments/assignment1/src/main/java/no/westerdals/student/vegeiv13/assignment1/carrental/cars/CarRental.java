@@ -17,7 +17,8 @@ public class CarRental {
 
     /**
      * Sets up a car rental with the given number plate prefix and number of cars
-     * @param prefix number plate prefix to pass to the factory
+     *
+     * @param prefix      number plate prefix to pass to the factory
      * @param initialCars how many cars to start with
      */
     public CarRental(String prefix, final int initialCars) {
@@ -28,6 +29,7 @@ public class CarRental {
 
     /**
      * Gets an unmodifiable list of all cars in this rental
+     *
      * @return An unmodifiable list of cars
      */
     public List<RentalCar> getRentalCarsUnmodifiable() {
@@ -36,6 +38,7 @@ public class CarRental {
 
     /**
      * Attempts to rent a car. Blocks until successful or interrupted
+     *
      * @param client The client to rent the car to
      * @return The car, or null, that is rented out
      */
@@ -61,24 +64,22 @@ public class CarRental {
 
     /**
      * Attempts to return any car rented by a given client
+     *
      * @param client the client to return a car from
      */
     public synchronized void returnCarByClient(final Client client) {
-        if (!lock.isHeldByCurrentThread()) {
-            lock.lock();
-        }
+        lock.lock();
         try {
             rentalCars.stream().filter(rentalCar -> rentalCar.isRented() && rentalCar.getRentedBy().equals(client)).forEach(rentalCar -> rentalCar.setRentedBy(null));
             carReady.signal();
         } finally {
-            if (lock.isHeldByCurrentThread()) {
-                lock.unlock();
-            }
+            lock.unlock();
         }
     }
 
     /**
      * Attempts to add a new car to the car rental
+     *
      * @return The newly added car, or null if it failed
      */
     public RentalCar addNewCar() {

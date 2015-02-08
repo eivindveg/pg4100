@@ -18,6 +18,7 @@ public class WaitingTask extends ClientTask {
 
     /**
      * Attempts to rent a car. Uses an indeterminate progress indicator while waiting
+     *
      * @return ClientState.RENTING
      * @throws Exception
      */

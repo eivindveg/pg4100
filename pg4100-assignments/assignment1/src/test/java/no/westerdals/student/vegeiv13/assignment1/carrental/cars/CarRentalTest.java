@@ -52,7 +52,7 @@ public class CarRentalTest {
     public void testRentCarCanBeInterrupted() {
         final RentalCar[] car = new RentalCar[1];
         Thread t = new Thread(() -> {
-           car[0] = carRental.rentCar(client);
+            car[0] = carRental.rentCar(client);
         });
         t.start();
         t.interrupt();
@@ -63,7 +63,7 @@ public class CarRentalTest {
     public void testRentCarConcurrentlyBlocks() throws Exception {
         List<Thread> threads = new ArrayList<>();
         List<Client> clients = new ArrayList<>();
-        for(int i = 0; i < 10; i++) {
+        for (int i = 0; i < 10; i++) {
             Client client = new Client("TestClient" + i);
             clients.add(client);
             threads.add(new Thread(() -> {

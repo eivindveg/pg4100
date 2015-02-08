@@ -15,9 +15,10 @@ public abstract class ClientTask extends Task<ClientState> {
 
     /**
      * Base constructor for the client tasks. These parameters are considered the bare minimum to fulfill a task
-     * @param client The client the task is for
+     *
+     * @param client    The client the task is for
      * @param carRental The rental the client should work on
-     * @param phaser The phaser we're supposed to block on
+     * @param phaser    The phaser we're supposed to block on
      */
     public ClientTask(final Client client, final CarRental carRental, Phaser phaser) {
         this.client = client;
@@ -27,6 +28,7 @@ public abstract class ClientTask extends Task<ClientState> {
 
     /**
      * gets this task's client
+     *
      * @return this task's client
      */
     protected Client getClient() {
@@ -35,6 +37,7 @@ public abstract class ClientTask extends Task<ClientState> {
 
     /**
      * gets this task's car rental
+     *
      * @return this task's car rental
      */
     protected CarRental getCarRental() {

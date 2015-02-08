@@ -86,6 +86,7 @@ public class MainController {
 
     /**
      * Sets up a car to be listed in the view
+     *
      * @param car the car to set up
      * @throws FxmlLoadException
      */
@@ -99,7 +100,8 @@ public class MainController {
 
     /**
      * Moves a client service/controller hybrid between visual states
-     * @param state the state we use to calculate position
+     *
+     * @param state   the state we use to calculate position
      * @param context the service's context, so we can access its root node
      */
     private void transition(ClientState state, ViewContext context) {
@@ -149,9 +151,10 @@ public class MainController {
 
     /**
      * Moves a node between two VBoxes
-     * @param node the Node to move
+     *
+     * @param node     the Node to move
      * @param moveFrom the VBox to remove from
-     * @param moveTo the VBox to add to
+     * @param moveTo   the VBox to add to
      */
     private void moveAdapter(Node node, VBox moveFrom, VBox moveTo) {
         moveFrom.getChildren().remove(node);

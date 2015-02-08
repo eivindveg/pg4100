@@ -13,6 +13,7 @@ public class RentingTask extends ClientTask {
 
     /**
      * Sets up a renting task that sleeps before attempting to return its client's car
+     *
      * @param sleepDuration How long this task should sleep before returning the car
      */
     public RentingTask(final Client client, final CarRental carRental, final Phaser phaser, final Integer sleepDuration) {
@@ -22,6 +23,7 @@ public class RentingTask extends ClientTask {
 
     /**
      * Sleeps for a certain duration while updating its progress, then attempts to return the car to the rental
+     *
      * @return ClientState.READY
      * @throws Exception
      */
@@ -40,6 +42,7 @@ public class RentingTask extends ClientTask {
 
     /**
      * Gets this task's sleep duration
+     *
      * @return this task's sleep duration
      */
     private Integer getSleepDuration() {

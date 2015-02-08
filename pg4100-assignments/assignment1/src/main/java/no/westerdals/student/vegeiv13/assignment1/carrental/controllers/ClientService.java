@@ -24,24 +24,21 @@ public class ClientService extends Service<ClientState> {
     public static final int MIN_SLEEP_DURATION = 1000;
     public static final int MAX_SLEEP_DURATION_READY = 10000;
     private static final int MAX_SLEEP_DURATION_RENTING = 3000;
-
+    @FXMLViewContext
+    public ViewContext context;
     @FXML
     private ProgressBar progress;
     @FXML
     private Label label;
-
     private Client client;
-
-    @FXMLViewContext
-    public ViewContext context;
-
     private CarRental carRental;
     private Phaser phaser;
 
     /**
      * A PostConstruct method. This method makes sure the controller/service hybrid is ready to represent a client
      * renting and returning cars
-     * @param name name of the client object to set up
+     *
+     * @param name   name of the client object to set up
      * @param phaser the phaser to use in ClientTasks.
      */
     public void bind(final String name, final Phaser phaser) {
@@ -54,6 +51,7 @@ public class ClientService extends Service<ClientState> {
 
     /**
      * Creates a ClientTask depending on this service's state
+     *
      * @return a client task that is ready to execute immediately
      */
     @Override
@@ -81,18 +79,20 @@ public class ClientService extends Service<ClientState> {
 
     /**
      * Creates a random sleep duration within the min/max bounds
+     *
      * @param min the minimum duration to sleep
      * @param max the maximum duration to sleep
      * @return a pseudorandom sleep duration
      */
     private Integer getSleepDuration(int min, int max) {
-            Random r = new Random();
-            int i = r.nextInt(max - min);
-            return i + min;
+        Random r = new Random();
+        int i = r.nextInt(max - min);
+        return i + min;
     }
 
     /**
      * Creates a renting task. That is a task that has rented a car and will wait until it should be returned
+     *
      * @return a renting task
      */
     private RentingTask createRentingTask() {
@@ -101,6 +101,7 @@ public class ClientService extends Service<ClientState> {
 
     /**
      * Creates a ready task. That is a task that sleeps before transitioning to waiting
+     *
      * @return a ready task
      */
     private ReadyTask createReadyTask() {
@@ -109,6 +110,7 @@ public class ClientService extends Service<ClientState> {
 
     /**
      * Creates a waiting task. That is a task that waits until it can rent a car
+     *
      * @return a waiting task
      */
     private WaitingTask createWaitingTask() {
@@ -117,6 +119,7 @@ public class ClientService extends Service<ClientState> {
 
     /**
      * Gets this service's client object
+     *
      * @return this service's client object
      */
     public Client getClient() {

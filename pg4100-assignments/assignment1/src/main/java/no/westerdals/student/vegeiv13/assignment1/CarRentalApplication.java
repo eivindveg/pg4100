@@ -13,6 +13,7 @@ public class CarRentalApplication extends Application {
 
     /**
      * Starts the application on the main JavaFX thread.
+     *
      * @param primaryStage the window
      * @throws Exception
      */
