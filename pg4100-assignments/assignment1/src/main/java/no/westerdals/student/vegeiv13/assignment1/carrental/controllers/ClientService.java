@@ -71,7 +71,7 @@ public class ClientService extends Service<ClientState> {
 
     private Integer getSleepDuration(int min, int max) {
             Random r = new Random();
-            int i = r.nextInt(min - max);
+            int i = r.nextInt(max - min);
             return i + min;
     }
 
