@@ -11,7 +11,7 @@ import static org.junit.Assert.assertTrue;
 
 public class RentalCarTest {
 
-    public static final String REGISTRATION_NUMBER = "REGISTRATION_NUMBER";
+    public static final String REGISTRATION_NUMBER = "AA12345";
     private Constructor<RentalCar> constructor;
     private int modifiers;
     private RentalCar rentalCar;
@@ -42,5 +42,22 @@ public class RentalCarTest {
         RentalCar secondCar = constructor.newInstance("AA54321");
 
         assertFalse("The car does not match another car with different plates", rentalCar.equals(secondCar));
+    }
+
+    @Test
+    public void testToString() {
+        String actual = rentalCar.toString();
+        String expected = "RentalCar{rentedBy=" + rentalCar.clientProperty() +
+                ", registrationNumber='StringProperty [value: " +
+                REGISTRATION_NUMBER + "]'}";
+        assertTrue("ToString is as expected", expected.equals(actual));
+    }
+
+    @Test
+    public void testHashCode() throws Exception {
+        RentalCar secondCar = constructor.newInstance("AA54321");
+
+        assertFalse("HashCodes differ across different instances with different values",
+                rentalCar.hashCode() == secondCar.hashCode());
     }
 }

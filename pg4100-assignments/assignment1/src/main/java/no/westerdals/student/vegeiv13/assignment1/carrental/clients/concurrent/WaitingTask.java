@@ -5,9 +5,11 @@ import no.westerdals.student.vegeiv13.assignment1.carrental.cars.CarRental;
 import no.westerdals.student.vegeiv13.assignment1.carrental.clients.Client;
 import no.westerdals.student.vegeiv13.assignment1.carrental.clients.ClientState;
 
+import java.util.concurrent.Phaser;
+
 public class WaitingTask extends ClientTask {
-    public WaitingTask(final Client client, final CarRental carRental) {
-        super(client, carRental);
+    public WaitingTask(final Client client, final CarRental carRental, final Phaser phaser) {
+        super(client, carRental, phaser);
     }
 
     @Override

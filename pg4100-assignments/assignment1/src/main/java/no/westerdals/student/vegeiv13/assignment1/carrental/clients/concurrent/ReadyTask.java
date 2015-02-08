@@ -4,26 +4,18 @@ import no.westerdals.student.vegeiv13.assignment1.carrental.cars.CarRental;
 import no.westerdals.student.vegeiv13.assignment1.carrental.clients.Client;
 import no.westerdals.student.vegeiv13.assignment1.carrental.clients.ClientState;
 
-import java.util.Random;
+import java.util.concurrent.Phaser;
 
 public class ReadyTask extends ClientTask {
 
-    private static final int MIN_SLEEP_DURATION = 1000;
-    private static final int MAX_SLEEP_DURATION = 10000;
+
     private Integer sleepDuration;
 
-    public ReadyTask(final Client client, final CarRental carRental) {
-        super(client, carRental);
+    public ReadyTask(final Client client, final CarRental carRental, final Phaser phaser, final Integer sleepDuration) {
+        super(client, carRental, phaser);
+        this.sleepDuration = sleepDuration;
     }
 
-    private Integer getSleepDuration() {
-        if (sleepDuration == null) {
-            Random r = new Random();
-            int i = r.nextInt(MAX_SLEEP_DURATION - MIN_SLEEP_DURATION);
-            sleepDuration = i + MIN_SLEEP_DURATION;
-        }
-        return sleepDuration;
-    }
 
     @Override
     protected ClientState call() throws Exception {
@@ -35,5 +27,9 @@ public class ReadyTask extends ClientTask {
             Thread.sleep(1L);
         }
         return ClientState.WAITING;
+    }
+
+    public Integer getSleepDuration() {
+        return sleepDuration;
     }
 }

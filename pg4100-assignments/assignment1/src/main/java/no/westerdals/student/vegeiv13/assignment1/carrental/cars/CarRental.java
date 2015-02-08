@@ -65,6 +65,7 @@ public class CarRental {
         if (rentalCars.add(rentalCar)) {
             return rentalCar;
         }
+        // Should never happen, but assume exceptions are handled elsewhere
         return null;
     }
 }

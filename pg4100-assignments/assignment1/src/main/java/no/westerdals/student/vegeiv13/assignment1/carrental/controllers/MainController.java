@@ -22,9 +22,12 @@ import org.datafx.controller.flow.context.FXMLViewFlowContext;
 import org.datafx.controller.flow.context.ViewFlowContext;
 
 import javax.annotation.PostConstruct;
+import java.util.concurrent.Phaser;
 
 @FXMLController("/window.fxml")
 public class MainController {
+
+    public static final int REQUIRED_PARTIES = 5;
 
     @FXML
     private VBox readyBox;
@@ -54,8 +57,11 @@ public class MainController {
 
     private CarRental carRental;
 
+    private Phaser phaser;
+
     @PostConstruct
     public void init() {
+        phaser = new Phaser(REQUIRED_PARTIES);
         carRental = new CarRental("UF");
         carRental.getRentalCarsUnmodifiable().forEach(car -> {
                     try {
@@ -113,7 +119,7 @@ public class MainController {
             ViewContext<ClientService> context = ViewFactory.getInstance().createByController(ClientService.class);
             context.register(carRental);
             ClientService controller = context.getController();
-            controller.bind(name);
+            controller.bind(name, phaser);
             controller.setOnSucceeded(e -> transition(controller.getValue(), context));
             readyBox.getChildren().addAll(context.getRootNode());
             controller.start();

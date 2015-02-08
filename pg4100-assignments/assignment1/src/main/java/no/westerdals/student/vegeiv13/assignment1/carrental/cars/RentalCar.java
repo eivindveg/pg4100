@@ -15,10 +15,6 @@ public class RentalCar {
         this.registrationNumber = new SimpleStringProperty(registrationNumber);
     }
 
-    public String getRegistrationNumber() {
-        return registrationNumber.get();
-    }
-
     public StringProperty registrationNumberProperty() {
         return registrationNumber;
     }

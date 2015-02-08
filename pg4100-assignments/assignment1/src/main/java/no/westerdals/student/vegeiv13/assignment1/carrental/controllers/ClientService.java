@@ -15,8 +15,15 @@ import org.datafx.controller.FXMLController;
 import org.datafx.controller.context.FXMLViewContext;
 import org.datafx.controller.context.ViewContext;
 
+import java.util.Random;
+import java.util.concurrent.Phaser;
+
 @FXMLController("/actor.fxml")
 public class ClientService extends Service<ClientState> {
+
+    public static final int MIN_SLEEP_DURATION = 1000;
+    public static final int MAX_SLEEP_DURATION_READY = 10000;
+    private static final int MAX_SLEEP_DURATION_RENTING = 3000;
 
     @FXML
     private ProgressBar progress;
@@ -26,11 +33,13 @@ public class ClientService extends Service<ClientState> {
     private Client client;
 
     @FXMLViewContext
-    private ViewContext context;
+    public ViewContext context;
 
     private CarRental carRental;
+    private Phaser phaser;
 
-    public void bind(final String name) {
+    public void bind(final String name, final Phaser phaser) {
+        this.phaser = phaser;
         client = new Client(name);
         carRental = context.getRegisteredObject(CarRental.class);
         label.textProperty().bind(getClient().nameProperty());
@@ -60,16 +69,22 @@ public class ClientService extends Service<ClientState> {
         return task;
     }
 
+    private Integer getSleepDuration(int min, int max) {
+            Random r = new Random();
+            int i = r.nextInt(min - max);
+            return i + min;
+    }
+
     private RentingTask createRentingTask() {
-        return new RentingTask(getClient(), carRental);
+        return new RentingTask(getClient(), carRental, phaser, getSleepDuration(MIN_SLEEP_DURATION, MAX_SLEEP_DURATION_RENTING));
     }
 
     private ReadyTask createReadyTask() {
-        return new ReadyTask(getClient(), carRental);
+        return new ReadyTask(getClient(), carRental, phaser, getSleepDuration(MIN_SLEEP_DURATION, MAX_SLEEP_DURATION_READY));
     }
 
     private WaitingTask createWaitingTask() {
-        return new WaitingTask(getClient(), carRental);
+        return new WaitingTask(getClient(), carRental, phaser);
     }
 
     public Client getClient() {
