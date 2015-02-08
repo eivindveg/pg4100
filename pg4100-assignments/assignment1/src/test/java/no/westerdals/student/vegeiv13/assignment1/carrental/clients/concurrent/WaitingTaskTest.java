@@ -26,7 +26,7 @@ public class WaitingTaskTest {
     public void setup() {
         phaser = new Phaser(1);
         testClient = new Client("TestClient");
-        carRental = new CarRental("UF");
+        carRental = new CarRental("UF", 1);
         waitingTask = new WaitingTask(testClient, carRental, phaser);
     }
 

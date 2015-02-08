@@ -28,6 +28,7 @@ import java.util.concurrent.Phaser;
 public class MainController {
 
     public static final int REQUIRED_PARTIES = 5;
+    public static final int INITIAL_CARS = 3;
 
     @FXML
     private VBox readyBox;
@@ -37,32 +38,36 @@ public class MainController {
 
     @FXML
     private VBox rentingBox;
-
     @FXML
     private VBox carBox;
-
     @FXML
     private TextField nameInput;
-
     @FXML
     @ActionTrigger("addClient")
     private Button addClient;
-
     @FXML
     @ActionTrigger("addCar")
     private Button addCar;
-
     @FXMLViewFlowContext
     private ViewFlowContext context;
-
     private CarRental carRental;
-
     private Phaser phaser;
 
+    /**
+     * Sets up this controller. There isn't much to do here as the JavaFX thread has not bound the view to the controller
+     * yet
+     */
+    public MainController() {
+        phaser = new Phaser(REQUIRED_PARTIES);
+    }
+
+    /**
+     * PostConstruct method. Due to JavaFX's instantiation flow, the JavaFX objects are not available during standard
+     * constructors. This method is invoked as soon as the Controller is placed in the JavaFX thread.
+     */
     @PostConstruct
     public void init() {
-        phaser = new Phaser(REQUIRED_PARTIES);
-        carRental = new CarRental("UF");
+        carRental = new CarRental("UF", INITIAL_CARS);
         carRental.getRentalCarsUnmodifiable().forEach(car -> {
                     try {
                         setupCar(car);
@@ -79,6 +84,11 @@ public class MainController {
 
     }
 
+    /**
+     * Sets up a car to be listed in the view
+     * @param car the car to set up
+     * @throws FxmlLoadException
+     */
     private void setupCar(final RentalCar car) throws FxmlLoadException {
         ViewContext<CarController> viewContext = ViewFactory.getInstance().createByController(CarController.class);
         CarController controller = viewContext.getController();
@@ -87,6 +97,11 @@ public class MainController {
         carBox.getChildren().add(root);
     }
 
+    /**
+     * Moves a client service/controller hybrid between visual states
+     * @param state the state we use to calculate position
+     * @param context the service's context, so we can access its root node
+     */
     private void transition(ClientState state, ViewContext context) {
         VBox moveFrom = null;
         VBox moveTo = null;
@@ -108,6 +123,10 @@ public class MainController {
         moveAdapter(context.getRootNode(), moveFrom, moveTo);
     }
 
+    /**
+     * Adds a client. The ActionMethod annotation binds this method to the addClient button. This method has a smooth
+     * failover in case there is no valid input
+     */
     @ActionMethod("addClient")
     public void addClient() {
         String name = nameInput.getText();
@@ -128,11 +147,20 @@ public class MainController {
         }
     }
 
+    /**
+     * Moves a node between two VBoxes
+     * @param node the Node to move
+     * @param moveFrom the VBox to remove from
+     * @param moveTo the VBox to add to
+     */
     private void moveAdapter(Node node, VBox moveFrom, VBox moveTo) {
         moveFrom.getChildren().remove(node);
         moveTo.getChildren().add(node);
     }
 
+    /**
+     * Adds a car to the car rental's pool. This method is bound to the addCar button by the ActionMethod annotation
+     */
     @ActionMethod("addCar")
     public void addCar() {
         try {
@@ -142,6 +170,9 @@ public class MainController {
         }
     }
 
+    /**
+     * Should only happen if the class path's are messed up, and in this event, this will likely fail as well.
+     */
     private void triggerFatalError() {
         Alert alert = new Alert(Alert.AlertType.ERROR, "We have encountered a fatal error accessing local resources" +
                 "and will now exit", ButtonType.CLOSE);

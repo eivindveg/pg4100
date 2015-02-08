@@ -15,16 +15,30 @@ public class CarRental {
     private final Condition carReady = lock.newCondition();
     private final CarFactory carFactory;
 
-    public CarRental(String prefix) {
+    /**
+     * Sets up a car rental with the given number plate prefix and number of cars
+     * @param prefix number plate prefix to pass to the factory
+     * @param initialCars how many cars to start with
+     */
+    public CarRental(String prefix, final int initialCars) {
         carFactory = new CarFactory(prefix, 5);
         rentalCars = Collections.synchronizedList(new ArrayList<>());
-        rentalCars.addAll(carFactory.createRentalCars(3));
+        rentalCars.addAll(carFactory.createRentalCars(initialCars));
     }
 
+    /**
+     * Gets an unmodifiable list of all cars in this rental
+     * @return An unmodifiable list of cars
+     */
     public List<RentalCar> getRentalCarsUnmodifiable() {
         return Collections.unmodifiableList(rentalCars);
     }
 
+    /**
+     * Attempts to rent a car. Blocks until successful or interrupted
+     * @param client The client to rent the car to
+     * @return The car, or null, that is rented out
+     */
     public RentalCar rentCar(Client client) {
         lock.lock();
         try {
@@ -45,6 +59,10 @@ public class CarRental {
         }
     }
 
+    /**
+     * Attempts to return any car rented by a given client
+     * @param client the client to return a car from
+     */
     public synchronized void returnCarByClient(final Client client) {
         if (!lock.isHeldByCurrentThread()) {
             lock.lock();
@@ -59,6 +77,10 @@ public class CarRental {
         }
     }
 
+    /**
+     * Attempts to add a new car to the car rental
+     * @return The newly added car, or null if it failed
+     */
     public RentalCar addNewCar() {
         RentalCar rentalCar = carFactory.createRentalCar();
         if (rentalCars.add(rentalCar)) {

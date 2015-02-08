@@ -24,7 +24,7 @@ public class ClientTaskTest {
     public void setup() throws Exception {
         phaser = new Phaser(1);
         testClient = new Client("TestClient");
-        carRental = new CarRental("UF");
+        carRental = new CarRental("UF", 1);
         task = new ClientTask(testClient, carRental, phaser) {
             @Override
             protected ClientState call() throws Exception {

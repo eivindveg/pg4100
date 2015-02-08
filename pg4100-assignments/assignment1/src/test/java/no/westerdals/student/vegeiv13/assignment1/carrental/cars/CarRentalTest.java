@@ -19,7 +19,7 @@ public class CarRentalTest {
 
     @Before
     public void setup() throws Exception {
-        carRental = new CarRental("UF");
+        carRental = new CarRental("UF", 1);
         client = new Client("TestClient");
     }
 

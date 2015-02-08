@@ -11,6 +11,11 @@ public class CarRentalApplication extends Application {
         Application.launch(CarRentalApplication.class, args);
     }
 
+    /**
+     * Starts the application on the main JavaFX thread.
+     * @param primaryStage the window
+     * @throws Exception
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
         new Flow(MainController.class)

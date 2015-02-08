@@ -8,14 +8,29 @@ public class Client {
     private final StringProperty name;
     private ClientState state = ClientState.READY;
 
+    /**
+     * Sets up a client with a given name
+     *
+     * @param name the client's name
+     */
     public Client(String name) {
         this.name = new SimpleStringProperty(name);
     }
 
+    /**
+     * Gets this client's state
+     *
+     * @return this client's state
+     */
     public ClientState getClientState() {
         return state;
     }
 
+    /**
+     * Sets this client's state
+     *
+     * @param clientState the new state of the client
+     */
     public void setClientState(final ClientState clientState) {
         this.state = clientState;
     }
@@ -27,9 +42,14 @@ public class Client {
                 '}';
     }
 
+    /**
+     * Gets this client's nameProperty object
+     * @return this client's nameProperty object
+     */
     public StringProperty nameProperty() {
         return name;
     }
+
 
     @Override
     public boolean equals(final Object o) {
@@ -42,10 +62,4 @@ public class Client {
 
     }
 
-    @Override
-    public int hashCode() {
-        int result = name.hashCode();
-        result = 31 * result + (state != null ? state.hashCode() : 0);
-        return result;
-    }
 }
