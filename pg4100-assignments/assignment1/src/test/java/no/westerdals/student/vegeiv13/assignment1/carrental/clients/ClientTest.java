@@ -39,4 +39,10 @@ public class ClientTest {
         assertTrue("Client equals a client with the same name", client.equals(new Client("TestClient")));
         assertFalse("Client does not equal a client with another name", client.equals(new Client("AnotherClient")));
     }
+
+    @Test
+    public void testSetClientState() {
+        client.setClientState(ClientState.RENTING);
+        assertTrue("Client state changed", client.getClientState().equals(ClientState.RENTING));
+    }
 }

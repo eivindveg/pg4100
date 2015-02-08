@@ -39,7 +39,6 @@ public class CarRental {
             rentalCar.setRentedBy(client);
             return rentalCar;
         } catch (InterruptedException e) {
-            e.printStackTrace();
             return null;
         } finally {
             lock.unlock();

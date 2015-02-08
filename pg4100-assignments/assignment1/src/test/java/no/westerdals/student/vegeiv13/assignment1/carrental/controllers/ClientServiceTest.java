@@ -9,6 +9,7 @@ import org.datafx.controller.context.ViewContext;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
+import org.junit.Test;
 import rules.JavaFXThreadingRule;
 
 import java.util.concurrent.Phaser;
@@ -37,8 +38,8 @@ public class ClientServiceTest {
         context.destroy();
     }
 
-    //@Test
-    public void testCreateTask() {
+    @Test
+    public void testCreateTasks() {
         Task<ClientState> task = service.createTask();
         assertTrue("The given task is a ReadyTask", task instanceof ReadyTask);
         assertNotNull("We received a task", task);
