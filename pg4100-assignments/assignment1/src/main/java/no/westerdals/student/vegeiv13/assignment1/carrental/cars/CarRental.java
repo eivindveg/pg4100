@@ -46,6 +46,8 @@ public class CarRental {
         lock.lock();
         try {
             Optional<RentalCar> rentalCarOptional;
+
+            // If there's no car immediately available, wait for the first available car
             while (!(rentalCarOptional = rentalCars.stream()
                     .filter(e -> !e.isRented())
                     .findFirst()
@@ -71,6 +73,7 @@ public class CarRental {
         lock.lock();
         try {
             rentalCars.stream().filter(rentalCar -> rentalCar.isRented() && rentalCar.getRentedBy().equals(client)).forEach(rentalCar -> rentalCar.setRentedBy(null));
+            // Signal a single thread that a car is now available
             carReady.signal();
         } finally {
             lock.unlock();
@@ -83,11 +86,18 @@ public class CarRental {
      * @return The newly added car, or null if it failed
      */
     public RentalCar addNewCar() {
-        RentalCar rentalCar = carFactory.createRentalCar();
-        if (rentalCars.add(rentalCar)) {
-            return rentalCar;
+        lock.lock();
+        try {
+            RentalCar rentalCar = carFactory.createRentalCar();
+            if (rentalCars.add(rentalCar)) {
+                carReady.signal();
+                return rentalCar;
+            }
+            // Should never happen, but assume exceptions are handled elsewhere
+            return null;
+        } finally {
+            lock.unlock();
         }
-        // Should never happen, but assume exceptions are handled elsewhere
-        return null;
+
     }
 }
