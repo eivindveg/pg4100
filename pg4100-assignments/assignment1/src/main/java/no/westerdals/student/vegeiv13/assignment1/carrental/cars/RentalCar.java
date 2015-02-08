@@ -19,11 +19,11 @@ public class RentalCar {
         return registrationNumber;
     }
 
-    public synchronized Client getRentedBy() {
+    public Client getRentedBy() {
         return rentedBy.getValue();
     }
 
-    public synchronized void setRentedBy(final Client rentedBy) {
+    public void setRentedBy(final Client rentedBy) {
         this.rentedBy.setValue(rentedBy);
     }
 
