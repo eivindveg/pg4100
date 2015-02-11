@@ -69,10 +69,13 @@ public class CarRental {
      *
      * @param client the client to return a car from
      */
-    public synchronized void returnCarByClient(final Client client) {
+    public void returnCarByClient(final Client client) {
         lock.lock();
         try {
-            rentalCars.stream().filter(rentalCar -> rentalCar.isRented() && rentalCar.getRentedBy().equals(client)).forEach(rentalCar -> rentalCar.setRentedBy(null));
+            rentalCars.stream()
+                    .filter(rentalCar -> rentalCar.isRented() && rentalCar.getRentedBy()
+                            .equals(client))
+                    .forEach(rentalCar -> rentalCar.setRentedBy(null));
             // Signal a single thread that a car is now available
             carReady.signal();
         } finally {
