@@ -62,12 +62,6 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>io.datafx</groupId>
-            <artifactId>datafx</artifactId>
-            <version>8.0.7</version>
-        </dependency>
-
     </dependencies>
 
 
