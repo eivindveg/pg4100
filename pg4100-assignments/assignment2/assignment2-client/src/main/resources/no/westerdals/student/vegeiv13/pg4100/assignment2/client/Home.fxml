@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -8,15 +9,12 @@
     <top>
         <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <items>
-                <Label text="Host:" />
-                <TextField fx:id="serverInput" />
-                <Button fx:id="testConnection" alignment="TOP_CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Test Connection" />
                 <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Connection Status" />
             </items>
         </ToolBar>
     </top>
     <bottom>
-        <Button fx:id="login" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Log In" BorderPane.alignment="CENTER" />
+        <Button fx:id="connect" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Log In" BorderPane.alignment="CENTER" />
     </bottom>
     <left>
         <VBox>
@@ -26,12 +24,29 @@
             </children>
         </VBox>
     </left>
-    <right>
-        <VBox BorderPane.alignment="CENTER">
-            <children>
-                <Label text="Username" />
-                <TextField fx:id="userInput" alignment="CENTER" BorderPane.alignment="CENTER" />
-            </children>
-        </VBox>
-    </right>
+   <center>
+      <VBox alignment="CENTER" maxWidth="150.0" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="errorLabel" textFill="RED" />
+              <VBox>
+                  <children>
+                      <Label text="Username" />
+                      <TextField fx:id="userInput" alignment="CENTER" BorderPane.alignment="CENTER" />
+                  </children>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+              </VBox>
+            <VBox>
+               <children>
+                      <Label text="Host:" />
+                      <TextField fx:id="serverInput" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </VBox>
+         </children>
+      </VBox>
+   </center>
 </BorderPane>

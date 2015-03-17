@@ -7,9 +7,9 @@ import org.springframework.context.annotation.Import;
 
 @Import(SocketConfiguration.class)
 @ComponentScan("no.westerdals.student.vegeiv13.pg4100.assignment2.models")
-public class Application {
+public class ServerApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(ServerApplication.class, args);
     }
 }

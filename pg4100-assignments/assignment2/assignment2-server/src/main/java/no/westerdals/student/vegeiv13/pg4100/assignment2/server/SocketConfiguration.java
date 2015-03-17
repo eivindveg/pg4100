@@ -7,10 +7,10 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.serialization.ClassResolver;
-import io.netty.handler.codec.serialization.ObjectDecoder;
+import io.netty.handler.codec.serialization.ClassResolvers;
 import io.netty.handler.codec.serialization.ObjectEncoder;
 import no.westerdals.student.vegeiv13.pg4100.assignment2.Constants;
-import no.westerdals.student.vegeiv13.pg4100.assignment2.server.handler.QuizServerHandler;
+import no.westerdals.student.vegeiv13.pg4100.assignment2.server.handler.QuizInboundHandler;
 import no.westerdals.student.vegeiv13.pg4100.assignment2.server.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -22,8 +22,6 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 import javax.sql.DataSource;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Properties;
 
 
@@ -31,12 +29,6 @@ import java.util.Properties;
 @Configuration
 @EnableJpaRepositories
 public class SocketConfiguration {
-
-    private final List<Class> allowedClasses = Arrays.asList(
-            no.westerdals.student.vegeiv13.pg4100.assignment2.models.Player.class,
-            no.westerdals.student.vegeiv13.pg4100.assignment2.models.Book.class,
-            no.westerdals.student.vegeiv13.pg4100.assignment2.models.Quiz.class
-    );
 
     @Autowired
     private Environment environment;
@@ -47,14 +39,7 @@ public class SocketConfiguration {
      */
     @Bean
     public ClassResolver classResolver() {
-        return className -> {
-            Class forName = Class.forName(className);
-            if(allowedClasses.contains(forName)) {
-                return forName;
-            } else {
-                throw new ClassNotFoundException("Class " + className + " not found or not supported");
-            }
-        };
+        return ClassResolvers.cacheDisabled(getClass().getClassLoader());
     }
 
     @Bean
@@ -105,9 +90,10 @@ public class SocketConfiguration {
                 .childHandler(new ChannelInitializer<Channel>() {
                     @Override
                     protected void initChannel(final Channel ch) throws Exception {
-                        QuizServerHandler quizServerHandler = new QuizServerHandler();
-                        quizServerHandler.setBookRepository(bookRepository);
-                        ch.pipeline().addLast(new ObjectEncoder(),  new ObjectDecoder(classResolver()), quizServerHandler);
+                        QuizInboundHandler inboundHandler = new QuizInboundHandler(classResolver());
+                        ObjectEncoder objectEncoder = new ObjectEncoder();
+                        inboundHandler.setBookRepository(bookRepository);
+                        ch.pipeline().addLast(objectEncoder, inboundHandler);
                     }
                 });
         bootstrap.bind(Constants.PORT).sync().channel();
