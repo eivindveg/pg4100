@@ -8,6 +8,7 @@ import org.datafx.controller.flow.context.ViewFlowContext;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.net.Socket;
 
 @FXMLController("./Home.fxml")
 public class HomeController {
@@ -24,7 +25,8 @@ public class HomeController {
 
     @PostConstruct
     public void init() throws IOException {
-
+        Socket socket = new Socket("localhost", 4567);
+        System.out.println(socket.getInputStream().read());
     }
 
 }
