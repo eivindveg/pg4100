@@ -1,12 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
-
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <top>
       <ProgressBar fx:id="timerBar" maxWidth="1.7976931348623157E308" prefHeight="50.0" prefWidth="200.0" progress="0.0" BorderPane.alignment="CENTER" />
    </top>
+   <center>
+      <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <top>
+            <Label fx:id="playerLabel" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Player" textAlignment="CENTER" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="Trebuchet MS" size="28.0" />
+               </font>
+            </Label>
+         </top>
+         <bottom>
+            <TextField fx:id="input" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Input response" BorderPane.alignment="CENTER" />
+         </bottom>
+         <left>
+            <VBox alignment="CENTER" prefHeight="100.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Score">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="playerScore" text="0" />
+               </children>
+            </VBox>
+         </left>
+         <center>
+            <Label fx:id="question" alignment="CENTER" text="Question" BorderPane.alignment="CENTER" />
+         </center>
+         <right>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="disconnect" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Disconnect" />
+               </children>
+            </VBox>
+         </right>
+      </BorderPane>
+   </center>
+   <bottom>
+      <Button fx:id="submit" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Submit" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+   </bottom>
 </BorderPane>

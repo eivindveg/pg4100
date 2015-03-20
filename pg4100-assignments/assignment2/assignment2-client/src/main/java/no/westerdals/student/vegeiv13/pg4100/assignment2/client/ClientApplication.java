@@ -12,8 +12,9 @@ public class ClientApplication extends javafx.application.Application {
 
     @Override
     public void start(final Stage primaryStage) throws Exception {
-        Flow flow = new Flow(HomeController.class);
-
+        Flow flow = new Flow(HomeController.class)
+                .withLink(HomeController.class, "connect", QuizController.class)
+                .withLink(QuizController.class, "disconnect", HomeController.class);
         flow.startInStage(primaryStage);
 
         primaryStage.setOnCloseRequest(event -> System.exit(0));
