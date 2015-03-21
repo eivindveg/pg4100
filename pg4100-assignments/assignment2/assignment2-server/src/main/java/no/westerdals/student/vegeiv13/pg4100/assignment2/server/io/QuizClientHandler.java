@@ -11,17 +11,12 @@ import no.westerdals.student.vegeiv13.pg4100.assignment2.models.Quiz;
 import no.westerdals.student.vegeiv13.pg4100.assignment2.quiz.QuizGenerator;
 import no.westerdals.student.vegeiv13.pg4100.assignment2.server.datasources.BookService;
 import no.westerdals.student.vegeiv13.pg4100.assignment2.server.datasources.PlayerService;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
-@Component
-@Scope("prototype")
 public class QuizClientHandler extends ObjectDecoder {
 
     private Player player;
 
     private Quiz activeQuiz;
-
 
     private QuizGenerator generator;
     private PlayerService playerService;
@@ -36,30 +31,35 @@ public class QuizClientHandler extends ObjectDecoder {
     }
 
     @Override
-    public void channelActive(final ChannelHandlerContext context) throws Exception {
-        super.channelActive(context);
-    }
-
-    @Override
     public void channelRead(final ChannelHandlerContext context, Object payload) throws Exception {
         Object decode = decode(context, (ByteBuf) payload);
-        System.out.println("Reading channel");
         if (decode instanceof Player) {
-            channelRead(context, (Player) decode);
+            readPlayer(context, (Player) decode);
         } else if (decode instanceof Quiz) {
-            channelRead(context, (Quiz) decode);
-        } else {
-            System.out.println("What's this?");
+            readQuiz(context, (Quiz) decode);
         }
     }
 
-    public void channelRead(final ChannelHandlerContext context, Player payload) throws Exception {
+    public void readPlayer(final ChannelHandlerContext context, Player payload) throws Exception {
         if (player == null) {
-            welcomePlayer(payload, context);
+            saveAndTransmitPlayer(payload, context);
             transmitNewQuiz(context);
         } else {
             context.writeAndFlush(payload);
         }
+    }
+
+    public void readQuiz(final ChannelHandlerContext context, @NotNull Quiz payload) throws Exception {
+        String answer = simplifyQuizAnswer(payload);
+        System.out.println(answer);
+        String correctAnswer = simplifyQuizAnswer(activeQuiz);
+        System.out.println(correctAnswer);
+
+        if (answer.equals(correctAnswer)) {
+            player.setScore(player.getScore() + 1);
+            saveAndTransmitPlayer(player, context);
+        }
+        transmitNewQuiz(context);
     }
 
     private void transmitNewQuiz(final ChannelHandlerContext context) throws IllegalAccessException, NoSuchFieldException, ClassNotFoundException {
@@ -69,44 +69,20 @@ public class QuizClientHandler extends ObjectDecoder {
         System.out.println(activeQuiz.toString());
     }
 
-    public void channelRead(final ChannelHandlerContext context, @NotNull Quiz payload) throws Exception {
-        String answer = simplifyQuizAnswer(payload);
-        String correctAnswer = simplifyQuizAnswer(activeQuiz);
-
-        if(answer.equals(correctAnswer)) {
-            player.setScore(player.getScore() + 1);
-            playerService.save(player);
-            context.writeAndFlush(player);
-        }
-        transmitNewQuiz(context);
-    }
-
     private String simplifyQuizAnswer(Quiz input) {
         String answer = input.getAnswer();
-        return answer.replace(".", "").replace(" ", "").toLowerCase();
+        return answer.replaceAll("\\.", "").replaceAll(" ", "").toLowerCase();
     }
 
-    private void welcomePlayer(final Player player, ChannelHandlerContext context) {
+    private void saveAndTransmitPlayer(final Player player, ChannelHandlerContext context) {
         boolean status = Player.validate(player);
         if (status) {
-            Player byName = playerService.findByName(player.getName());
-            System.out.println(byName);
-            if (byName == null) {
-                System.out.println("New player");
-                this.player = player;
-                Player save = playerService.save(player);
-                System.out.println(save);
-            } else {
-                System.out.println("Got player from db");
-                this.player = byName;
+            playerService.save(player);
+            if(this.player == null) {
+                this.player = playerService.findByName(player.getName());
             }
         }
         context.writeAndFlush(this.player);
-    }
-
-    @Override
-    protected Object decode(ChannelHandlerContext ctx, ByteBuf in) throws Exception {
-        return super.decode(ctx, in);
     }
 
 }
