@@ -1,12 +1,14 @@
 package no.westerdals.student.vegeiv13.pg4100.assignment2.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import no.westerdals.student.vegeiv13.pg4100.assignment2.YearPersistenceConverter;
+import no.westerdals.student.vegeiv13.pg4100.assignment2.quiz.annotations.QuizField;
+import no.westerdals.student.vegeiv13.pg4100.assignment2.quiz.annotations.Quizzable;
+
+import javax.persistence.*;
 import java.time.Year;
 
 @Entity
+@Quizzable
 public class Book {
 
     @Id
@@ -15,17 +17,30 @@ public class Book {
 
     @Column(name = "ISBN", length = 20)
     private String isbn;
-
     @Column(length = 20)
+    @QuizField(value = "Who wrote %i, published in %i?", identifiers = {"title", "released"})
     private String author;
-
     @Column(length = 30)
+    @QuizField(value = "Author %i wrote this book in year %i, what is the title of this book?", identifiers = {"author", "released"})
     private String title;
-
     @Column(length = 4)
     private Integer pages;
-
+    @QuizField(value = "In what year was the book %i, by %i released?", identifiers = {"title", "author"})
+    @Convert(converter = YearPersistenceConverter.class)
+    @Column(length = 4)
     private Year released;
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", isbn='" + isbn + '\'' +
+                ", author='" + author + '\'' +
+                ", title='" + title + '\'' +
+                ", pages=" + pages +
+                ", released=" + released +
+                '}';
+    }
 
     public Long getId() {
         return id;

@@ -15,6 +15,7 @@ public class Player implements Serializable {
     private Long id;
 
     private String name;
+    private int score;
 
     public Player() {
 
@@ -32,14 +33,6 @@ public class Player implements Serializable {
         }
     }
 
-    @Override
-    public String toString() {
-        return "Player{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
-    }
-
     public Long getId() {
         return id;
     }
@@ -54,5 +47,22 @@ public class Player implements Serializable {
 
     public void setName(final String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", score=" + score +
+                '}';
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(final int score) {
+        this.score = score;
     }
 }

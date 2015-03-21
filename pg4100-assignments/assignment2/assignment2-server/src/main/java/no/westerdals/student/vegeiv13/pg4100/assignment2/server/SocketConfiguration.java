@@ -9,6 +9,8 @@ import io.netty.handler.codec.serialization.ClassResolver;
 import io.netty.handler.codec.serialization.ClassResolvers;
 import io.netty.handler.codec.serialization.ObjectEncoder;
 import no.westerdals.student.vegeiv13.pg4100.assignment2.Constants;
+import no.westerdals.student.vegeiv13.pg4100.assignment2.quiz.ClassScanner;
+import no.westerdals.student.vegeiv13.pg4100.assignment2.quiz.QuizGenerator;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AdviceMode;
@@ -33,6 +35,7 @@ import java.util.Properties;
 @EnableTransactionManagement(mode = AdviceMode.ASPECTJ)
 public class SocketConfiguration {
 
+    public static final String MODEL_PACKAGE = "no.westerdals.student.vegeiv13.pg4100.assignment2.models";
     @Autowired
     private Environment environment;
 
@@ -49,7 +52,7 @@ public class SocketConfiguration {
         jpaVendorAdapter.setShowSql(true);
         jpaVendorAdapter.setGenerateDdl(true);
         emf.setJpaVendorAdapter(jpaVendorAdapter);
-        emf.setPackagesToScan("no.westerdals.student.vegeiv13.pg4100.assignment2.models");
+        emf.setPackagesToScan(MODEL_PACKAGE);
         emf.setJpaProperties(jpaProperties());
 
         return emf;
@@ -70,7 +73,7 @@ public class SocketConfiguration {
     @Bean
     public SessionFactory sessionFactory(DataSource dataSource) {
         LocalSessionFactoryBuilder localSessionFactoryBuilder = new LocalSessionFactoryBuilder(dataSource);
-        localSessionFactoryBuilder.scanPackages("no.westerdals.student.vegeiv13.pg4100.assignment2.models");
+        localSessionFactoryBuilder.scanPackages(MODEL_PACKAGE);
 
         return localSessionFactoryBuilder.buildSessionFactory();
     }
@@ -91,6 +94,15 @@ public class SocketConfiguration {
         return new NioEventLoopGroup();
     }
 
+    @Bean
+    public ClassScanner classScanner() {
+        return new ClassScanner(MODEL_PACKAGE);
+    }
+
+    @Bean
+    public QuizGenerator quizGenerator(ClassScanner scanner) {
+        return new QuizGenerator(scanner);
+    }
 
     /**
      * Set up a server bootstrap that acts as the socket server with its own thread pool.

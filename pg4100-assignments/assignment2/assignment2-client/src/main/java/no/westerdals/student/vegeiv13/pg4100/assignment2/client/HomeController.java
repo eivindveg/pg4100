@@ -29,7 +29,8 @@ import org.datafx.controller.util.VetoException;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.nio.channels.UnresolvedAddressException;
+import java.net.ConnectException;
+import java.net.UnknownHostException;
 
 @FXMLController("./Home.fxml")
 public class HomeController {
@@ -47,14 +48,15 @@ public class HomeController {
     private FlowActionHandler actionHandler;
 
     @FXML
-    @ActionTrigger("doConnect")
+    @ActionTrigger("connect")
     private Button connect;
 
     @FXML
     private Label errorLabel;
+    private Bootstrap bootstrap;
 
-    @ActionMethod("doConnect")
-    public void connect() {
+    @ActionMethod("connect")
+    public void doConnect() {
         String user = userInput.getText();
         if (user == null || user.replaceAll(" ", "").equals("")) {
             setError("Invalid username");
@@ -63,17 +65,24 @@ public class HomeController {
         String host = serverInput.getText();
         System.out.println("Connecting to " + host);
 
-        Bootstrap bootstrap = getBootstrap();
+        // Catching old-style and rethrowing exceptions we don't want
         try {
             ChannelFuture connection = bootstrap
                     .connect(host, Constants.PORT)
                     .sync();
             connection.addListener(getListener(user));
-        } catch (UnresolvedAddressException e) {
-            closeConnectionIfExists();
-            setError("Could not connect");
+
         } catch (InterruptedException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            // Modern IDEs will whine about these exceptions never being caught, but that's only because Netty hides
+            // them.
+            if(e instanceof ConnectException || e instanceof UnknownHostException) {
+                closeConnectionIfExists();
+                setError("Could not connect");
+            } else {
+                throw e;
+            }
         }
     }
 
@@ -141,9 +150,10 @@ public class HomeController {
     @PostConstruct
     public void init() throws IOException {
         closeConnectionIfExists();
+        bootstrap = getBootstrap();
 
         userInput.setOnAction(event -> serverInput.requestFocus());
-        serverInput.setOnAction(event -> connect());
+        serverInput.setOnAction(event -> doConnect());
     }
 
 }

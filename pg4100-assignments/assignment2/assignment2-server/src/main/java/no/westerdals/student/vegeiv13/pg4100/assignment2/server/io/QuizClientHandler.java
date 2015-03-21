@@ -1,11 +1,14 @@
 package no.westerdals.student.vegeiv13.pg4100.assignment2.server.io;
 
+import com.sun.istack.internal.NotNull;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.serialization.ClassResolver;
 import io.netty.handler.codec.serialization.ObjectDecoder;
+import no.westerdals.student.vegeiv13.pg4100.assignment2.models.Book;
 import no.westerdals.student.vegeiv13.pg4100.assignment2.models.Player;
 import no.westerdals.student.vegeiv13.pg4100.assignment2.models.Quiz;
+import no.westerdals.student.vegeiv13.pg4100.assignment2.quiz.QuizGenerator;
 import no.westerdals.student.vegeiv13.pg4100.assignment2.server.datasources.BookService;
 import no.westerdals.student.vegeiv13.pg4100.assignment2.server.datasources.PlayerService;
 import org.springframework.context.annotation.Scope;
@@ -19,14 +22,17 @@ public class QuizClientHandler extends ObjectDecoder {
 
     private Quiz activeQuiz;
 
+
+    private QuizGenerator generator;
+    private PlayerService playerService;
     private BookService bookService;
 
-    private PlayerService playerService;
-
-    public QuizClientHandler(final ClassResolver classResolver, BookService bookService, PlayerService playerService) {
+    public QuizClientHandler(final ClassResolver classResolver, QuizGenerator generator, PlayerService playerService,
+                             BookService bookService) {
         super(classResolver);
-        this.bookService = bookService;
+        this.generator = generator;
         this.playerService = playerService;
+        this.bookService = bookService;
     }
 
     @Override
@@ -37,31 +43,39 @@ public class QuizClientHandler extends ObjectDecoder {
     @Override
     public void channelRead(final ChannelHandlerContext context, Object payload) throws Exception {
         Object decode = decode(context, (ByteBuf) payload);
-        Class clazz = decode.getClass();
-        System.out.println(clazz.getSimpleName());
         System.out.println("Reading channel");
-        switch (clazz.getSimpleName()) {
-            case "Player":
-                channelRead(context, (Player) decode);
-                break;
-            case "Quiz":
-                channelRead(context, (Quiz) decode);
-                break;
-            default:
-                System.out.println("What's this?");
+        if (decode instanceof Player) {
+            channelRead(context, (Player) decode);
+        } else if (decode instanceof Quiz) {
+            channelRead(context, (Quiz) decode);
+        } else {
+            System.out.println("What's this?");
         }
     }
 
     public void channelRead(final ChannelHandlerContext context, Player payload) throws Exception {
         if (player == null) {
             welcomePlayer(payload, context);
+            transmitNewQuiz(context);
         } else {
             context.writeAndFlush(payload);
         }
     }
 
-    public void channelRead(final ChannelHandlerContext context, Quiz payload) throws Exception {
+    private void transmitNewQuiz(final ChannelHandlerContext context) throws IllegalAccessException, NoSuchFieldException, ClassNotFoundException {
+        Book randomBook = bookService.getRandom();
+        activeQuiz = generator.fromObject(randomBook);
+        context.writeAndFlush(activeQuiz.cloneNoAnswer());
+        System.out.println(activeQuiz.toString());
+    }
 
+    public void channelRead(final ChannelHandlerContext context, @NotNull Quiz payload) throws Exception {
+        if(payload.getAnswer().equals(activeQuiz.getAnswer())) {
+            player.setScore(player.getScore() + 1);
+            playerService.save(player);
+            context.writeAndFlush(player);
+        }
+        transmitNewQuiz(context);
     }
 
     private void welcomePlayer(final Player player, ChannelHandlerContext context) {
