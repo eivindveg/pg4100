@@ -89,8 +89,6 @@ public class HomeController {
     private GenericFutureListener<Future<? super Void>> getListener(String name) {
         return future -> {
             Channel channel = ((ChannelFuture) future).channel();
-            System.out.println(channel.isOpen());
-            System.out.println(channel);
             if (!channel.isActive()) {
                 Platform.runLater(() -> setError("Connection failed"));
             } else {
@@ -98,7 +96,6 @@ public class HomeController {
                     try {
                         Player player = new Player(name);
                         context.register(player);
-                        System.out.println(channel.getClass());
                         context.register(channel);
                         actionHandler.navigate(QuizController.class);
                     } catch (VetoException | FlowException e) {
@@ -122,7 +119,6 @@ public class HomeController {
                 .handler(new ChannelInitializer<Channel>() {
                     @Override
                     protected void initChannel(final Channel ch) throws Exception {
-                        System.out.println("Init channel");
                         ObjectEncoder objectEncoder = new ObjectEncoder();
                         ch.pipeline().addLast(objectEncoder);
                     }
@@ -141,7 +137,6 @@ public class HomeController {
     private void closeConnectionIfExists() {
         ChannelFuture registeredObject = context.getRegisteredObject(ChannelFuture.class);
         if (registeredObject != null) {
-            System.out.println("Closing connection");
             registeredObject.channel().close();
         }
     }

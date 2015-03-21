@@ -90,7 +90,6 @@ public class QuizController extends ObjectDecoder {
 
     private void transmitInitial() {
         player = context.getRegisteredObject(Player.class);
-        System.out.println(player);
         channel = context.getRegisteredObject(NioSocketChannel.class);
         channel.pipeline().addFirst(this);
         ChannelFuture channelFuture = channel.writeAndFlush(player);
@@ -128,7 +127,6 @@ public class QuizController extends ObjectDecoder {
     @Override
     public void channelRead(final ChannelHandlerContext context, Object payload) throws Exception {
         Object decode = decode(context, (ByteBuf) payload);
-        System.out.println(decode);
         if (decode instanceof Player) {
             Platform.runLater(() -> setPlayer((Player) decode));
         } else if (decode instanceof Quiz) {
@@ -140,10 +138,6 @@ public class QuizController extends ObjectDecoder {
         playerNameProperty.setValue(player.getName());
         playerScoreProperty.setValue(String.valueOf(player.getScore()));
         this.player = player;
-    }
-
-    public Quiz getQuiz() {
-        return quiz;
     }
 
     public void setQuiz(final @NotNull Quiz quiz) {

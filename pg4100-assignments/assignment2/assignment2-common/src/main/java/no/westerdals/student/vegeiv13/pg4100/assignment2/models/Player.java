@@ -1,5 +1,7 @@
 package no.westerdals.student.vegeiv13.pg4100.assignment2.models;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -25,7 +27,7 @@ public class Player implements Serializable {
         this.name = name;
     }
 
-    public static boolean verify(final Player player) {
+    public static boolean validate(final Player player) {
         if (player.getName() == null || player.getName().replaceAll(" ", "").equals("")) {
             return false;
         } else {
@@ -51,11 +53,11 @@ public class Player implements Serializable {
 
     @Override
     public String toString() {
-        return "Player{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", score=" + score +
-                '}';
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .append("name", name)
+                .append("score", score)
+                .toString();
     }
 
     public int getScore() {

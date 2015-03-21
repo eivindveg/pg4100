@@ -70,7 +70,10 @@ public class QuizClientHandler extends ObjectDecoder {
     }
 
     public void channelRead(final ChannelHandlerContext context, @NotNull Quiz payload) throws Exception {
-        if(payload.getAnswer().equals(activeQuiz.getAnswer())) {
+        String answer = simplifyQuizAnswer(payload);
+        String correctAnswer = simplifyQuizAnswer(activeQuiz);
+
+        if(answer.equals(correctAnswer)) {
             player.setScore(player.getScore() + 1);
             playerService.save(player);
             context.writeAndFlush(player);
@@ -78,8 +81,13 @@ public class QuizClientHandler extends ObjectDecoder {
         transmitNewQuiz(context);
     }
 
+    private String simplifyQuizAnswer(Quiz input) {
+        String answer = input.getAnswer();
+        return answer.replace(".", "").replace(" ", "").toLowerCase();
+    }
+
     private void welcomePlayer(final Player player, ChannelHandlerContext context) {
-        boolean status = Player.verify(player);
+        boolean status = Player.validate(player);
         if (status) {
             Player byName = playerService.findByName(player.getName());
             System.out.println(byName);

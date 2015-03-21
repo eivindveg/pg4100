@@ -9,7 +9,6 @@ import io.netty.handler.codec.serialization.ClassResolver;
 import io.netty.handler.codec.serialization.ClassResolvers;
 import io.netty.handler.codec.serialization.ObjectEncoder;
 import no.westerdals.student.vegeiv13.pg4100.assignment2.Constants;
-import no.westerdals.student.vegeiv13.pg4100.assignment2.quiz.ClassScanner;
 import no.westerdals.student.vegeiv13.pg4100.assignment2.quiz.QuizGenerator;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,13 +94,8 @@ public class SocketConfiguration {
     }
 
     @Bean
-    public ClassScanner classScanner() {
-        return new ClassScanner(MODEL_PACKAGE);
-    }
-
-    @Bean
-    public QuizGenerator quizGenerator(ClassScanner scanner) {
-        return new QuizGenerator(scanner);
+    public QuizGenerator quizGenerator() {
+        return new QuizGenerator();
     }
 
     /**

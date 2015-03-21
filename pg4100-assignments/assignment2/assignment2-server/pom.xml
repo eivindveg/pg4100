@@ -14,34 +14,38 @@
 
     <dependencies>
 
+        <!-- Use our own commons library for files common to both server and client -->
         <dependency>
             <groupId>no.westerdals.student.vegeiv13</groupId>
             <artifactId>commons</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>4.3.7.Final</version>
-        </dependency>
-
+        <!-- Hibernate ORM provides our data layer in conjunction with Spring Data JPA. The entitymanager package
+            includes hibernate-core -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
             <version>4.3.7.Final</version>
         </dependency>
 
+        <!-- Database drivers -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>1.4.186</version>
         </dependency>
-
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.34</version>
+        </dependency>
+
+        <!-- Spring Aspects provides an AOP proxy for wrapped database transactions -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aspects</artifactId>
+            <version>4.1.4.RELEASE</version>
         </dependency>
 
         <!-- Spring Data JPA provides our repositories -->
@@ -58,25 +62,13 @@
             <version>1.2.1.RELEASE</version>
         </dependency>
 
-        <!-- Use Project Reactor for network handling -->
-        <dependency>
-            <groupId>org.projectreactor</groupId>
-            <artifactId>reactor-net</artifactId>
-            <version>1.1.5.RELEASE</version>
-        </dependency>
-
+        <!-- Use the Netty Socket library to automatically handle client threads -->
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
             <version>4.0.24.Final</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aspects</artifactId>
-            <version>4.1.4.RELEASE</version>
-        </dependency>
 
     </dependencies>
-
 
 </project>
