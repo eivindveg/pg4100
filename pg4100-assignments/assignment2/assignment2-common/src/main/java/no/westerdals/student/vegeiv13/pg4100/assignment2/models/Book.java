@@ -74,18 +74,19 @@ public class Book {
 
     /**
      * Sets the isbn number. This method is very strict.
+     *
      * @param isbn isbn number to set, without '-' values
      * @throws java.util.IllegalFormatCodePointException if the isbn is not entirely made up of numbers
-     * @throws java.util.IllegalFormatWidthException if the isbn not 13 characters long
+     * @throws java.util.IllegalFormatWidthException     if the isbn not 13 characters long
      */
     public void setIsbn(final String isbn) {
-        if(isbn != null) {
+        if (isbn != null) {
             try {
                 long ignored = Long.parseLong(isbn);
             } catch (NumberFormatException e) {
                 throw new IllegalFormatCodePointException(-1);
             }
-            if(isbn.length() != 13) {
+            if (isbn.length() != 13) {
                 throw new IllegalFormatWidthException(isbn.length());
             }
         }
@@ -120,11 +121,11 @@ public class Book {
         return released;
     }
 
-    public void setReleased(final Year released) {
-        this.released = released;
-    }
-
     public void setReleased(final int year) {
         this.released = Year.of(year);
+    }
+
+    public void setReleased(final Year released) {
+        this.released = released;
     }
 }

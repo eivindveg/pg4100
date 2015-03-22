@@ -56,6 +56,7 @@ public class Quiz implements Serializable, Cloneable {
 
     /**
      * Builds a clone of this object that contains no answer. Useful for transmitting to clients
+     *
      * @return a clone of this object with no answer
      */
     public Quiz cloneNoAnswer() {

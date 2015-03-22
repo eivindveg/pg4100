@@ -111,10 +111,11 @@ public class QuizController extends ObjectDecoder {
 
     /**
      * Sends the given quiz to the server, interrupting the timer if it's running
+     *
      * @param quiz quiz to transmit
      */
     private void transmit(Quiz quiz) {
-        if(task.isRunning()) {
+        if (task.isRunning()) {
             task.cancel();
         }
         channel.writeAndFlush(quiz).syncUninterruptibly();
@@ -146,6 +147,7 @@ public class QuizController extends ObjectDecoder {
 
     /**
      * Called whenever Netty receives data from the server
+     *
      * @param context The Channel Context we can write through
      * @param payload The received object
      * @throws Exception if the handler cannot decode the request
@@ -162,6 +164,7 @@ public class QuizController extends ObjectDecoder {
 
     /**
      * Updates the player object and refreshes the GUI values
+     *
      * @param player the player to set
      */
     public void setPlayer(final @NotNull Player player) {
@@ -172,6 +175,7 @@ public class QuizController extends ObjectDecoder {
 
     /**
      * Updates the quiz object and refreshes the GUI values
+     *
      * @param quiz the quiz to set
      */
     public void setQuiz(final @NotNull Quiz quiz) {
@@ -193,7 +197,7 @@ public class QuizController extends ObjectDecoder {
                     long now = System.currentTimeMillis();
                     diff = now - start;
                     updateProgress(Constants.TIME_LIMIT - diff, Constants.TIME_LIMIT);
-                } while(diff < Constants.TIME_LIMIT);
+                } while (diff < Constants.TIME_LIMIT);
 
                 succeeded();
                 return null;

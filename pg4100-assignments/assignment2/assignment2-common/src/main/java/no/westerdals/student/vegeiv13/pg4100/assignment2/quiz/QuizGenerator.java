@@ -24,6 +24,7 @@ public class QuizGenerator {
 
     /**
      * Attempts to build a Quiz from the given object. Not null-safe.
+     *
      * @param object an @Quizzable object, complete with @QuizField annotations
      * @return a Quiz object
      * @throws ClassNotFoundException if the given object's class is not on the classpath
@@ -33,7 +34,7 @@ public class QuizGenerator {
     public Quiz fromObject(@NotNull Object object) throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
         // Only build for @Quizzable objects
         Class clazz = object.getClass();
-        if(!clazz.isAnnotationPresent(Quizzable.class)) {
+        if (!clazz.isAnnotationPresent(Quizzable.class)) {
             throw new UnsupportedOperationException("Class is not annotated as @Quizzable");
         }
 
@@ -49,7 +50,7 @@ public class QuizGenerator {
     }
 
     private String readString(final Object object, final Field field) throws IllegalAccessException {
-        if(!field.isAccessible()) {
+        if (!field.isAccessible()) {
             field.setAccessible(true);
         }
         return String.valueOf(field.get(object));

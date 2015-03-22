@@ -15,11 +15,11 @@ import static org.junit.Assert.*;
 
 public class BookTest {
 
-    protected static final String TEST_AUTHOR = "TestAuthor";
     public static final String ISBN = "0123456789123";
     public static final int PAGES = 400;
     public static final Year YEAR_2000 = Year.of(2000);
     public static final String TEST_TITLE = "TestTitle";
+    protected static final String TEST_AUTHOR = "TestAuthor";
     private Book book;
 
     @Before
@@ -34,7 +34,7 @@ public class BookTest {
         boolean hasIdAnnotation = false;
         Field[] declaredFields = Book.class.getDeclaredFields();
         for (final Field declaredField : declaredFields) {
-            if(declaredField.isAnnotationPresent(Id.class)) {
+            if (declaredField.isAnnotationPresent(Id.class)) {
                 hasIdAnnotation = true;
                 break;
             }

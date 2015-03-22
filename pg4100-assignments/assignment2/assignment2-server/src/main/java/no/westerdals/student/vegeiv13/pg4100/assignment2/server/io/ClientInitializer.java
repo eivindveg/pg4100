@@ -16,11 +16,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class ClientInitializer extends ChannelInitializer<Channel> {
 
+    private final BookService bookService;
+    private final PlayerService playerService;
     private ObjectEncoder encoder;
     private ClassResolver classResolver;
     private QuizGenerator generator;
-    private final BookService bookService;
-    private final PlayerService playerService;
 
     @Autowired
     public ClientInitializer(ObjectEncoder encoder,
@@ -38,6 +38,7 @@ public class ClientInitializer extends ChannelInitializer<Channel> {
     /**
      * Initiates the given channel by adding an encoder(turns objects into data) and a QuizClientHandler(responds to
      * requests)
+     *
      * @param ch Channel to bind to
      * @throws Exception if setting up fails
      */

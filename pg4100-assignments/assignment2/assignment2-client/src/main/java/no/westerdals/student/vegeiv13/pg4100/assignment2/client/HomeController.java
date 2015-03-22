@@ -78,7 +78,7 @@ public class HomeController {
                     .syncUninterruptibly();
             connection.addListener(getListener(user));
         } catch (Exception e) {
-            if(e instanceof ConnectException || e instanceof UnknownHostException) {
+            if (e instanceof ConnectException || e instanceof UnknownHostException) {
                 setError(Constants.COULD_NOT_CONNECT);
             } else {
                 throw e;
@@ -88,6 +88,7 @@ public class HomeController {
 
     /**
      * Sets up a listener that handles the application context based on the result of a client connection
+     *
      * @param name The player name to transmit upon a successful connection
      * @return A listener that navigates us forward upon success, or sets an error if we fail to connect
      */
@@ -120,11 +121,12 @@ public class HomeController {
 
     /**
      * Set up a server bootstrap if there is none in the context
+     *
      * @return a Netty client Bootstrap
      */
     private Bootstrap getBootstrap() {
         Bootstrap bootstrap = context.getRegisteredObject(Bootstrap.class);
-        if(bootstrap == null) {
+        if (bootstrap == null) {
             bootstrap = new Bootstrap()
                     .channel(NioSocketChannel.class)
                     .group(new NioEventLoopGroup())
@@ -142,10 +144,11 @@ public class HomeController {
 
     /**
      * Sets the error label to display the given message
+     *
      * @param message String to display - can be null
      */
     private void setError(final String message) {
-            errorLabel.setText(message);
+        errorLabel.setText(message);
     }
 
     /**

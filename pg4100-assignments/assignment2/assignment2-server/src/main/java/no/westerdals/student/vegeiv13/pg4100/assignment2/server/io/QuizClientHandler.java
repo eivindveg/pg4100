@@ -37,6 +37,7 @@ public class QuizClientHandler extends ObjectDecoder {
 
     /**
      * Called whenever the server receives data. Decodes the payload and passes it on to relevant methods
+     *
      * @param context ChannelHandlerContext that allows us to write data back to the client
      * @param payload The ByteBuf object that was received
      * @throws Exception if the request fails, typically if the ByteBuf is corrupt
@@ -53,6 +54,7 @@ public class QuizClientHandler extends ObjectDecoder {
 
     /**
      * Reads a received player object, saves it to the database and responds with a quiz
+     *
      * @param payload A player object
      * @throws ReflectiveOperationException if the QuizGenerator fails
      */
@@ -68,6 +70,7 @@ public class QuizClientHandler extends ObjectDecoder {
     /**
      * Reads a received quiz object, comparing the answer of the received quiz with the answer of the previously sent
      * quiz, increasing the player's score if the answer is correct, before responding with a new quiz regardless
+     *
      * @param payload A quiz object
      * @throws ReflectiveOperationException if the QuizGenerator fails
      */
@@ -84,6 +87,7 @@ public class QuizClientHandler extends ObjectDecoder {
 
     /**
      * Sends a new quiz to the player, using the book service and the quiz generator to get it
+     *
      * @param context context to use when transmitting
      * @throws ReflectiveOperationException if the QuizGenerator fails
      */
@@ -96,6 +100,7 @@ public class QuizClientHandler extends ObjectDecoder {
     /**
      * Turns a given Quiz' answer into a flattened String, to allow the Player some leeway in terms of punctuation and
      * spacing
+     *
      * @param input Quiz to flatten answer for
      * @return Flattened answer
      */
@@ -107,16 +112,17 @@ public class QuizClientHandler extends ObjectDecoder {
     /**
      * Saves the player to the database and transmits it to the player. If the player object is invalid, the client may
      * have been tampered with, and the connection is closed.
-     * @param player Player to save
+     *
+     * @param player  Player to save
      * @param context Context to use for transmitting
      */
     protected void saveAndTransmitPlayer(Player player, ChannelHandlerContext context) {
         boolean status = Player.validate(player);
         if (status) {
             // New player connection
-            if(this.player == null) {
+            if (this.player == null) {
                 Player fromDb = playerService.findByName(player.getName());
-                if(fromDb != null) {
+                if (fromDb != null) {
                     player = fromDb;
                 }
                 this.player = player;
@@ -131,7 +137,8 @@ public class QuizClientHandler extends ObjectDecoder {
     /**
      * Handles exceptions that occur in this handler. Notably, it swallows all closed connections so they don't produce
      * a stack trace in the log when the client forcibly disconnects
-     * @param ctx Context to use for writing. Currently not used in this class
+     *
+     * @param ctx   Context to use for writing. Currently not used in this class
      * @param cause The exception that was caught
      * @throws Exception if we didn't suppress the cause
      */
@@ -139,9 +146,9 @@ public class QuizClientHandler extends ObjectDecoder {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
             throws Exception {
         // Swallow the exception if the connection is simply closed.
-        if(cause instanceof IOException) {
+        if (cause instanceof IOException) {
             IOException e = (IOException) cause;
-            if(e.getMessage().contains("forcibly closed by the remote host")) {
+            if (e.getMessage().contains("forcibly closed by the remote host")) {
                 return;
             }
         }

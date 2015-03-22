@@ -1,7 +1,7 @@
 package no.westerdals.student.vegeiv13.pg4100.assignment2.models;
 
 public class BookSupplier {
-    
+
     public Book getBook() {
         final Book book = new Book();
         book.setAuthor(BookTest.TEST_AUTHOR);

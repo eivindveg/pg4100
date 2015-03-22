@@ -2,7 +2,10 @@ package no.westerdals.student.vegeiv13.pg4100.assignment2.models;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.io.Serializable;
 
 /**
@@ -31,6 +34,7 @@ public class Player implements Serializable {
 
     /**
      * Checks if the given player object has a valid name
+     *
      * @param player the player to check
      * @return whether or not the player's name is valid
      */

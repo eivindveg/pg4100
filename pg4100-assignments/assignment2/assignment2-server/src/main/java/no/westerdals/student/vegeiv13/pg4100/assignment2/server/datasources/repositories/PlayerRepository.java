@@ -9,6 +9,7 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
 
     /**
      * Returns a player with the given name, if any
+     *
      * @param name name to search for
      * @return Player with given name, or null
      */

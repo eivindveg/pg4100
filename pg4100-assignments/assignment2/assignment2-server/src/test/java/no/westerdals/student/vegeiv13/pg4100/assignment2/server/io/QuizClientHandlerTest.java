@@ -54,7 +54,7 @@ public class QuizClientHandlerTest {
      * http://rusya7.blogspot.no/2015/02/netty-server-is-incompatible-with.html
      * http://stackoverflow.com/questions/24979610/netty-defaultchannelpipeline-exceptioncaught
      * http://stackoverflow.com/questions/28634685/deserialize-an-object-with-camel-netty4
-     *
+     * <p>
      * This means that I'd probably spend more time keeping my tests compatible with Netty, than I'd ever spend keeping
      * the code alive. This means that properly testing Netty code would be done with a "Specification Only" client
      * connecting to an integration server. However; that's at least 100 lines of codes that also have to be kept up to
@@ -78,7 +78,6 @@ public class QuizClientHandlerTest {
         verify(context, times(1)).write(player);
     }
     */
-
     @Test
     public void testReadPlayer() throws Exception {
         trainBookRepositoryMock();

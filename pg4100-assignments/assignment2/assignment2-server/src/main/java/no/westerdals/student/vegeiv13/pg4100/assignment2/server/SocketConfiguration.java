@@ -35,6 +35,7 @@ public class SocketConfiguration {
 
     /**
      * ClassResolver Bean for use in Netty. Used to map Serializable classes in classpath
+     *
      * @return ClassResolver
      */
     @Bean
@@ -44,6 +45,7 @@ public class SocketConfiguration {
 
     /**
      * EntityManagerFactory Bean. Contains a record of all active entities. Flags them dirty if they're changed.
+     *
      * @param dataSource DataSource Bean
      * @return LocalContainerEntityManagerFactoryBean
      */
@@ -62,6 +64,7 @@ public class SocketConfiguration {
 
     /**
      * Properties for use in Hibernate
+     *
      * @return Properties
      */
     private Properties jpaProperties() {
@@ -73,6 +76,7 @@ public class SocketConfiguration {
 
     /**
      * TransactionManager Bean to allow Spring to Proxy our transactions in AOP
+     *
      * @param emf EntityManagerFactory Bean
      * @return JpaTransactionManager
      */
@@ -83,6 +87,7 @@ public class SocketConfiguration {
 
     /**
      * SessionFactory Bean for Hibernate sessions, used in transaction management
+     *
      * @param dataSource DataSource Bean
      * @return SessionFactory
      */
@@ -96,6 +101,7 @@ public class SocketConfiguration {
 
     /**
      * Netty EventLoopGroup that sets up relevant thread pools for client connections
+     *
      * @return NioEventLoopGroup
      */
     @Bean
@@ -105,6 +111,7 @@ public class SocketConfiguration {
 
     /**
      * QuizGenerator Bean
+     *
      * @return QuizGenerator
      */
     @Bean
@@ -114,6 +121,7 @@ public class SocketConfiguration {
 
     /**
      * Set up a server bootstrap that acts as the socket server with its own thread pool.
+     *
      * @param channelInitializer ChannelInitializer Bean from the context
      * @return A ServerBootstrap to handle incoming requests
      */
@@ -130,6 +138,7 @@ public class SocketConfiguration {
 
     /**
      * ObjectEncoder Bean to translate Serializable objects for Netty
+     *
      * @return ObjectEncoder
      */
     @Bean

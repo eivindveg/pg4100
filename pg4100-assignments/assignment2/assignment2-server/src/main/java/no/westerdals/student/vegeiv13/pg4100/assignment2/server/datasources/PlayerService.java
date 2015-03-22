@@ -22,6 +22,7 @@ public class PlayerService {
 
     /**
      * Finds a player with the given name if any
+     *
      * @param name name to search for
      * @return Player with given name, or null
      */
@@ -31,6 +32,7 @@ public class PlayerService {
 
     /**
      * Saves the given player
+     *
      * @param player player to save
      * @return the given Player
      */
