@@ -14,11 +14,6 @@ public class PrimeHandler {
 
     private long lastChecked;
     private ExecutorService service;
-
-    public List<Future<Long>> getFutures() {
-        return futures;
-    }
-
     private List<Future<Long>> futures = new CopyOnWriteArrayList<>();
 
     public PrimeHandler() {
@@ -33,22 +28,6 @@ public class PrimeHandler {
         }
     }
 
-    public void run() {
-        service = Executors.newFixedThreadPool(THREADS);
-        for(int i = 0; i < 1000; i++) {
-            futures.add(service.submit(new PrimeSeeker(++lastChecked)));
-        }
-        service.shutdown();
-    }
-
-    public boolean isRunning() {
-        return !service.isTerminated();
-    }
-
-    public long getLastChecked() {
-        return lastChecked;
-    }
-
     public static void main(String[] args) throws IOException, InterruptedException {
         PrimeHandler handler;
         FileHandler fileHandler;
@@ -57,10 +36,10 @@ public class PrimeHandler {
         String lastLine = fileHandler.getLastLine();
         try {
             value = Long.parseLong(lastLine);
-        } catch(NumberFormatException e) {
+        } catch (NumberFormatException e) {
             value = 0;
         }
-        for(long i = value; i < Long.MAX_VALUE; i = handler.getLastChecked()) {
+        for (long i = value; i < Long.MAX_VALUE; i = handler.getLastChecked()) {
             handler = new PrimeHandler(i);
             handler.run();
             while (handler.isRunning()) {
@@ -74,7 +53,7 @@ public class PrimeHandler {
         List<Long> values = new ArrayList<>();
         futures.forEach(f -> {
             long value = invokeSilent(f);
-            if(value >= 0) {
+            if (value >= 0) {
                 System.out.println(value);
                 values.add(value);
             }
@@ -88,5 +67,25 @@ public class PrimeHandler {
         } catch (InterruptedException | ExecutionException e) {
             return -1;
         }
+    }
+
+    public List<Future<Long>> getFutures() {
+        return futures;
+    }
+
+    public void run() {
+        service = Executors.newFixedThreadPool(THREADS);
+        for (int i = 0; i < 1000; i++) {
+            futures.add(service.submit(new PrimeSeeker(++lastChecked)));
+        }
+        service.shutdown();
+    }
+
+    public boolean isRunning() {
+        return !service.isTerminated();
+    }
+
+    public long getLastChecked() {
+        return lastChecked;
     }
 }

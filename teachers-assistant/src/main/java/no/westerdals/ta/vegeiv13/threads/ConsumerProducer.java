@@ -52,15 +52,13 @@ public class ConsumerProducer {
     // An inner class for buffer
     private static class Buffer {
         private static final int CAPACITY = 1; // buffer size
-        private java.util.LinkedList<Integer> queue =
-                new java.util.LinkedList<Integer>();
-
         // Create a new lock
         private static Lock lock = new ReentrantLock();
-
         // Create two conditions
         private static Condition notEmpty = lock.newCondition();
         private static Condition notFull = lock.newCondition();
+        private java.util.LinkedList<Integer> queue =
+                new java.util.LinkedList<Integer>();
 
         public void write(int value) {
             lock.lock(); // Acquire the lock

@@ -71,11 +71,11 @@ class Clock extends JFrame {
         @Override
         public void run() {
             try {
-                while(!Thread.interrupted()) {
+                while (!Thread.interrupted()) {
                     long stamp = System.currentTimeMillis();
                     int value = Integer.parseInt(textComponent.getText());
                     value++;
-                    if(value >= 60) {
+                    if (value >= 60) {
                         value = 0;
                         common.setTickMinutes(true);
                     }

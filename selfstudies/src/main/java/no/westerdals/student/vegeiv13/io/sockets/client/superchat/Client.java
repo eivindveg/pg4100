@@ -18,6 +18,10 @@ public class Client implements AutoCloseable {
         new Thread(transmitter).start();
     }
 
+    public static void main(String[] args) throws IOException {
+        Client client = new Client(new Socket(InetAddress.getLocalHost(), 20301), "Eivind");
+    }
+
     @Override
     public void close() throws Exception {
         listener.close();
@@ -37,7 +41,7 @@ public class Client implements AutoCloseable {
         public void run() {
             String message;
             try {
-                while((message = in.readUTF()) != null) {
+                while ((message = in.readUTF()) != null) {
                     System.out.println(message);
                 }
             } catch (IOException e) {
@@ -69,7 +73,7 @@ public class Client implements AutoCloseable {
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
             String message;
             try {
-                while((message = reader.readLine()) != null) {
+                while ((message = reader.readLine()) != null) {
                     out.writeUTF(message);
                 }
             } catch (IOException e) {
@@ -85,9 +89,5 @@ public class Client implements AutoCloseable {
         public void close() throws IOException {
             out.close();
         }
-    }
-
-    public static void main(String[] args) throws IOException {
-        Client client = new Client(new Socket(InetAddress.getLocalHost(), 20301), "Eivind");
     }
 }

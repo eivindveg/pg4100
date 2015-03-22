@@ -10,17 +10,16 @@ import java.util.concurrent.Executors;
  * http://www.javaworld.com/article/2078809
  * /java-concurrency/java-101-the-next-generation
  * -java-concurrency-without-the-pain-part-1.html
- * 
  */
 public class CyclicBarrierDemo {
-	public static void main(String[] args) {
-		Runnable action = () -> {
+    public static void main(String[] args) {
+        Runnable action = () -> {
             String name = Thread.currentThread().getName();
             System.out.printf("Thread %s " + "executing barrier action.%n",
                     name);
         };
-		final CyclicBarrier barrier = new CyclicBarrier(3, action);
-		Runnable task = () -> {
+        final CyclicBarrier barrier = new CyclicBarrier(3, action);
+        Runnable task = () -> {
             String name = Thread.currentThread().getName();
             System.out.printf("%s about to join game...%n", name);
             try {
@@ -34,13 +33,13 @@ public class CyclicBarrierDemo {
             }
             System.out.printf("%s has joined game%n", name);
         };
-		ExecutorService[] executors = new ExecutorService[] {
-				Executors.newSingleThreadExecutor(),
-				Executors.newSingleThreadExecutor(),
-				Executors.newSingleThreadExecutor() };
-		for (ExecutorService executor : executors) {
-			executor.execute(task);
-			executor.shutdown();
-		}
-	}
+        ExecutorService[] executors = new ExecutorService[]{
+                Executors.newSingleThreadExecutor(),
+                Executors.newSingleThreadExecutor(),
+                Executors.newSingleThreadExecutor()};
+        for (ExecutorService executor : executors) {
+            executor.execute(task);
+            executor.shutdown();
+        }
+    }
 }

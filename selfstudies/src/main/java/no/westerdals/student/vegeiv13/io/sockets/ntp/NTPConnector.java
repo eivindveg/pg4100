@@ -12,7 +12,7 @@ public class NTPConnector {
     public static void main(String[] args) throws IOException {
         byte[] bytes = new byte[4];
         int read;
-        try(InputStream inputStream = new Socket("time.nist.gov", 37).getInputStream()) {
+        try (InputStream inputStream = new Socket("time.nist.gov", 37).getInputStream()) {
             read = inputStream.read(bytes);
         }
         byte[] bytesUnsigned = new byte[5];

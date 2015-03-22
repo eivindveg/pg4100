@@ -17,8 +17,8 @@ public class FileHandler {
 
     public FileHandler(File file) throws IOException {
         this.file = file;
-        if(!file.exists()) {
-            if(!file.createNewFile()) {
+        if (!file.exists()) {
+            if (!file.createNewFile()) {
                 throw new IOException("Could not assert file");
             }
         }
@@ -31,7 +31,7 @@ public class FileHandler {
     public String getLastLine() throws IOException {
         LineIterator lineIterator = FileUtils.lineIterator(file);
         String line = "";
-        while(lineIterator.hasNext()) {
+        while (lineIterator.hasNext()) {
             line = lineIterator.nextLine();
         }
         return line;

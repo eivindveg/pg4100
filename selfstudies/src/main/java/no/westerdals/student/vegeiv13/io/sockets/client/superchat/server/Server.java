@@ -12,16 +12,21 @@ public class Server implements Runnable {
 
     private final ServerSocket socket;
     private final ExecutorService executorService;
-    private boolean running = true;
     private final List<ClientConnection> clients = new CopyOnWriteArrayList<>();
+    private boolean running = true;
 
     public Server() throws IOException {
         socket = new ServerSocket(20301);
         executorService = Executors.newCachedThreadPool();
     }
 
+    public static void main(String[] args) throws IOException {
+        Server server = new Server();
+        server.start();
+    }
+
     public void start() throws IOException {
-        while(running) {
+        while (running) {
             Socket accept = socket.accept();
             ClientConnection connection = new ClientConnection(accept, clients);
             executorService.execute(connection);
@@ -32,14 +37,9 @@ public class Server implements Runnable {
         for (final Runnable runnable : runnables) {
             try {
                 ((ClientConnection) runnable).close();
-            } catch(Exception ignored) {
+            } catch (Exception ignored) {
             }
         }
-    }
-
-    public static void main(String[] args) throws IOException {
-        Server server = new Server();
-        server.start();
     }
 
     @Override

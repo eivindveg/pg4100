@@ -12,7 +12,7 @@ public class PrimeSeeker implements Callable<Long> {
 
     @Override
     public Long call() throws Exception {
-        if(checkPrime()) {
+        if (checkPrime()) {
             return value;
         } else {
             return -1L;
@@ -20,13 +20,13 @@ public class PrimeSeeker implements Callable<Long> {
     }
 
     private boolean checkPrime() {
-        if(value <= 3L) {
+        if (value <= 3L) {
             return value > 1L;
-        } else if(value % 2L == 0L || value % 3L == 0L) {
+        } else if (value % 2L == 0L || value % 3L == 0L) {
             return false;
         } else {
-            for(long i = 5L; i * i <= value; i += 6L) {
-                if(value % i == 0L || value % (i + 2L) == 0L) {
+            for (long i = 5L; i * i <= value; i += 6L) {
+                if (value % i == 0L || value % (i + 2L) == 0L) {
                     return false;
                 }
             }

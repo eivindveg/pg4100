@@ -6,9 +6,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 class Klokke extends JFrame {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public Klokke() {
+    public Klokke() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new FlowLayout());
         JTextField sekunder = new JTextField(2);
@@ -27,8 +27,8 @@ class Klokke extends JFrame {
         executor.execute(sekund);
         executor.shutdown();
     }
-    
-    public static void main(String [] args) {
+
+    public static void main(String[] args) {
         new Klokke();
     }
 }

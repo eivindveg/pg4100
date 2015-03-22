@@ -18,14 +18,16 @@ import javafx.stage.Stage;
 /**
  * Eksempelet er hentet herfra:
  * http://www.java2s.com/Code/Java/JavaFX/ProgressBarandBackgroundProcesses.htm
- * @author lauper
  *
+ * @author lauper
  */
 public class JavaFXExample extends Application {
     Task copyWorker;
+
     public static void main(String[] args) {
         Application.launch(args);
     }
+
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Background Processes");

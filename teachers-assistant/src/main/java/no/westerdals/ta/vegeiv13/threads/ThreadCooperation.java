@@ -11,12 +11,11 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class ThreadCooperation {
     private static Account account = new Account();
+    private static ThreadPoolExecutor executor;
 
     public static ThreadPoolExecutor getExecutor() {
         return executor;
     }
-
-    private static ThreadPoolExecutor executor;
 
     public static void main(String[] args) {
         // Create a thread pool with 5 threads
@@ -29,7 +28,7 @@ public class ThreadCooperation {
         executor.shutdown();
         long stamp = System.currentTimeMillis();
         long waitFor = stamp + 10000;
-        while(System.currentTimeMillis() < waitFor) {
+        while (System.currentTimeMillis() < waitFor) {
             try {
                 Thread.sleep(1);
             } catch (InterruptedException e) {
