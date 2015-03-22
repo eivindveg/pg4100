@@ -152,7 +152,8 @@ public class QuizControllerTest extends ApplicationTest {
         handler.setAccessible(true);
         handler.set(controller, mock);
 
-        controller.doDisconnect();
+        clickOn("#disconnect");
+
         verify(mock, times(1)).navigate(HomeController.class);
     }
 
