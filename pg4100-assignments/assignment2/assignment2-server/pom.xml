@@ -62,13 +62,6 @@
             <version>1.2.1.RELEASE</version>
         </dependency>
 
-        <!-- Use the Netty Socket library to automatically handle client threads -->
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-            <version>4.0.24.Final</version>
-        </dependency>
-
     </dependencies>
 
 </project>

@@ -12,21 +12,28 @@
 
     <artifactId>commons</artifactId>
     <dependencies>
+
+        <!-- Annotate our models with the Java Persistance API -->
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
             <artifactId>hibernate-jpa-2.1-api</artifactId>
             <version>1.0.0.Final</version>
         </dependency>
+
+        <!-- Simplify Class collection by annotations using reflections-spring -->
         <dependency>
             <groupId>org.reflections</groupId>
             <artifactId>reflections-spring</artifactId>
             <version>0.9.9-RC1</version>
         </dependency>
+
+        <!-- Use the commons language 3 library to simplify common operations -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.3.2</version>
         </dependency>
+
     </dependencies>
 
 
