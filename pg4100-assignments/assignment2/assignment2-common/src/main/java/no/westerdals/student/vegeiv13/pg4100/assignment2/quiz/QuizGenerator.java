@@ -5,6 +5,7 @@ import no.westerdals.student.vegeiv13.pg4100.assignment2.quiz.annotations.QuizFi
 import no.westerdals.student.vegeiv13.pg4100.assignment2.quiz.annotations.Quizzable;
 import org.reflections.ReflectionUtils;
 
+import javax.validation.constraints.NotNull;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ public class QuizGenerator {
         random = new Random();
     }
 
-    public Quiz fromObject(Object object) throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
+    public Quiz fromObject(@NotNull Object object) throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
         Class clazz = object.getClass();
         if(!clazz.isAnnotationPresent(Quizzable.class)) {
             throw new UnsupportedOperationException("Class is not annotated as @Quizzable");

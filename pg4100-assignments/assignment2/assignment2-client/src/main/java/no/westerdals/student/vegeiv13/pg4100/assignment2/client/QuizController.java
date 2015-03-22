@@ -83,7 +83,7 @@ public class QuizController extends ObjectDecoder {
     }
 
     @ActionMethod("transmit")
-    private void doTransmitAnswer() {
+    protected void doTransmitAnswer() {
         quiz.setAnswer(input.textProperty().get());
         transmit(quiz);
         input.clear();
@@ -92,7 +92,6 @@ public class QuizController extends ObjectDecoder {
     private void transmitInitial() {
         player = context.getRegisteredObject(Player.class);
         channel = context.getRegisteredObject(NioSocketChannel.class);
-        System.out.println(channel);
         channel.pipeline().addFirst(this);
         ChannelFuture channelFuture = channel.writeAndFlush(player);
         channelFuture.syncUninterruptibly();
@@ -106,7 +105,7 @@ public class QuizController extends ObjectDecoder {
     }
 
     @ActionMethod("disconnect")
-    private void doDisconnect() throws InterruptedException {
+    protected void doDisconnect() throws InterruptedException {
         if (channel.isActive()) {
             channel.disconnect();
         }

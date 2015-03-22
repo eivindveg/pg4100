@@ -42,7 +42,7 @@ public class QuizClientHandler extends ObjectDecoder {
         }
     }
 
-    public void readPlayer(final ChannelHandlerContext context, Player payload) throws Exception {
+    protected void readPlayer(final ChannelHandlerContext context, Player payload) throws Exception {
         if (player == null) {
             saveAndTransmitPlayer(payload, context);
             transmitNewQuiz(context);
@@ -51,7 +51,7 @@ public class QuizClientHandler extends ObjectDecoder {
         }
     }
 
-    public void readQuiz(final ChannelHandlerContext context, @NotNull Quiz payload) throws Exception {
+    protected void readQuiz(final ChannelHandlerContext context, @NotNull Quiz payload) throws Exception {
         String answer = simplifyQuizAnswer(payload);
         String correctAnswer = simplifyQuizAnswer(activeQuiz);
 
@@ -62,18 +62,18 @@ public class QuizClientHandler extends ObjectDecoder {
         transmitNewQuiz(context);
     }
 
-    private void transmitNewQuiz(final ChannelHandlerContext context) throws IllegalAccessException, NoSuchFieldException, ClassNotFoundException {
+    protected void transmitNewQuiz(final ChannelHandlerContext context) throws IllegalAccessException, NoSuchFieldException, ClassNotFoundException {
         Book randomBook = bookService.getRandom();
         activeQuiz = generator.fromObject(randomBook);
         context.writeAndFlush(activeQuiz.cloneNoAnswer());
     }
 
-    private String simplifyQuizAnswer(Quiz input) {
+    protected String simplifyQuizAnswer(Quiz input) {
         String answer = input.getAnswer();
         return answer.replaceAll("\\.", "").replaceAll(" ", "").toLowerCase();
     }
 
-    private void saveAndTransmitPlayer(Player player, ChannelHandlerContext context) {
+    protected void saveAndTransmitPlayer(Player player, ChannelHandlerContext context) {
         boolean status = Player.validate(player);
         if (status) {
             // New player connection
@@ -89,7 +89,6 @@ public class QuizClientHandler extends ObjectDecoder {
         } else {
             context.channel().close();
         }
-        System.out.println(player);
     }
 
     @Override

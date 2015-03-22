@@ -10,11 +10,14 @@ import javax.transaction.Transactional;
 @Component
 public class PlayerService {
 
-    @Autowired
     private PlayerRepository playerRepository;
 
+    @Autowired
+    public void setPlayerRepository(final PlayerRepository playerRepository) {
+        this.playerRepository = playerRepository;
+    }
+
     public Player findByName(final String name) {
-        System.out.println(playerRepository.findAll());
         return playerRepository.findByName(name);
     }
 

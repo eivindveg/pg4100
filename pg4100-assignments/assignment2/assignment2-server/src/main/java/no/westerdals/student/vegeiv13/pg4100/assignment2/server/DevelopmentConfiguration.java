@@ -9,7 +9,9 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import javax.sql.DataSource;
 
 @Configuration
-@Profile("dev")
+@Profile({
+        "dev",
+        "test"})
 public class DevelopmentConfiguration {
 
     @Bean
