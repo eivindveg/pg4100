@@ -1,6 +1,5 @@
 package no.westerdals.student.vegeiv13.pg4100.assignment2.server.io;
 
-import com.sun.istack.internal.NotNull;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.serialization.ClassResolver;
@@ -11,6 +10,9 @@ import no.westerdals.student.vegeiv13.pg4100.assignment2.models.Quiz;
 import no.westerdals.student.vegeiv13.pg4100.assignment2.quiz.QuizGenerator;
 import no.westerdals.student.vegeiv13.pg4100.assignment2.server.datasources.BookService;
 import no.westerdals.student.vegeiv13.pg4100.assignment2.server.datasources.PlayerService;
+
+import javax.validation.constraints.NotNull;
+import java.io.IOException;
 
 public class QuizClientHandler extends ObjectDecoder {
 
@@ -51,9 +53,7 @@ public class QuizClientHandler extends ObjectDecoder {
 
     public void readQuiz(final ChannelHandlerContext context, @NotNull Quiz payload) throws Exception {
         String answer = simplifyQuizAnswer(payload);
-        System.out.println(answer);
         String correctAnswer = simplifyQuizAnswer(activeQuiz);
-        System.out.println(correctAnswer);
 
         if (answer.equals(correctAnswer)) {
             player.setScore(player.getScore() + 1);
@@ -66,7 +66,6 @@ public class QuizClientHandler extends ObjectDecoder {
         Book randomBook = bookService.getRandom();
         activeQuiz = generator.fromObject(randomBook);
         context.writeAndFlush(activeQuiz.cloneNoAnswer());
-        System.out.println(activeQuiz.toString());
     }
 
     private String simplifyQuizAnswer(Quiz input) {
@@ -74,15 +73,36 @@ public class QuizClientHandler extends ObjectDecoder {
         return answer.replaceAll("\\.", "").replaceAll(" ", "").toLowerCase();
     }
 
-    private void saveAndTransmitPlayer(final Player player, ChannelHandlerContext context) {
+    private void saveAndTransmitPlayer(Player player, ChannelHandlerContext context) {
         boolean status = Player.validate(player);
         if (status) {
-            playerService.save(player);
+            // New player connection
             if(this.player == null) {
-                this.player = playerService.findByName(player.getName());
+                Player fromDb = playerService.findByName(player.getName());
+                if(fromDb != null) {
+                    player = fromDb;
+                }
+                this.player = player;
+            }
+            context.writeAndFlush(this.player);
+            playerService.save(player);
+        } else {
+            context.channel().close();
+        }
+        System.out.println(player);
+    }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
+            throws Exception {
+        // Swallow the exception if the connection is simply closed.
+        if(cause instanceof IOException) {
+            IOException e = (IOException) cause;
+            if(e.getMessage().contains("forcibly closed by the remote host")) {
+                return;
             }
         }
-        context.writeAndFlush(this.player);
+        super.exceptionCaught(ctx, cause);
     }
 
 }

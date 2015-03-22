@@ -14,6 +14,7 @@ public class PlayerService {
     private PlayerRepository playerRepository;
 
     public Player findByName(final String name) {
+        System.out.println(playerRepository.findAll());
         return playerRepository.findByName(name);
     }
 

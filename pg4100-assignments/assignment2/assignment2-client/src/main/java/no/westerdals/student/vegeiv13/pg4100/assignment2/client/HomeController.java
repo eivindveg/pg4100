@@ -1,6 +1,14 @@
 package no.westerdals.student.vegeiv13.pg4100.assignment2.client;
 
-import com.sun.istack.internal.Nullable;
+import io.datafx.controller.ViewController;
+import io.datafx.controller.flow.FlowException;
+import io.datafx.controller.flow.action.ActionMethod;
+import io.datafx.controller.flow.action.ActionTrigger;
+import io.datafx.controller.flow.context.ActionHandler;
+import io.datafx.controller.flow.context.FXMLViewFlowContext;
+import io.datafx.controller.flow.context.FlowActionHandler;
+import io.datafx.controller.flow.context.ViewFlowContext;
+import io.datafx.controller.util.VetoException;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -17,22 +25,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import no.westerdals.student.vegeiv13.pg4100.assignment2.Constants;
 import no.westerdals.student.vegeiv13.pg4100.assignment2.models.Player;
-import org.datafx.controller.FXMLController;
-import org.datafx.controller.flow.FlowException;
-import org.datafx.controller.flow.action.ActionMethod;
-import org.datafx.controller.flow.action.ActionTrigger;
-import org.datafx.controller.flow.context.ActionHandler;
-import org.datafx.controller.flow.context.FXMLViewFlowContext;
-import org.datafx.controller.flow.context.FlowActionHandler;
-import org.datafx.controller.flow.context.ViewFlowContext;
-import org.datafx.controller.util.VetoException;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.net.UnknownHostException;
 
-@FXMLController("./Home.fxml")
+@ViewController(value = "./Home.fxml", title = "Quiz - Log in")
 public class HomeController {
 
     @FXML
@@ -55,31 +54,26 @@ public class HomeController {
     private Label errorLabel;
     private Bootstrap bootstrap;
 
+    @SuppressWarnings("ConstantConditions")
     @ActionMethod("connect")
     public void doConnect() {
         String user = userInput.getText();
         if (user == null || user.replaceAll(" ", "").equals("")) {
-            setError("Invalid username");
+            setError(Constants.INVALID_USERNAME);
             return;
         }
         String host = serverInput.getText();
-        System.out.println("Connecting to " + host);
 
-        // Catching old-style and rethrowing exceptions we don't want
+        // Catching old-style and rethrowing exceptions we don't want because Netty is hiding our exceptions and we
+        // want to present them in the gui layer
         try {
             ChannelFuture connection = bootstrap
                     .connect(host, Constants.PORT)
-                    .sync();
+                    .syncUninterruptibly();
             connection.addListener(getListener(user));
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         } catch (Exception e) {
-            // Modern IDEs will whine about these exceptions never being caught, but that's only because Netty hides
-            // them.
             if(e instanceof ConnectException || e instanceof UnknownHostException) {
-                closeConnectionIfExists();
-                setError("Could not connect");
+                setError(Constants.COULD_NOT_CONNECT);
             } else {
                 throw e;
             }
@@ -90,7 +84,7 @@ public class HomeController {
         return future -> {
             Channel channel = ((ChannelFuture) future).channel();
             if (!channel.isActive()) {
-                Platform.runLater(() -> setError("Connection failed"));
+                Platform.runLater(() -> setError(Constants.COULD_NOT_CONNECT));
             } else {
                 Platform.runLater(() -> {
                     try {
@@ -103,7 +97,8 @@ public class HomeController {
                         There is no reasonable way to survive these exceptions, so we re-wrap them into a
                         RuntimeException. We either have no window and this exception is moot, a corrupt package
                         and this exception is moot, or we're under such strict security priveleges we shouldn't
-                        even be allowed to start the application and this exception is moot.
+                        even be allowed to start the application and this exception is moot. Unfortunately, we're in
+                        a lambda expression and have to handle this somehow.
                          */
                         throw new RuntimeException(e);
                     }
@@ -113,38 +108,29 @@ public class HomeController {
     }
 
     private Bootstrap getBootstrap() {
-        return new Bootstrap()
-                .channel(NioSocketChannel.class)
-                .group(new NioEventLoopGroup())
-                .handler(new ChannelInitializer<Channel>() {
-                    @Override
-                    protected void initChannel(final Channel ch) throws Exception {
-                        ObjectEncoder objectEncoder = new ObjectEncoder();
-                        ch.pipeline().addLast(objectEncoder);
-                    }
-                }).validate();
+        Bootstrap bootstrap = context.getRegisteredObject(Bootstrap.class);
+        if(bootstrap == null) {
+            bootstrap = new Bootstrap()
+                    .channel(NioSocketChannel.class)
+                    .group(new NioEventLoopGroup())
+                    .handler(new ChannelInitializer<Channel>() {
+                        @Override
+                        protected void initChannel(final Channel ch) throws Exception {
+                            ObjectEncoder objectEncoder = new ObjectEncoder();
+                            ch.pipeline().addLast(objectEncoder);
+                        }
+                    }).validate();
+            context.register(bootstrap);
+        }
+        return bootstrap;
     }
 
-    private void setError(final @Nullable String message) {
-        if (message == null) {
-            errorLabel.setText(null);
-        } else {
+    private void setError(final String message) {
             errorLabel.setText(message);
-        }
     }
-
-
-    private void closeConnectionIfExists() {
-        ChannelFuture registeredObject = context.getRegisteredObject(ChannelFuture.class);
-        if (registeredObject != null) {
-            registeredObject.channel().close();
-        }
-    }
-
 
     @PostConstruct
     public void init() throws IOException {
-        closeConnectionIfExists();
         bootstrap = getBootstrap();
 
         userInput.setOnAction(event -> serverInput.requestFocus());

@@ -48,7 +48,6 @@ public class SocketConfiguration {
         LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
         emf.setDataSource(dataSource);
         HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
-        jpaVendorAdapter.setShowSql(true);
         jpaVendorAdapter.setGenerateDdl(true);
         emf.setJpaVendorAdapter(jpaVendorAdapter);
         emf.setPackagesToScan(MODEL_PACKAGE);

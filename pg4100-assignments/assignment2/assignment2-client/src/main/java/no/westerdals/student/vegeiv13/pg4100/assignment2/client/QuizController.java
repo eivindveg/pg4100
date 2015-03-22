@@ -1,5 +1,14 @@
 package no.westerdals.student.vegeiv13.pg4100.assignment2.client;
 
+import io.datafx.controller.ViewController;
+import io.datafx.controller.flow.FlowException;
+import io.datafx.controller.flow.action.ActionMethod;
+import io.datafx.controller.flow.action.ActionTrigger;
+import io.datafx.controller.flow.context.ActionHandler;
+import io.datafx.controller.flow.context.FXMLViewFlowContext;
+import io.datafx.controller.flow.context.FlowActionHandler;
+import io.datafx.controller.flow.context.ViewFlowContext;
+import io.datafx.controller.util.VetoException;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -15,22 +24,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
+import no.westerdals.student.vegeiv13.pg4100.assignment2.Constants;
 import no.westerdals.student.vegeiv13.pg4100.assignment2.models.Player;
 import no.westerdals.student.vegeiv13.pg4100.assignment2.models.Quiz;
-import org.datafx.controller.FXMLController;
-import org.datafx.controller.flow.FlowException;
-import org.datafx.controller.flow.action.ActionMethod;
-import org.datafx.controller.flow.action.ActionTrigger;
-import org.datafx.controller.flow.context.ActionHandler;
-import org.datafx.controller.flow.context.FXMLViewFlowContext;
-import org.datafx.controller.flow.context.FlowActionHandler;
-import org.datafx.controller.flow.context.ViewFlowContext;
-import org.datafx.controller.util.VetoException;
 
 import javax.annotation.PostConstruct;
 import javax.validation.constraints.NotNull;
 
-@FXMLController("./Quiz.fxml")
+@ViewController(value = "./Quiz.fxml", title = "Quiz - In game")
 public class QuizController extends ObjectDecoder {
 
     @FXML
@@ -91,6 +92,7 @@ public class QuizController extends ObjectDecoder {
     private void transmitInitial() {
         player = context.getRegisteredObject(Player.class);
         channel = context.getRegisteredObject(NioSocketChannel.class);
+        System.out.println(channel);
         channel.pipeline().addFirst(this);
         ChannelFuture channelFuture = channel.writeAndFlush(player);
         channelFuture.syncUninterruptibly();
@@ -151,13 +153,12 @@ public class QuizController extends ObjectDecoder {
             @Override
             protected Void call() throws Exception {
                 long start = System.currentTimeMillis();
-                long now = System.currentTimeMillis();
                 long diff;
                 do {
+                    long now = System.currentTimeMillis();
                     diff = now - start;
-                    updateProgress(20000 - diff, 20000);
-                    now = System.currentTimeMillis();
-                } while(diff < 20000);
+                    updateProgress(Constants.TIME_LIMIT - diff, Constants.TIME_LIMIT);
+                } while(diff < Constants.TIME_LIMIT);
 
                 succeeded();
                 return null;

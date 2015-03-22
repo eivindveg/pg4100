@@ -2,9 +2,7 @@ package no.westerdals.student.vegeiv13.pg4100.assignment2.models;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
@@ -16,6 +14,7 @@ public class Player implements Serializable {
     @GeneratedValue
     private Long id;
 
+    @Column(unique = true)
     private String name;
     private int score;
 

@@ -23,4 +23,11 @@ public class ConstantsTest {
         boolean valid = Constants.PORT >= 1 && Constants.PORT <= 65535;
         assertTrue("Port number is valid", valid);
     }
+
+    @SuppressWarnings({"PointlessBooleanExpression", "ConstantConditions"})
+    @Test
+    public void testTimeLimitValid() {
+        boolean valid = Constants.TIME_LIMIT > 0;
+        assertTrue("Port number is valid", valid);
+    }
 }
