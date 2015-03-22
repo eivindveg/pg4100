@@ -22,16 +22,27 @@ public class QuizGenerator {
         random = new Random();
     }
 
+    /**
+     * Attempts to build a Quiz from the given object. Not null-safe.
+     * @param object an @Quizzable object, complete with @QuizField annotations
+     * @return a Quiz object
+     * @throws ClassNotFoundException if the given object's class is not on the classpath
+     * @throws NoSuchFieldException
+     * @throws IllegalAccessException
+     */
     public Quiz fromObject(@NotNull Object object) throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
+        // Only build for @Quizzable objects
         Class clazz = object.getClass();
         if(!clazz.isAnnotationPresent(Quizzable.class)) {
             throw new UnsupportedOperationException("Class is not annotated as @Quizzable");
         }
 
+        // Select a random field to quiz from
         Field field = getRandomFieldFromClass(clazz);
         QuizField annotation = field.getAnnotation(QuizField.class);
         String question = buildQuestion(object, clazz, annotation);
 
+        // Build the answer for this quiz
         String answer = readString(object, field);
 
         return new Quiz(question, answer);

@@ -10,6 +10,9 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 
+/**
+ * Class used to start a JavaFX application
+ */
 public class ClientApplication extends Application {
 
     public static void main(String[] args) {

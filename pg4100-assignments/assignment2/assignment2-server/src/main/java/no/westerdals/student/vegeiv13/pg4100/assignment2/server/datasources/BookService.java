@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.List;
 
+/**
+ * Service object for talking to the database through a BookRepository
+ */
 @Component
 public class BookService {
 
@@ -26,6 +29,9 @@ public class BookService {
         }
     }
 
+    /**
+     * @return A random book from the database, or null if empty
+     */
     public Book getRandom() {
         List<Book> random = bookRepository.findRandom();
         if (random.isEmpty()) {

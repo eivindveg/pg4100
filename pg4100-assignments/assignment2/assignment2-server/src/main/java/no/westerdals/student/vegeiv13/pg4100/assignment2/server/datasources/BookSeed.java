@@ -5,6 +5,9 @@ import no.westerdals.student.vegeiv13.pg4100.assignment2.models.Book;
 import java.time.Year;
 import java.util.ArrayList;
 
+/**
+ * Simple list of books to insert into the database
+ */
 public class BookSeed extends ArrayList<Book> {
 
     public BookSeed() {

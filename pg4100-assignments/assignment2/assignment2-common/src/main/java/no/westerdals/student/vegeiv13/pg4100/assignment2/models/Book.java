@@ -10,6 +10,9 @@ import java.time.Year;
 import java.util.IllegalFormatCodePointException;
 import java.util.IllegalFormatWidthException;
 
+/**
+ * JPA entity representing a book
+ */
 @Entity
 @Quizzable
 public class Book {
@@ -69,6 +72,12 @@ public class Book {
         return isbn;
     }
 
+    /**
+     * Sets the isbn number. This method is very strict.
+     * @param isbn isbn number to set, without '-' values
+     * @throws java.util.IllegalFormatCodePointException if the isbn is not entirely made up of numbers
+     * @throws java.util.IllegalFormatWidthException if the isbn not 13 characters long
+     */
     public void setIsbn(final String isbn) {
         if(isbn != null) {
             try {

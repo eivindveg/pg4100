@@ -85,7 +85,7 @@ public class QuizClientHandlerTest {
 
         Player player = new Player("TestPlayer");
 
-        handler.readPlayer(context, player);
+        handler.handlePlayer(context, player);
 
         verify(context, times(1)).writeAndFlush(player);
         verify(playerRepository, times(1)).saveAndFlush(player);
@@ -115,7 +115,7 @@ public class QuizClientHandlerTest {
 
         int scoreBefore = testPlayer.getScore();
         int scoreExpected = scoreBefore + 1;
-        handler.readQuiz(context, quiz1);
+        handler.handleQuiz(context, quiz1);
 
         assertEquals("Player score was incremented by one", scoreExpected, testPlayer.getScore());
 

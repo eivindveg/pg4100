@@ -14,6 +14,9 @@ import no.westerdals.student.vegeiv13.pg4100.assignment2.server.datasources.Play
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
 
+/**
+ * Client Handler object for Netty
+ */
 public class QuizClientHandler extends ObjectDecoder {
 
     private Player player;
@@ -32,17 +35,28 @@ public class QuizClientHandler extends ObjectDecoder {
         this.bookService = bookService;
     }
 
+    /**
+     * Called whenever the server receives data. Decodes the payload and passes it on to relevant methods
+     * @param context ChannelHandlerContext that allows us to write data back to the client
+     * @param payload The ByteBuf object that was received
+     * @throws Exception if the request fails, typically if the ByteBuf is corrupt
+     */
     @Override
     public void channelRead(final ChannelHandlerContext context, Object payload) throws Exception {
         Object decode = decode(context, (ByteBuf) payload);
         if (decode instanceof Player) {
-            readPlayer(context, (Player) decode);
+            handlePlayer(context, (Player) decode);
         } else if (decode instanceof Quiz) {
-            readQuiz(context, (Quiz) decode);
+            handleQuiz(context, (Quiz) decode);
         }
     }
 
-    protected void readPlayer(final ChannelHandlerContext context, Player payload) throws Exception {
+    /**
+     * Reads a received player object, saves it to the database and responds with a quiz
+     * @param payload A player object
+     * @throws ReflectiveOperationException if the QuizGenerator fails
+     */
+    protected void handlePlayer(final ChannelHandlerContext context, @NotNull Player payload) throws ReflectiveOperationException {
         if (player == null) {
             saveAndTransmitPlayer(payload, context);
             transmitNewQuiz(context);
@@ -51,7 +65,13 @@ public class QuizClientHandler extends ObjectDecoder {
         }
     }
 
-    protected void readQuiz(final ChannelHandlerContext context, @NotNull Quiz payload) throws Exception {
+    /**
+     * Reads a received quiz object, comparing the answer of the received quiz with the answer of the previously sent
+     * quiz, increasing the player's score if the answer is correct, before responding with a new quiz regardless
+     * @param payload A quiz object
+     * @throws ReflectiveOperationException if the QuizGenerator fails
+     */
+    protected void handleQuiz(final ChannelHandlerContext context, @NotNull Quiz payload) throws ReflectiveOperationException {
         String answer = simplifyQuizAnswer(payload);
         String correctAnswer = simplifyQuizAnswer(activeQuiz);
 
@@ -62,17 +82,34 @@ public class QuizClientHandler extends ObjectDecoder {
         transmitNewQuiz(context);
     }
 
-    protected void transmitNewQuiz(final ChannelHandlerContext context) throws IllegalAccessException, NoSuchFieldException, ClassNotFoundException {
+    /**
+     * Sends a new quiz to the player, using the book service and the quiz generator to get it
+     * @param context context to use when transmitting
+     * @throws ReflectiveOperationException if the QuizGenerator fails
+     */
+    protected void transmitNewQuiz(final ChannelHandlerContext context) throws ReflectiveOperationException {
         Book randomBook = bookService.getRandom();
         activeQuiz = generator.fromObject(randomBook);
         context.writeAndFlush(activeQuiz.cloneNoAnswer());
     }
 
+    /**
+     * Turns a given Quiz' answer into a flattened String, to allow the Player some leeway in terms of punctuation and
+     * spacing
+     * @param input Quiz to flatten answer for
+     * @return Flattened answer
+     */
     protected String simplifyQuizAnswer(Quiz input) {
         String answer = input.getAnswer();
         return answer.replaceAll("\\.", "").replaceAll(" ", "").toLowerCase();
     }
 
+    /**
+     * Saves the player to the database and transmits it to the player. If the player object is invalid, the client may
+     * have been tampered with, and the connection is closed.
+     * @param player Player to save
+     * @param context Context to use for transmitting
+     */
     protected void saveAndTransmitPlayer(Player player, ChannelHandlerContext context) {
         boolean status = Player.validate(player);
         if (status) {
@@ -91,6 +128,13 @@ public class QuizClientHandler extends ObjectDecoder {
         }
     }
 
+    /**
+     * Handles exceptions that occur in this handler. Notably, it swallows all closed connections so they don't produce
+     * a stack trace in the log when the client forcibly disconnects
+     * @param ctx Context to use for writing. Currently not used in this class
+     * @param cause The exception that was caught
+     * @throws Exception if we didn't suppress the cause
+     */
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
             throws Exception {

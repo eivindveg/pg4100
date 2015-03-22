@@ -5,6 +5,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import javax.persistence.*;
 import java.io.Serializable;
 
+/**
+ * JPA entity representing a Player
+ */
 @Entity
 public class Player implements Serializable {
 
@@ -26,12 +29,13 @@ public class Player implements Serializable {
         this.name = name;
     }
 
+    /**
+     * Checks if the given player object has a valid name
+     * @param player the player to check
+     * @return whether or not the player's name is valid
+     */
     public static boolean validate(final Player player) {
-        if (player.getName() == null || player.getName().replaceAll(" ", "").equals("")) {
-            return false;
-        } else {
-            return true;
-        }
+        return !(player.getName() == null || player.getName().replaceAll(" ", "").equals(""));
     }
 
     public Long getId() {

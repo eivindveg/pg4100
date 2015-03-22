@@ -13,10 +13,12 @@ import java.lang.annotation.Target;
 public @interface QuizField {
 
     /**
-     * The question format for this question, %i refers to the
-     * annotated field's class' identifier.
+     * The question format for this question, %i refers to the values of idenfifiers, in the order they're named
      */
     String value() default "question %i?";
 
+    /**
+     * Field names that are used to fill in the %i values in the order they're named
+     */
     String[] identifiers();
 }

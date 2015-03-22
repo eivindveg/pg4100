@@ -31,6 +31,9 @@ import no.westerdals.student.vegeiv13.pg4100.assignment2.models.Quiz;
 import javax.annotation.PostConstruct;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Class used to present the client window after connecting, as well as receive quizzes and transmit their answers
+ */
 @ViewController(value = "./Quiz.fxml", title = "Quiz - In game")
 public class QuizController extends ObjectDecoder {
 
@@ -71,6 +74,9 @@ public class QuizController extends ObjectDecoder {
         super(ClassResolvers.cacheDisabled(null));
     }
 
+    /**
+     * Binds GUI properties to their functions
+     */
     @PostConstruct
     public void init() {
         transmitInitial();
@@ -82,6 +88,9 @@ public class QuizController extends ObjectDecoder {
         input.setOnAction((event) -> doTransmitAnswer());
     }
 
+    /**
+     * Initiates the quiz answer transmission after the send button is pressed or the client hits "enter"
+     */
     @ActionMethod("transmit")
     protected void doTransmitAnswer() {
         quiz.setAnswer(input.textProperty().get());
@@ -89,6 +98,9 @@ public class QuizController extends ObjectDecoder {
         input.clear();
     }
 
+    /**
+     * Sends the player object indicated by the HomeController
+     */
     private void transmitInitial() {
         player = context.getRegisteredObject(Player.class);
         channel = context.getRegisteredObject(NioSocketChannel.class);
@@ -97,15 +109,22 @@ public class QuizController extends ObjectDecoder {
         channelFuture.syncUninterruptibly();
     }
 
-    private void transmit(Object object) {
+    /**
+     * Sends the given quiz to the server, interrupting the timer if it's running
+     * @param quiz quiz to transmit
+     */
+    private void transmit(Quiz quiz) {
         if(task.isRunning()) {
             task.cancel();
         }
-        channel.writeAndFlush(object).syncUninterruptibly();
+        channel.writeAndFlush(quiz).syncUninterruptibly();
     }
 
+    /**
+     * Disconnects from the server and navigates us back to the login screen
+     */
     @ActionMethod("disconnect")
-    protected void doDisconnect() throws InterruptedException {
+    protected void doDisconnect() {
         if (channel.isActive()) {
             channel.disconnect();
         }
@@ -125,6 +144,12 @@ public class QuizController extends ObjectDecoder {
         }
     }
 
+    /**
+     * Called whenever Netty receives data from the server
+     * @param context The Channel Context we can write through
+     * @param payload The received object
+     * @throws Exception if the handler cannot decode the request
+     */
     @Override
     public void channelRead(final ChannelHandlerContext context, Object payload) throws Exception {
         Object decode = decode(context, (ByteBuf) payload);
@@ -135,18 +160,29 @@ public class QuizController extends ObjectDecoder {
         }
     }
 
+    /**
+     * Updates the player object and refreshes the GUI values
+     * @param player the player to set
+     */
     public void setPlayer(final @NotNull Player player) {
         playerNameProperty.setValue(player.getName());
         playerScoreProperty.setValue(String.valueOf(player.getScore()));
         this.player = player;
     }
 
+    /**
+     * Updates the quiz object and refreshes the GUI values
+     * @param quiz the quiz to set
+     */
     public void setQuiz(final @NotNull Quiz quiz) {
         quizLabelProperty.setValue(quiz.getQuestion());
         resetTimer();
         this.quiz = quiz;
     }
 
+    /**
+     * Starts a Constants.TIME_LIMIT long timer that automatically transmits the answer in the input field when it ends
+     */
     private void resetTimer() {
         task = new Task<Void>() {
             @Override

@@ -10,6 +10,9 @@ import java.util.List;
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
 
+    /**
+     * @return Returns a randomly ordered list of all books in the database
+     */
     @Query("SELECT book from Book book ORDER BY RAND()")
     List<Book> findRandom();
 }

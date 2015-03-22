@@ -8,10 +8,14 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 import javax.sql.DataSource;
 
+/**
+ * Configuration object to defer to when the application is started in development or test mode
+ */
 @Configuration
 @Profile({
         "dev",
-        "test"})
+        "test"
+})
 public class DevelopmentConfiguration {
 
     @Bean

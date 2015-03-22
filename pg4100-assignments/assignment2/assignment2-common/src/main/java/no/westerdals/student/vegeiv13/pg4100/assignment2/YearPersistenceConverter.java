@@ -4,6 +4,9 @@ import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 import java.time.Year;
 
+/**
+ * Converter that converts Year into Integer and vice versa
+ */
 @Converter(autoApply = true)
 public class YearPersistenceConverter implements AttributeConverter<Year, Integer> {
 

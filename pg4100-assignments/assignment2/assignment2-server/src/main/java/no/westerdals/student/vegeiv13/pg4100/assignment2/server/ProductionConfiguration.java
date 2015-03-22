@@ -9,6 +9,9 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
 
+/**
+ * Configuration object to defer to when the application is started in production mode
+ */
 @Configuration
 @Profile("prod")
 public class ProductionConfiguration {

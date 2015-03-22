@@ -27,10 +27,12 @@ import no.westerdals.student.vegeiv13.pg4100.assignment2.Constants;
 import no.westerdals.student.vegeiv13.pg4100.assignment2.models.Player;
 
 import javax.annotation.PostConstruct;
-import java.io.IOException;
 import java.net.ConnectException;
 import java.net.UnknownHostException;
 
+/**
+ * Class used to control the login screen and initiate server connections
+ */
 @ViewController(value = "./Home.fxml", title = "Quiz - Log in")
 public class HomeController {
 
@@ -54,6 +56,10 @@ public class HomeController {
     private Label errorLabel;
     private Bootstrap bootstrap;
 
+    /**
+     * Attempts to connect to the server indicated by the host field, using the username indicated by the user input
+     * field, after the connect button has been clicked
+     */
     @SuppressWarnings("ConstantConditions")
     @ActionMethod("connect")
     public void doConnect() {
@@ -80,6 +86,11 @@ public class HomeController {
         }
     }
 
+    /**
+     * Sets up a listener that handles the application context based on the result of a client connection
+     * @param name The player name to transmit upon a successful connection
+     * @return A listener that navigates us forward upon success, or sets an error if we fail to connect
+     */
     private GenericFutureListener<Future<? super Void>> getListener(String name) {
         return future -> {
             Channel channel = ((ChannelFuture) future).channel();
@@ -107,6 +118,10 @@ public class HomeController {
         };
     }
 
+    /**
+     * Set up a server bootstrap if there is none in the context
+     * @return a Netty client Bootstrap
+     */
     private Bootstrap getBootstrap() {
         Bootstrap bootstrap = context.getRegisteredObject(Bootstrap.class);
         if(bootstrap == null) {
@@ -125,12 +140,19 @@ public class HomeController {
         return bootstrap;
     }
 
+    /**
+     * Sets the error label to display the given message
+     * @param message String to display - can be null
+     */
     private void setError(final String message) {
             errorLabel.setText(message);
     }
 
+    /**
+     * Binds GUI components to their functions
+     */
     @PostConstruct
-    public void init() throws IOException {
+    public void init() {
         bootstrap = getBootstrap();
 
         userInput.setOnAction(event -> serverInput.requestFocus());

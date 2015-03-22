@@ -5,6 +5,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 
+/**
+ * Starts the application. If no parameters are provided, it defaults to development mode
+ */
 @Import({
         SocketConfiguration.class,
         DevelopmentConfiguration.class,

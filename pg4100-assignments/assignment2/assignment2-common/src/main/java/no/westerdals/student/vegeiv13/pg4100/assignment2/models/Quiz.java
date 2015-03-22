@@ -4,6 +4,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.Serializable;
 
+/**
+ * Entity representing a Quiz, with a question and an answer
+ */
 public class Quiz implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 2L;
@@ -51,6 +54,10 @@ public class Quiz implements Serializable, Cloneable {
         this.answer = answer;
     }
 
+    /**
+     * Builds a clone of this object that contains no answer. Useful for transmitting to clients
+     * @return a clone of this object with no answer
+     */
     public Quiz cloneNoAnswer() {
         try {
             Quiz clone = (Quiz) clone();
