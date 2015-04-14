@@ -9,8 +9,8 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>assignment2-common</module>
-        <module>assignment2-server</module>
         <module>assignment2-client</module>
+        <module>assignment2-server</module>
     </modules>
     <packaging>pom</packaging>
 
