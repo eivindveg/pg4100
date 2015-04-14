@@ -22,23 +22,23 @@ import java.lang.reflect.Method;
 import static org.junit.Assert.*;
 
 @NotThreadSafe
-public class ControllerTest extends ApplicationTest {
+public class StartControllerTest extends ApplicationTest {
 
     @Rule
     public final ExpectedSystemExit expectedSystemExit = ExpectedSystemExit.none();
 
-    private Controller controller;
+    private StartController startController;
     private StackPane root;
 
     @Override
     public void start(final Stage primaryStage) throws Exception {
-        Flow flow = new Flow(Controller.class);
+        Flow flow = new Flow(StartController.class);
         DefaultFlowContainer container = new DefaultFlowContainer();
         FlowHandler handler = flow.createHandler(new ViewFlowContext());
         root = handler.start(container);
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
-        controller = (Controller) handler.getCurrentViewContext().getController();
+        startController = (StartController) handler.getCurrentViewContext().getController();
     }
 
     @Test
@@ -52,12 +52,13 @@ public class ControllerTest extends ApplicationTest {
 
         /* We're not clicking as this puts the expected exception into an asynchronous thread stack
            this means we'd have to add code to the controller especially to squelch a test exception
-        clickOn("#fileMenu");
-        clickOn("#close");
-        */
-        Method doClose = Controller.class.getDeclaredMethod("doClose");
+
+         * clickOn("#fileMenu");
+         * clickOn("#close");
+         */
+        Method doClose = StartController.class.getDeclaredMethod("doClose");
         doClose.setAccessible(true);
-        doClose.invoke(controller);
+        doClose.invoke(startController);
     }
 
     @Test

@@ -15,9 +15,9 @@ import javax.annotation.PostConstruct;
 import java.math.BigInteger;
 
 @ViewController("Window.fxml")
-public class Controller {
+public class StartController {
 
-    private Logger logger = LoggerFactory.getLogger(Controller.class);
+    private Logger logger = LoggerFactory.getLogger(StartController.class);
 
     @ActionHandler
     private FlowActionHandler actionHandler;
