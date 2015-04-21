@@ -3,7 +3,9 @@ package no.westerdals.student.vegeiv13.pg4100.assignment3.window;
 import io.datafx.controller.flow.Flow;
 import io.datafx.controller.flow.FlowHandler;
 import io.datafx.controller.flow.container.DefaultFlowContainer;
+import io.datafx.controller.flow.context.FlowActionHandler;
 import io.datafx.controller.flow.context.ViewFlowContext;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextField;
@@ -15,13 +17,14 @@ import org.junit.Test;
 import org.junit.contrib.java.lang.system.ExpectedSystemExit;
 import org.testfx.framework.junit.ApplicationTest;
 
-import javax.annotation.concurrent.NotThreadSafe;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
+import static org.testfx.api.FxAssert.verifyThat;
 
-@NotThreadSafe
 public class StartControllerTest extends ApplicationTest {
 
     @Rule
@@ -94,6 +97,30 @@ public class StartControllerTest extends ApplicationTest {
         assertEquals("Input did not accept letters", expected, actual);
 
         type(KeyCode.BACK_SPACE, actual.length());
+    }
+
+    @Test
+    public void testButtonPressChangesTriesNavigate() throws Exception {
+        final FlowActionHandler mock = mock(FlowActionHandler.class);
+        final FlowActionHandler heldHandler = replaceActionHandler(mock);
+
+        clickOn("#checkNumber");
+        verify(mock, times(0)).navigate(ResultController.class);
+        clickOn("#input");
+        type(KeyCode.getKeyCode("7"));
+        clickOn("#checkNumber");
+        verify(mock, times(1)).navigate(ResultController.class);
+        verifyThat("#progressIndicator", Node::isVisible);
+        replaceActionHandler(heldHandler);
+    }
+
+    private FlowActionHandler replaceActionHandler(final FlowActionHandler newHandler) throws Exception {
+        Field field = StartController.class.getDeclaredField("actionHandler");
+        field.setAccessible(true);
+        FlowActionHandler current = (FlowActionHandler) field.get(startController);
+        field.set(startController, newHandler);
+
+        return current;
     }
 
 }

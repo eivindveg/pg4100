@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
@@ -25,17 +26,37 @@
    <center>
       <BorderPane maxHeight="150.0" BorderPane.alignment="CENTER">
          <top>
-            <Label fx:id="info" text="Input a number in the box below and press Enter to get information about it." wrapText="true" BorderPane.alignment="CENTER" />
+            <Label fx:id="info" text="Input a number in the box below and press Enter to get information about it." wrapText="true" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin></Label>
          </top>
          <center>
-            <TextField fx:id="input" alignment="CENTER" maxWidth="150.0" prefWidth="100.0" promptText="Input number" BorderPane.alignment="CENTER" />
+            <TextField fx:id="input" alignment="CENTER" maxWidth="150.0" prefWidth="100.0" promptText="Input number" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </BorderPane.margin></TextField>
          </center>
          <bottom>
-            <Button defaultButton="true" mnemonicParsing="false" text="Check Number" BorderPane.alignment="CENTER">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Button>
+            <BorderPane BorderPane.alignment="CENTER">
+               <top>
+                  <Button fx:id="checkNumber" defaultButton="true" mnemonicParsing="false" text="Check Number" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <BorderPane.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </BorderPane.margin>
+                  </Button>
+               </top>
+               <bottom>
+                  <ProgressIndicator fx:id="progressIndicator" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </BorderPane.margin>
+                  </ProgressIndicator>
+               </bottom>
+            </BorderPane>
          </bottom>
       </BorderPane>
    </center>

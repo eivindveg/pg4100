@@ -54,6 +54,15 @@
             <version>4.0.1-alpha</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- The validation API allows us to signal the behaviour of provided values -->
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>1.1.0.Final</version>
+            <scope>compile</scope>
+        </dependency>
+
         <dependency>
             <groupId>com.github.stefanbirkner</groupId>
             <artifactId>system-rules</artifactId>
