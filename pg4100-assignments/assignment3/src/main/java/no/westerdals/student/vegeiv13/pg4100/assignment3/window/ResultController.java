@@ -47,7 +47,14 @@ public class ResultController {
 
     @PostConstruct
     public void init() {
+        updateFromContext();
+    }
+
+    private void updateFromContext() {
         registeredObject = context.getRegisteredObject(NumberInfo.class);
+        if(registeredObject == null) {
+            return;
+        }
         value.textProperty().bind(registeredObject.stringValueProperty());
         isPrime.textProperty().bind(registeredObject.stringPrimeProperty());
         isOdd.textProperty().bind(registeredObject.stringOddProperty());

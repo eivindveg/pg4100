@@ -90,7 +90,9 @@ public class StartController {
             }
         });
         numberInfoTask.setOnScheduled(event -> progressIndicator.setVisible(true));
-        if(logger.isDebugEnabled())
+        if(logger.isDebugEnabled()) {
+            logger.debug("Starting NumberInfoTask");
+        }
         new Thread(numberInfoTask).start();
     }
 

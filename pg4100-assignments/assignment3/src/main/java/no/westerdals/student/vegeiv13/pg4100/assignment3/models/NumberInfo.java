@@ -23,8 +23,9 @@ public class NumberInfo {
     }
 
     /**
-     * Gets the value of the biginteger this object represents
-     * @return
+     * Gets the value of the {@link BigInteger} this object represents
+     *
+     * @return The {@link BigInteger} held by this object's value property
      */
     public BigInteger getValue() {
         return value.get();
@@ -33,20 +34,33 @@ public class NumberInfo {
     /**
      * Returns a self updating string property wrapper for the BigInteger value this object holds. Simplifies binding
      * to text fields
-     * @return A StringProperty that mirrors {@link NumberInfo#valueProperty()}
+     *
+     * @return A StringProperty that mirrors {@link #valueProperty()}
      */
     public StringProperty stringValueProperty() {
         return toStringProperty(value);
     }
 
+    /**
+     * Gets the next {@link BigInteger} that is a prime
+     * @return the next prime
+     */
     public BigInteger getNextPrime() {
         return nextPrime.get();
     }
 
+    /**
+     * Whether or not this is an odd number, described as not being divisible by 2.
+     * @return whether or not this is an odd number
+     */
     public boolean isOdd() {
         return isOdd.get();
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isPrime() {
         return isPrime.get();
     }
