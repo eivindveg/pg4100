@@ -49,6 +49,7 @@ public class NumberInfo {
 
     /**
      * Gets the next {@link BigInteger} that is a prime
+     *
      * @return the next prime
      */
     public BigInteger getNextPrime() {
@@ -57,6 +58,7 @@ public class NumberInfo {
 
     /**
      * Whether or not this is an odd number, described as not being divisible by 2.
+     *
      * @return whether or not this is an odd number
      */
     public boolean isOdd() {
@@ -64,17 +66,29 @@ public class NumberInfo {
     }
 
     /**
+     * Whether or not this object represents a prime number
      *
-     * @return
+     * @return true if the value is prime
      */
     public boolean isPrime() {
         return isPrime.get();
     }
 
+    /**
+     * Gets a read only boolean property for {@link #isPrime()}
+     *
+     * @return a {@link ReadOnlyBooleanProperty}
+     */
     public ReadOnlyBooleanProperty isPrimeProperty() {
         return SimpleBooleanProperty.readOnlyBooleanProperty(isPrime);
     }
 
+    /**
+     * Returns a self updating string property wrapper for the BigInteger value this object holds. Simplifies binding
+     * to text fields
+     *
+     * @return A StringProperty that mirrors {@link #isPrimeProperty()}
+     */
     public StringProperty stringPrimeProperty() {
         return toStringProperty(isPrime);
     }
@@ -89,26 +103,53 @@ public class NumberInfo {
         return readOnlyStringWrapper;
     }
 
-    public ReadOnlyObjectWrapper<BigInteger> nextPrimeProperty() {
+    /**
+     * Gets a read only object property for {@link #nextPrime}
+     *
+     * @return A ObjectWrapper Property
+     */
+    public ObservableValue<BigInteger> nextPrimeProperty() {
         ReadOnlyObjectWrapper<BigInteger> objectReadOnlyObjectWrapper = new ReadOnlyObjectWrapper<>();
         objectReadOnlyObjectWrapper.bind(nextPrime);
         return objectReadOnlyObjectWrapper;
     }
 
+    /**
+     * Returns a self updating string property wrapper for the BigInteger  pointing to the next prime after the current
+     * value. Simplifies binding to text fields
+     *
+     * @return A StringProperty that mirrors {@link #nextPrimeProperty()}
+     */
     public StringProperty stringNextPrimeProperty() {
         return toStringProperty(nextPrime);
     }
 
+    /**
+     * Gets a read only object property for {@link #value}
+     *
+     * @return A ObjectWrapper Property
+     */
     public ObservableValue<? extends BigInteger> valueProperty() {
         ReadOnlyObjectWrapper<BigInteger> readOnlyObjectWrapper = new ReadOnlyObjectWrapper<>();
         readOnlyObjectWrapper.bind(value);
         return readOnlyObjectWrapper;
     }
 
+    /**
+     * Gets a read only boolean property for {@link #isOdd()}
+     *
+     * @return a {@link ReadOnlyBooleanProperty}
+     */
     public ObservableValue<? extends Boolean> isOddProperty() {
         return SimpleBooleanProperty.readOnlyBooleanProperty(isOdd);
     }
 
+    /**
+     * Returns a self updating string property wrapper for the BigInteger value this object holds. Simplifies binding
+     * to text fields
+     *
+     * @return A StringProperty that mirrors {@link #isOddProperty()}
+     */
     public StringProperty stringOddProperty() {
         return toStringProperty(isOdd);
     }
