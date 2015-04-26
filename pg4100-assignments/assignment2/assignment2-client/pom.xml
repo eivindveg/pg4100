@@ -21,14 +21,6 @@
             <version>8.0.1</version>
         </dependency>
 
-        <!-- Use TestFX to enable easy testing of GUI Components -->
-        <dependency>
-            <groupId>org.testfx</groupId>
-            <artifactId>testfx-junit</artifactId>
-            <version>4.0.1-alpha</version>
-            <scope>test</scope>
-        </dependency>
-
         <!-- Use our own commons library for files common to both server and client -->
         <dependency>
             <groupId>no.westerdals.student.vegeiv13</groupId>

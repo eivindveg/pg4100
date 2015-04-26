@@ -4,7 +4,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>no.westerdals.student.vegeiv13</groupId>
+    <parent>
+        <groupId>no.westerdals.student.vegeiv13</groupId>
+        <artifactId>pg4100-assignments</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
     <artifactId>pg4100-assignment3</artifactId>
     <version>1.0-SNAPSHOT</version>
 
@@ -81,21 +85,6 @@
             <version>3.4.1</version>
         </dependency>
 
-        <!-- use testfx for integration testing the gui -->
-        <dependency>
-            <groupId>org.testfx</groupId>
-            <artifactId>testfx-junit</artifactId>
-            <version>4.0.1-alpha</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- The validation API and jsd305 allow us to signal the behaviour of provided values -->
-        <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-            <version>1.1.0.Final</version>
-            <scope>compile</scope>
-        </dependency>
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
@@ -109,21 +98,6 @@
             <version>1.8.0</version>
         </dependency>
 
-        <!-- run testcases in junit's runners -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- use mockito when we need to mock -->
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <version>2.0.2-beta</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
 </project>
