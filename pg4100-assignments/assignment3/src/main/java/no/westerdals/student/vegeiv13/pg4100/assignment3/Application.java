@@ -14,7 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author Eivind Vegsundvåg
+ * @author Eivind Vegsundvaag
  * @since 1.0
  */
 public class Application extends javafx.application.Application {

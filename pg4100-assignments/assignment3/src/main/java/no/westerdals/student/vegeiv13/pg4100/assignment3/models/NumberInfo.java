@@ -6,6 +6,12 @@ import javafx.beans.value.ObservableValue;
 import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
 
+/**
+ * Value object for information about a {@link BigInteger}
+ *
+ * @author Eivind Vegsundvaag
+ * @since 1.0
+ */
 public class NumberInfo {
 
     private final ObjectProperty<BigInteger> value = new SimpleObjectProperty<>();

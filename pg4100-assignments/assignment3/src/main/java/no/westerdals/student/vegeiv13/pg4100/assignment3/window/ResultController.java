@@ -24,7 +24,7 @@ import javax.annotation.PostConstruct;
  * Namely, this controller is dependent on having a {@link NumberInfo} object in its {@link ViewFlowContext} to display
  * information about it.
  *
- * @author Eivind Vegsundvåg
+ * @author Eivind Vegsundvaag
  * @since 1.0
  */
 @ViewController("Results.fxml")

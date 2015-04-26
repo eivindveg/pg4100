@@ -10,7 +10,7 @@ import java.math.BigInteger;
  *
  * @see NumberInfo
  * @see BigInteger#isProbablePrime(int)
- * @author Eivind Vegsundvåg
+ * @author Eivind Vegsundvaag
  * @since 1.0
  */
 public class NumberInfoTask extends Task<NumberInfo> {

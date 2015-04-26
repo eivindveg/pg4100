@@ -29,7 +29,7 @@ import java.math.BigInteger;
  * Namely, this controller accepts input from the user and seeds a {@link ResultController} with enough information
  * to function.
  *
- * @author Eivind Vegsundvåg
+ * @author Eivind Vegsundvaag
  * @since 1.0
  */
 @ViewController("Window.fxml")
