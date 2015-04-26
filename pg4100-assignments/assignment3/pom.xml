@@ -8,6 +8,23 @@
     <artifactId>pg4100-assignment3</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <name>PrimeFX</name>
+    <description>
+        This application is a JavaFX application that bootstraps via DataFX's Flow API to make it very simple for the
+        user to check if a number is a probable prime.
+    </description>
+    <contributors>
+        <contributor>
+            <name>Eivind Vegsundvåg</name>
+
+            <url>http://git.eivind.ninja</url>
+
+            <organization>Westerdals Oslo ACT</organization>
+            <email>vegeiv13@student.westerdals.no</email>
+            <organizationUrl>http://www.westerdals.no</organizationUrl>
+        </contributor>
+    </contributors>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

@@ -10,6 +10,7 @@ import java.math.BigInteger;
  *
  * @see NumberInfo
  * @see BigInteger#isProbablePrime(int)
+ * @see Task
  * @author Eivind Vegsundvaag
  * @since 1.0
  */
