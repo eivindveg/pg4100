@@ -30,10 +30,9 @@ public class Application extends javafx.application.Application {
      *
      * @since 1.0
      * @param primaryStage The JavaFX window stage to render in
-     * @throws FlowException if the application could not load
      */
     @Override
-    public void start(final Stage primaryStage) throws FlowException {
+    public void start(final Stage primaryStage) {
         if(logger.isDebugEnabled()){
             logger.info("Starting application");
         }
@@ -48,17 +47,15 @@ public class Application extends javafx.application.Application {
                 });
         ViewFlowContext context = new ViewFlowContext();
         FlowHandler handler = flow.createHandler(context);
-        StackPane start;
         try {
-            start = handler.start();
+            final StackPane start = handler.start();
+            primaryStage.setScene(new Scene(start));
+            primaryStage.show();
+            if(logger.isDebugEnabled()) {
+                logger.info("Started application");
+            }
         } catch (FlowException e) {
             logger.error("Could not instantiate application", e);
-            throw e;
-        }
-        primaryStage.setScene(new Scene(start));
-        primaryStage.show();
-        if(logger.isDebugEnabled()) {
-            logger.info("Started application");
         }
     }
 }

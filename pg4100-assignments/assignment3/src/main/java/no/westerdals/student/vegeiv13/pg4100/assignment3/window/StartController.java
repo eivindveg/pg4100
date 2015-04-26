@@ -23,6 +23,15 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.PostConstruct;
 import java.math.BigInteger;
 
+/**
+ * Controller class responsible for managing a view stage as specified in this class' {@link ViewController}
+ *
+ * Namely, this controller accepts input from the user and seeds a {@link ResultController} with enough information
+ * to function.
+ *
+ * @author Eivind Vegsundvåg
+ * @since 1.0
+ */
 @ViewController("Window.fxml")
 public class StartController {
 
@@ -48,6 +57,13 @@ public class StartController {
     @FXML
     private ProgressIndicator progressIndicator;
 
+    /**
+     * PostConstructor called by DataFX
+     *
+     * Necessary as {@link FXML}-annotated objects are injected after the initial constructor call.
+     *
+     * @since 1.0
+     */
     @PostConstruct
     public void init() {
         progressIndicator.setVisible(false);
@@ -63,6 +79,10 @@ public class StartController {
         });
     }
 
+    /**
+     * Called internally by clicks on the button with the ID #checkNumber. Triggers a {@link NumberInfoTask} when
+     * invoked, displays a progress wheel and navigates to the ResultController when the task is finished.
+     */
     @ActionMethod("checkNumber")
     private void doCheckNumber() {
         String input = this.input.getText();
@@ -96,6 +116,9 @@ public class StartController {
         new Thread(numberInfoTask).start();
     }
 
+    /**
+     * Called internally by clicks on the menu item with the ID #close. Exits the application
+     */
     @ActionMethod("close")
     private void doClose() {
         System.exit(0);
