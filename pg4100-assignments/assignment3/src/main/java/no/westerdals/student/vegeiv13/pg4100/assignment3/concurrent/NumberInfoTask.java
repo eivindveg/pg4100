@@ -37,6 +37,10 @@ public class NumberInfoTask extends Task<NumberInfo> {
      */
     @Override
     protected NumberInfo call() throws Exception {
+        if(number.toString().startsWith("-")) {
+            throw new ArithmeticException("Cannot calculate prime for negative number");
+        }
+
         boolean prime = number.isProbablePrime(100);
         BigInteger nextPrime = number.nextProbablePrime();
         boolean odd = !number.mod(new BigInteger("2")).equals(BigInteger.ZERO);
