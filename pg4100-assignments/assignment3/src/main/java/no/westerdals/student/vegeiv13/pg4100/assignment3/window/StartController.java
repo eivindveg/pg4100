@@ -25,7 +25,7 @@ import java.math.BigInteger;
 
 /**
  * Controller class responsible for managing a view stage as specified in this class' {@link ViewController}
- *
+ * <p/>
  * Namely, this controller accepts input from the user and seeds a {@link ResultController} with enough information
  * to function.
  *
@@ -59,7 +59,7 @@ public class StartController {
 
     /**
      * PostConstructor called by DataFX
-     *
+     * <p/>
      * Necessary as {@link FXML}-annotated objects are injected after the initial constructor call.
      *
      * @since 1.0
@@ -109,8 +109,13 @@ public class StartController {
                 throw new RuntimeException(e);
             }
         });
+        numberInfoTask.setOnFailed(event -> {
+            logger.error("Could not determine if number " + input + " is prime", event.getSource().getException());
+            this.input.setStyle("-fx-background-color: red");
+            progressIndicator.setVisible(false);
+        });
         numberInfoTask.setOnScheduled(event -> progressIndicator.setVisible(true));
-        if(logger.isDebugEnabled()) {
+        if (logger.isDebugEnabled()) {
             logger.debug("Starting NumberInfoTask");
         }
         new Thread(numberInfoTask).start();
