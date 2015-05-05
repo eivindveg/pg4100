@@ -8,8 +8,10 @@ import org.junit.Test;
 import rules.JavaFXThreadingRule;
 
 import java.math.BigInteger;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 public class NumberInfoTaskTest {
 
@@ -30,5 +32,19 @@ public class NumberInfoTaskTest {
         thread.join(20000);
         NumberInfo numberInfo = numberInfoTask.get();
         assertNotNull("NumberInfoObject is not null on normal run", numberInfo);
+    }
+
+    @Test(expected = ArithmeticException.class)
+    public void testWorkerFailsOnNegativeNumbers() throws Throwable {
+        BigInteger number = new BigInteger("-12");
+        NumberInfoTask task = new NumberInfoTask(number);
+        Thread t = new Thread(task);
+        t.start();
+        try {
+            task.get(100, TimeUnit.MILLISECONDS);
+            fail("Task didn't fail as it should have");
+        } catch (ExecutionException e) {
+            throw e.getCause();
+        }
     }
 }
