@@ -111,6 +111,7 @@ public class StartController {
         });
         numberInfoTask.setOnFailed(event -> {
             logger.error("Could not determine if number " + input + " is prime", event.getSource().getException());
+            // TODO MAKE SEXIER, THIS IS PLACEHOLDER ERROR INFORMATION
             this.input.setStyle("-fx-background-color: red");
             progressIndicator.setVisible(false);
         });
