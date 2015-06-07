@@ -15,8 +15,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import no.westerdals.student.vegeiv13.pg4100.assignment3.concurrent.NumberInfoTask;
 import no.westerdals.student.vegeiv13.pg4100.assignment3.models.NumberInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
+import java.math.BigInteger;
 
 /**
  * Controller class responsible for managing a view stage as specified in this class' {@link ViewController}
@@ -29,6 +32,8 @@ import javax.annotation.PostConstruct;
  */
 @ViewController("Results.fxml")
 public class ResultController {
+
+    private static final Logger logger = LoggerFactory.getLogger(ResultController.class);
 
     @FXMLViewFlowContext
     private ViewFlowContext context;
@@ -78,10 +83,23 @@ public class ResultController {
         if(registeredObject == null) {
             return;
         }
+        logObject(registeredObject);
         value.textProperty().bind(registeredObject.stringValueProperty());
         isPrime.textProperty().bind(registeredObject.stringPrimeProperty());
         isOdd.textProperty().bind(registeredObject.stringOddProperty());
         nextPrime.textProperty().bind(registeredObject.stringNextPrimeProperty());
+    }
+
+    /**
+     * Makes sure all the relevant info about a NumberInfo object is logged
+     * @param registeredObject the object to log
+     */
+    private void logObject(final NumberInfo registeredObject) {
+        BigInteger value = registeredObject.getValue();
+
+        logger.info(value + " is prime: " + registeredObject.isPrime());
+        logger.info(value + " is odd: " + registeredObject.isOdd());
+        logger.info("Next prime after " + value + " is: " + registeredObject.getNextPrime());
     }
 
     /**
