@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/DECORATION/1.6.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/DECORATION/1.6.0 http://maven.apache.org/xsd/decoration-1.6.0.xsd">
+    <bannerLeft>
+        <name>PrimeFX</name>
+    </bannerLeft>
+
+    <publishDate position="right"/>
+    <version position="left"/>
+
+    <body>
+        <menu>
+            <item name="Index" href="index.html"/>
+            <item name="Project information" href="project-info.html"/>
+            <item name="Dependencies" href="dependencies.html"/>
+            <item name="Dependency convergence" href="dependency-convergence.html"/>
+            <item name="Dependency information" href="dependency-info.html"/>
+            <item name="Plugins" href="plugins.html"/>
+            <item name="Plugin management" href="plugin-management.html"/>
+            <item name="Dependencies" href="dependencies.html"/>
+            <item name="Contributors" href="team-list.html"/>
+        </menu>
+    </body>
+</project>
