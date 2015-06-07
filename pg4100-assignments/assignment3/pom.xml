@@ -24,9 +24,12 @@
             <url>http://git.eivind.ninja</url>
 
             <organization>Westerdals Oslo ACT</organization>
+            <organizationUrl>http://www.westerdals.no</organizationUrl>
             <timezone>UTC+1</timezone>
             <email>vegeiv13@student.westerdals.no</email>
-            <organizationUrl>http://www.westerdals.no</organizationUrl>
+            <roles>
+                <role>Programming</role>
+            </roles>
         </developer>
     </developers>
 
