@@ -33,6 +33,21 @@
         </developer>
     </developers>
 
+    <contributors>
+        <contributor>
+            <name>Per Lauvås</name>
+
+            <organization>Westerdals Oslo ACT</organization>
+            <organizationUrl>http://www.westerdals.no</organizationUrl>
+            <timezone>UTC+1</timezone>
+            <email>lauper@westerdals.no</email>
+            <roles>
+                <role>Feedback</role>
+                <role>Counselling</role>
+            </roles>
+        </contributor>
+    </contributors>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -106,7 +121,8 @@
         <dependency>
             <groupId>com.github.stefanbirkner</groupId>
             <artifactId>system-rules</artifactId>
-            <version>1.8.0</version>
+            <version>1.10.0</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>
