@@ -90,7 +90,7 @@ public class StartControllerTest extends ApplicationTest {
         press(KeyCode.ENTER);
         type(KeyCode.getKeyCode("8"));
         type(KeyCode.L, 1);
-        Thread.sleep(30);
+        Thread.sleep(300);
         press(KeyCode.ENTER);
 
         TextField input = lookup("#input").queryFirst();
