@@ -19,23 +19,21 @@ import org.slf4j.LoggerFactory;
  */
 public class Application extends javafx.application.Application {
 
+    private static final Logger logger = LoggerFactory.getLogger(Application.class);
+
     public static void main(String[] args) {
         javafx.application.Application.launch(Application.class, args);
     }
 
-    private static final Logger logger = LoggerFactory.getLogger(Application.class);
-
     /**
      * Starts the JavaFX application
      *
-     * @since 1.0
      * @param primaryStage The JavaFX window stage to render in
+     * @since 1.0
      */
     @Override
     public void start(final Stage primaryStage) {
-        if(logger.isDebugEnabled()){
-            logger.debug("Starting application");
-        }
+        logger.info("Starting application");
         Flow flow = new Flow(StartController.class)
                 .withGlobalLink("checkNumber", ResultController.class)
                 .withGlobalAction("goBack", (flowHandler, actionId) -> {
@@ -51,9 +49,7 @@ public class Application extends javafx.application.Application {
             final StackPane start = handler.start();
             primaryStage.setScene(new Scene(start));
             primaryStage.show();
-            if(logger.isDebugEnabled()) {
-                logger.debug("Started application");
-            }
+            logger.info("Started application");
         } catch (FlowException e) {
             logger.error("Could not instantiate application", e);
         }
