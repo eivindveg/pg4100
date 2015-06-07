@@ -34,7 +34,7 @@ public class Application extends javafx.application.Application {
     @Override
     public void start(final Stage primaryStage) {
         if(logger.isDebugEnabled()){
-            logger.info("Starting application");
+            logger.debug("Starting application");
         }
         Flow flow = new Flow(StartController.class)
                 .withGlobalLink("checkNumber", ResultController.class)
@@ -52,7 +52,7 @@ public class Application extends javafx.application.Application {
             primaryStage.setScene(new Scene(start));
             primaryStage.show();
             if(logger.isDebugEnabled()) {
-                logger.info("Started application");
+                logger.debug("Started application");
             }
         } catch (FlowException e) {
             logger.error("Could not instantiate application", e);
