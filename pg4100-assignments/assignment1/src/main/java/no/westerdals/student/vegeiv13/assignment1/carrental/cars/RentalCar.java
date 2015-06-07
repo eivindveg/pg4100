@@ -9,7 +9,7 @@ import no.westerdals.student.vegeiv13.assignment1.carrental.clients.Client;
 public class RentalCar {
 
     private final StringProperty registrationNumber;
-    private Property<Client> rentedBy = new SimpleObjectProperty<>();
+    private final Property<Client> rentedBy = new SimpleObjectProperty<>();
 
     protected RentalCar(final String registrationNumber) {
         this.registrationNumber = new SimpleStringProperty(registrationNumber);
@@ -23,7 +23,7 @@ public class RentalCar {
         return rentedBy.getValue();
     }
 
-    public void setRentedBy(final Client rentedBy) {
+    protected void setRentedBy(final Client rentedBy) {
         this.rentedBy.setValue(rentedBy);
     }
 
