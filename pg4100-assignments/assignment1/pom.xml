@@ -54,11 +54,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.controlsfx</groupId>
-            <artifactId>openjfx-dialogs</artifactId>
-            <version>1.0.2</version>
-        </dependency>
-        <dependency>
             <groupId>org.javafxdata</groupId>
             <artifactId>datafx-flow</artifactId>
             <version>8.0b5</version>
