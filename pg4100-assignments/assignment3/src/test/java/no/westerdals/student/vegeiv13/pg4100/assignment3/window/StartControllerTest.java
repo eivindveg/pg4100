@@ -83,12 +83,14 @@ public class StartControllerTest extends ApplicationTest {
     }
 
     @Test
-    public void testInputDoesNotAcceptLetters() {
+    public void testInputDoesNotAcceptLetters() throws Exception {
         clickOn("#input");
-        type(KeyCode.K, 4);
+        type(KeyCode.K, 1);
+        Thread.sleep(30);
         press(KeyCode.ENTER);
         type(KeyCode.getKeyCode("8"));
-        type(KeyCode.L, 8);
+        type(KeyCode.L, 1);
+        Thread.sleep(30);
         press(KeyCode.ENTER);
 
         TextField input = lookup("#input").queryFirst();
