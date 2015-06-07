@@ -24,6 +24,7 @@
             <url>http://git.eivind.ninja</url>
 
             <organization>Westerdals Oslo ACT</organization>
+            <timezone>UTC+1</timezone>
             <email>vegeiv13@student.westerdals.no</email>
             <organizationUrl>http://www.westerdals.no</organizationUrl>
         </contributor>
