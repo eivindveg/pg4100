@@ -26,7 +26,6 @@ import java.math.BigInteger;
 
 /**
  * Controller class responsible for managing a view stage as specified in this class' {@link ViewController}
- *
  * Namely, this controller accepts input from the user and seeds a {@link ResultController} with enough information
  * to function.
  *
@@ -96,17 +95,13 @@ public class StartController {
         BigInteger number = new BigInteger(input);
         Task<NumberInfo> numberInfoTask = new NumberInfoTask(number);
         numberInfoTask.setOnSucceeded(event -> {
-            if (logger.isDebugEnabled()) {
-                logger.debug("NumberInfoTask succeeded");
-            }
+            logger.info("NumberInfoTask succeeded");
 
             NumberInfo result = (NumberInfo) event.getSource().getValue();
             context.register(result);
             try {
                 actionHandler.navigate(ResultController.class);
-                if (logger.isDebugEnabled()) {
-                    logger.debug("Navigated to " + ResultController.class.getSimpleName());
-                }
+                logger.info("Navigated to " + ResultController.class.getSimpleName());
             } catch (VetoException | FlowException e) {
                 logger.error("Could not navigate to " + ResultController.class.getSimpleName(), e);
                 throw new RuntimeException(e);
@@ -120,10 +115,7 @@ public class StartController {
             dialog.show();
         });
         numberInfoTask.setOnScheduled(event -> progressIndicator.setVisible(true));
-        if (logger.isDebugEnabled()) {
-
-            logger.debug("Starting NumberInfoTask");
-        }
+        logger.info("Starting NumberInfoTask");
         new Thread(numberInfoTask).start();
     }
 
