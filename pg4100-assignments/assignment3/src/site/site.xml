@@ -11,6 +11,7 @@
     <body>
         <menu>
             <item name="Index" href="index.html"/>
+            <item name="API Docs" href="../apidocs/index.html"/>
             <item name="Project information" href="project-info.html"/>
             <item name="Dependencies" href="dependencies.html"/>
             <item name="Dependency convergence" href="dependency-convergence.html"/>
