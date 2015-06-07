@@ -17,8 +17,8 @@
         This application is a JavaFX application that bootstraps via DataFX's Flow API to make it very simple for the
         user to check if a number is a probable prime.
     </description>
-    <contributors>
-        <contributor>
+    <developers>
+        <developer>
             <name>Eivind Vegsundvåg</name>
 
             <url>http://git.eivind.ninja</url>
@@ -27,8 +27,8 @@
             <timezone>UTC+1</timezone>
             <email>vegeiv13@student.westerdals.no</email>
             <organizationUrl>http://www.westerdals.no</organizationUrl>
-        </contributor>
-    </contributors>
+        </developer>
+    </developers>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
