@@ -86,8 +86,10 @@ public class StartControllerTest extends ApplicationTest {
     public void testInputDoesNotAcceptLetters() {
         clickOn("#input");
         type(KeyCode.K, 4);
+        press(KeyCode.ENTER);
         type(KeyCode.getKeyCode("8"));
         type(KeyCode.L, 8);
+        press(KeyCode.ENTER);
 
         TextField input = lookup("#input").queryFirst();
 
