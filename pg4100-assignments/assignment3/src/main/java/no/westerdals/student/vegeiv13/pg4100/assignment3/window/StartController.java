@@ -26,7 +26,7 @@ import java.math.BigInteger;
 
 /**
  * Controller class responsible for managing a view stage as specified in this class' {@link ViewController}
- * <p/>
+ *
  * Namely, this controller accepts input from the user and seeds a {@link ResultController} with enough information
  * to function.
  *
@@ -60,7 +60,6 @@ public class StartController {
 
     /**
      * PostConstructor called by DataFX
-     * <p/>
      * Necessary as {@link FXML}-annotated objects are injected after the initial constructor call.
      *
      * @since 1.0
