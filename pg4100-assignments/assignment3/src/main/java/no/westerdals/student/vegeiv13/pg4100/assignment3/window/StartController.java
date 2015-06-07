@@ -17,6 +17,7 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import no.westerdals.student.vegeiv13.pg4100.assignment3.concurrent.NumberInfoTask;
 import no.westerdals.student.vegeiv13.pg4100.assignment3.models.NumberInfo;
+import org.controlsfx.dialog.ExceptionDialog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -75,6 +76,9 @@ public class StartController {
                 new BigInteger(newValue);
             } catch (NumberFormatException e) {
                 input.setText(oldValue);
+                logger.warn("Invalid input", e);
+                new ExceptionDialog(e).showAndWait();
+
             }
         });
     }
@@ -110,13 +114,15 @@ public class StartController {
             }
         });
         numberInfoTask.setOnFailed(event -> {
-            logger.error("Could not determine if number " + input + " is prime", event.getSource().getException());
-            // TODO MAKE SEXIER, THIS IS PLACEHOLDER ERROR INFORMATION
-            this.input.setStyle("-fx-background-color: red");
+            Throwable exception = event.getSource().getException();
+            logger.error("Could not determine if number " + input + " is prime", exception);
             progressIndicator.setVisible(false);
+            ExceptionDialog dialog = new ExceptionDialog(exception);
+            dialog.show();
         });
         numberInfoTask.setOnScheduled(event -> progressIndicator.setVisible(true));
         if (logger.isDebugEnabled()) {
+
             logger.debug("Starting NumberInfoTask");
         }
         new Thread(numberInfoTask).start();
