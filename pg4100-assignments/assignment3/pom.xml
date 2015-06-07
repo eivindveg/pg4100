@@ -78,6 +78,13 @@
             <version>8.0.1</version>
         </dependency>
 
+        <!-- Use controlfx for popup dialogs -->
+        <dependency>
+            <groupId>org.controlsfx</groupId>
+            <artifactId>controlsfx</artifactId>
+            <version>8.40.9</version>
+        </dependency>
+
         <!-- Use commons-math3 for easy math operations -->
         <dependency>
             <groupId>org.apache.commons</groupId>
